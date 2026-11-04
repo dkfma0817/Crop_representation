@@ -33,6 +33,7 @@ import src.data.dataset as DR  # noqa: E402
 from src.models.coordmlp import MLRDecoder  # noqa: E402
 
 from src.config import INIT  # noqa: E402
+from src.utils.yaml_config import with_config  # noqa: E402
 ROI_KEYS = ("img_index", "tok", "coords", "pad", "inside", "valid_w", "full_cov", "bil_grid", "n_in", "n_ctx")
 
 
@@ -140,7 +141,7 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--slots", default="", help="overfit only: json list of fixed step slot lists (repeated)")
-    a = ap.parse_args()
+    a = with_config(ap)        # --config configs/raev2_crop_recon/train/<run>.yaml; CLI flags override the YAML
     os.makedirs(a.out, exist_ok=True)
     dev = "cuda"
     RC.set_fp32()

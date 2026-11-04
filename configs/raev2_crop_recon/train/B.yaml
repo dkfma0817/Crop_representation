@@ -1,0 +1,6 @@
+# B: pixel loss만 (lam: calib.py 의 λ = 0.1)
+_base_: base.yaml
+run: B
+w_feat: 0.0
+lam: 0.1
+out: cache/runs/B

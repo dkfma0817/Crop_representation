@@ -8,9 +8,11 @@ import numpy as np
 import pandas as pd
 import src.rae.common as RC
 from src.data.relation import build_stream
-from src.config import PACO_VALTEST_IDS
-# PACO-LVIS val + test COCO image ids (src/data/make_rois.py; originally read from paco_lp/manifest_{val,test}.parquet)
-excl = set(json.load(open(PACO_VALTEST_IDS)))
+from src.config import PACO_LP
+cid = lambda p: int(os.path.basename(p).split(".")[0].split("_")[-1])
+excl = set()
+for sp in ("val", "test"):
+    excl |= {cid(p) for p in pd.read_parquet(os.path.join(PACO_LP, f"manifest_{sp}.parquet")).path.unique()}
 r = pd.read_parquet(RC.COCO_ROIS)
 tr = r[r.split == "train"]
 pool = tr[~tr.image_id.isin(excl)]

@@ -1,50 +1,54 @@
-"""All filesystem locations in one place. Every path can be overridden with the environment variable of the same name.
+"""Filesystem locations, read from configs/paths.yaml (or the YAML named by $CROP_PATHS).
 
-Layout (repo root):
-  cache/          frozen-model files, ROI lists, feature cache, runs, probes   (gitignored; was raev2_crop_recon/perception_cache)
-  third_party/    RAEv2 checkout                                              (gitignored)
-  experiments/raev2_crop_recon/{results,figures}   committed outputs
-  logs/           run logs and flags                                          (gitignored)
+Relative paths in the YAML are resolved against the repo root; every key can be overridden by the environment variable of the
+same name in upper case (e.g. COCO_TRAIN=/data/coco/train2017). The module exposes the paths as constants so the rest of the
+code just does `from src.config import CACHE, COCO_ROIS, ...`.
 """
 import os
 from pathlib import Path
 
-
-def _p(name, default):
-    return str(Path(os.environ.get(name, default)))
-
+import yaml
 
 ROOT = str(Path(__file__).resolve().parents[1])
+PATHS_YAML = os.environ.get("CROP_PATHS", os.path.join(ROOT, "configs", "paths.yaml"))
+with open(PATHS_YAML) as _f:
+    _Y = yaml.safe_load(_f)
+
+
+def _resolve(key, value, base=ROOT):
+    value = os.environ.get(key.upper(), value)
+    return str(Path(value) if os.path.isabs(value) else Path(base, value))
+
 
 # --- project folders -------------------------------------------------------------------------------------------------
-CACHE = _p("CACHE", os.path.join(ROOT, "cache"))
-EXP = _p("EXP", os.path.join(ROOT, "experiments", "raev2_crop_recon"))
+CACHE = _resolve("cache", _Y["project"]["cache"])
+EXP = _resolve("exp", _Y["project"]["exp"])
+LOGS = _resolve("logs", _Y["project"]["logs"])
+RAEV2 = _resolve("raev2", _Y["project"]["raev2"])
 RES = os.path.join(EXP, "results")
 FIG = os.path.join(EXP, "figures")
-LOGS = _p("LOGS", os.path.join(ROOT, "logs"))
-RAEV2 = _p("RAEV2", os.path.join(ROOT, "third_party", "RAEv2"))
 
-# --- datasets on this server -----------------------------------------------------------------------------------------
-COCO_TRAIN = _p("COCO_TRAIN", "/home/irteam/datasets/coco/train2017")
-COCO_ANN = _p("COCO_ANN", "/home/irteam/datasets/coco/annotations/instances_train2017.json")
-PACO_DIR = _p("PACO_DIR", "/home/irteam/datasets/paco")
-IMAGENET_VAL = _p("IMAGENET_VAL", "/dataset/_imagenet_val_extracted_5000")          # not on this server (verify_pair only)
+# --- datasets --------------------------------------------------------------------------------------------------------
+COCO_TRAIN = _resolve("coco_train", _Y["datasets"]["coco_train"])
+COCO_ANN = _resolve("coco_ann", _Y["datasets"]["coco_ann"])
+PACO_DIR = _resolve("paco_dir", _Y["datasets"]["paco_dir"])
+IMAGENET_VAL = _resolve("imagenet_val", _Y["datasets"]["imagenet_val"])
 
-# --- derived files (cache/) ------------------------------------------------------------------------------------------
-COCO_ROIS = os.path.join(CACHE, "data", "coco_rois.parquet")          # src/data/make_rois.py
-RAE_ROIS = os.path.join(CACHE, "data", "rae_rois.parquet")            # src/data/make_rois.py
-PACO_VALTEST_IDS = os.path.join(CACHE, "data", "paco_valtest_ids.json")
-STREAM = os.path.join(CACHE, "stream", "stream_ids_12000.npy")        # src/data/make_stream.py
-FEAT = os.path.join(CACHE, "feat")                                    # src/data/extract_cache.py
-INIT = os.path.join(CACHE, "init", "coordmlp_init_s0.pt")             # python -m src.engine.train make_init
-RUNS = os.path.join(CACHE, "runs")
-PROBE = os.path.join(CACHE, "probe")
-MODELS = os.path.join(CACHE, "raev2_models", "stage1", "imagenet", "dinov2b-k1")
-TORCH_HOME = os.path.join(CACHE, "torch_hub")
+# --- files under cache/ ----------------------------------------------------------------------------------------------
+_C = {k: _resolve(k, v, CACHE) for k, v in _Y["cache_files"].items()}
+COCO_ROIS = _C["coco_rois"]
+RAE_ROIS = _C["rae_rois"]
+PACO_VALTEST_IDS = _C["paco_valtest_ids"]
+STREAM = _C["stream"]
+FEAT = _C["feat"]
+INIT = _C["init"]
+RUNS = _C["runs"]
+PROBE = _C["probe"]
+MODELS = _C["models"]
+TORCH_HOME = _C["torch_hub"]
 
-# --- code / data from earlier projects (old server, NOT on this server) ----------------------------------------------
-_OLD = "/workspace/Areum/research"
-PACO_LP = _p("PACO_LP", f"{_OLD}/2026-10-24/dinov2_oracle_region_decoder/perception_cache/paco_lp")   # PACO manifests/labels
-RAE_PILOT = _p("RAE_PILOT", f"{_OLD}/2026-10-26/rae_crop_pilot")                                     # _pylib
-PACO_READER_CODE = _p("PACO_READER_CODE", f"{_OLD}/2026-10-30/paco_region_reader/code")              # common_rr
-FEAT_UPSAMPLE_CODE = _p("FEAT_UPSAMPLE_CODE", f"{_OLD}/2026-10-31/paco_feat_upsample/code")          # eval_fu
+# --- data / code copied from earlier projects ------------------------------------------------------------------------
+PACO_LP = _resolve("paco_lp", _Y["legacy"]["paco_lp"])
+RAE_PILOT = _resolve("rae_pilot", _Y["legacy"]["rae_pilot"])
+PACO_READER_CODE = _resolve("paco_reader_code", _Y["legacy"]["paco_reader_code"])
+FEAT_UPSAMPLE_CODE = _resolve("feat_upsample_code", _Y["legacy"]["feat_upsample_code"])

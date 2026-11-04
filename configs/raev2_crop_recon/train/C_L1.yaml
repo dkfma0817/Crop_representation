@@ -1,0 +1,5 @@
+# C without LPIPS (사용자 요청 2026-11-04 ~20:20 KST): L = L_feat + 0.1 * L1. 나머지는 C와 같음.
+_base_: C.yaml
+run: C_L1
+beta: 0.0
+out: cache/runs/C_L1

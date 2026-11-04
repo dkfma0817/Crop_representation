@@ -1,12 +1,12 @@
 {
- "n_groups": 54218,
+ "n_groups": 55861,
  "n_cats": 80,
- "n_unique_images": 48829,
- "mean_image_repeats": 3.932089536955498,
+ "n_unique_images": 50491,
+ "mean_image_repeats": 3.802657899427621,
  "steps": 12000,
  "seed": 2027,
  "pool_images": 60000,
- "excluded_paco_valtest_images_in_pool": 5782,
- "pool_after": 54218,
+ "excluded_paco_valtest_images_in_pool": 4139,
+ "pool_after": 55861,
  "stream_cap_paco_valtest": 0
 }

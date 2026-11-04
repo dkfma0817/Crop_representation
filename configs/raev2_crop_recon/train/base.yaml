@@ -1,0 +1,21 @@
+# A/B/C 공통 학습 레시피 (configs/raev2_crop_recon/protocol.md "Training").
+# run 파일은 `_base_: base.yaml` 로 이 값을 상속하고 다른 값만 적는다. CLI 인자가 YAML보다 우선한다.
+#   python -m src.engine.train --config configs/raev2_crop_recon/train/C.yaml [--steps 30 ...]
+
+# loss: w_feat * L_feat + lam * (L1 + beta * LPIPS)
+beta: 0.2              # calib.py: ||∇LPIPS|| / ||∇L1|| = 3.21 -> 0.2
+micro: 16              # micro-batch (sanity S7), 64 ROI / step = 16 x 4 누적
+
+steps: 12000
+warmup: 600
+lr: 1.0e-4
+wd: 0.05
+clip: 1.0
+seed: 0
+
+eval_every: 1000       # COCO dev 2,000 ROI
+save_at: "4000,8000,12000"
+gn_every: 250          # grad norm 로그 주기
+workers: 10
+dev_max: 0             # 0 = dev 전체
+resume: true

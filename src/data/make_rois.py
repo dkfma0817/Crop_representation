@@ -1,6 +1,6 @@
 """Rebuild the ROI lists on a new server (the originals came from other projects and are not available here).
 
-  python -m src.data.make_rois        -> cache/data/{coco_rois.parquet, rae_rois.parquet, paco_valtest_ids.json, make_rois.json}
+  python -m src.data.make_rois        -> cache/data_rebuilt/{coco_rois.parquet, rae_rois.parquet, paco_valtest_ids.json, make_rois.json}
 
 NOT the original ROI sets (the selection code of dinov2_oracle_region_decoder / rae_crop_pilot is not available), only the same
 format and the same rules as documented in configs/protocol.md:
@@ -26,7 +26,7 @@ import src.rae.common as RC  # noqa: E402
 
 from src.config import COCO_ANN, PACO_DIR  # noqa: E402
 
-OUT = os.path.join(RC.CACHE, "data")
+OUT = os.path.join(RC.CACHE, "data_rebuilt")      # never overwrites the original lists in cache/data/
 SEED = 0
 MIN_SIDE = 8
 N_TRAIN, N_DEV, N_HVAL = 60000, 500, 1000

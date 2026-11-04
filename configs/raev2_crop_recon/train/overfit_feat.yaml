@@ -1,0 +1,13 @@
+# sanity S8: 고정 dev 256 ROI 과적합, feature loss만 (가중치는 버림)
+_base_: base.yaml
+run: OF_feat
+w_feat: 1.0
+lam: 0.0
+steps: 1000
+warmup: 100
+eval_every: 250
+save_at: ""
+workers: 6
+resume: false
+slots: cache/overfit/slots256.json
+out: cache/overfit/feat

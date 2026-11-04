@@ -1,0 +1,37 @@
+# 모든 경로. src/config.py 가 읽는다.
+# - 상대 경로는 repo 루트 기준, 절대 경로는 그대로.
+# - 같은 이름의 대문자 환경변수로 덮어쓸 수 있다 (예: COCO_TRAIN=/data/coco/train2017).
+# - 다른 파일을 쓰려면 CROP_PATHS=<yaml 경로>.
+
+project:
+  cache: cache                                   # 모델 가중치, ROI 목록, feature 캐시, runs, probe (git 제외)
+  exp: experiments/raev2_crop_recon              # 보고서, results/, figures/
+  logs: logs
+  raev2: third_party/RAEv2                       # 공식 RAEv2 코드 (nanovisionx/RAEv2 @ 8a0d238)
+
+datasets:
+  coco_train: /home/irteam/datasets/coco/train2017
+  coco_ann: /home/irteam/datasets/coco/annotations/instances_train2017.json
+  paco_dir: /home/irteam/datasets/paco
+  imagenet_val: /dataset/_imagenet_val_extracted_5000      # 이 서버에 없음 (verify_pair 전용)
+
+# cache 아래 파일 (cache 기준 상대 경로)
+cache_files:
+  coco_rois: data/coco_rois.parquet              # 원본 (dinov2_oracle_region_decoder)
+  rae_rois: data/rae_rois.parquet                # 원본 (rae_crop_pilot configs/rois.parquet)
+  paco_valtest_ids: data/paco_valtest_ids.json   # make_rois.py 전용
+  stream: stream/stream_ids_12000.npy            # python -m src.data.make_stream
+  feat: feat                                     # python -m src.data.extract_cache
+  init: init/coordmlp_init_s0.pt                 # python -m src.engine.train make_init
+  runs: runs
+  probe: probe
+  models: raev2_models/stage1/imagenet/dinov2b-k1
+  torch_hub: torch_hub
+
+# 이전 프로젝트에서 복사해 온 데이터·코드 (원래 서버: /workspace/Areum/research/...)
+legacy:
+  paco_lp: cache/paco_lp                                   # 2026-10-24/dinov2_oracle_region_decoder/perception_cache/paco_lp
+  rae_pilot: third_party/rae_crop_pilot                    # 2026-10-26/rae_crop_pilot (_pylib: lpips 0.1.4)
+  paco_reader_code: third_party/paco_region_reader/code    # 2026-10-30/paco_region_reader/code (common_rr)
+  feat_upsample_code: third_party/paco_feat_upsample/code  # 2026-10-31/paco_feat_upsample/code (eval_fu)
+  # 아직 없음: 2026-10-30/paco_full_vs_crop_ft/code (common.py), 2026-10-30/paco_token_upsample/code (eval_tu.py)

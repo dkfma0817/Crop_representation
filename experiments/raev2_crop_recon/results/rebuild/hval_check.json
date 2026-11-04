@@ -1,6 +1,6 @@
 {
  "set": "hval",
- "full_maxabs_err": 0.0039052963256835938,
- "teacher_maxabs_err": 0.00390625,
+ "full_maxabs_err": 0.0039043426513671875,
+ "teacher_maxabs_err": 0.0039043426513671875,
  "zero_full_rows_in_2000": 0
 }

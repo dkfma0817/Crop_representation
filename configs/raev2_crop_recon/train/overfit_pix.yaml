@@ -1,0 +1,6 @@
+# sanity S8: 고정 dev 256 ROI 과적합, pixel loss만 (가중치는 버림)
+_base_: overfit_feat.yaml
+run: OF_pix
+w_feat: 0.0
+lam: 0.1
+out: cache/overfit/pix

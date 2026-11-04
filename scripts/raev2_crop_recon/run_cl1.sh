@@ -6,7 +6,7 @@ PY=${PY:-/home/irteam/envs/dinov2_ord_py310/bin/python}
 export PYTHONNOUSERSITE=1
 OUT=cache/runs/C_L1
 for t in 1 2 3; do
-  CUDA_VISIBLE_DEVICES=7 $PY -m src.engine.train --run C_L1 --w_feat 1 --lam 0.1 --beta 0 --micro 16 --steps 12000 --resume --out $OUT >> logs/train_C_L1.log 2>&1
+  CUDA_VISIBLE_DEVICES=7 $PY -m src.engine.train --config configs/raev2_crop_recon/train/C_L1.yaml --out $OUT >> logs/train_C_L1.log 2>&1
   [ -f $OUT/done.json ] && break
 done
 touch logs/train_C_L1.flag
