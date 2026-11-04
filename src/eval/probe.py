@@ -52,7 +52,9 @@ def canvas_geo(X0, Y0, X1, Y1):
 class PacoDS(Dataset):
     def __init__(self, df, Y, flip, want_crop):
         self.groups, self.flip, self.want_crop = C.image_groups(df), flip, want_crop
-        self.p, self.box = df.path.values, df[["l", "t", "r", "b"]].values.astype(int)
+        # manifest paths are old-server /dataset/... files -> same COCO id in this server's train2017 / val2017
+        paths = {p: RC.coco_image_path(p) for p in df.path.unique()}
+        self.p, self.box = df.path.map(paths).values, df[["l", "t", "r", "b"]].values.astype(int)
         self.WH = df[["W", "H"]].values.astype(int)
         self.lv = (df.level.values == "part").astype(np.int64)
         self.Y = torch.as_tensor(Y)
