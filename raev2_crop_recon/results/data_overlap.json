@@ -1,0 +1,37 @@
+{
+ "stream_images": 53541,
+ "stream_rois": 214164,
+ "stream_cap_dev_images": 0,
+ "stream_cap_hval_images": 0,
+ "paco_train_images": 38478,
+ "paco_train_dirs": [
+  "/dataset/Cambrian-10M/coco/train2017",
+  "/dataset/coco/images/val2014"
+ ],
+ "stream_cap_paco_train_images": 18068,
+ "paco_train_rois_in_stream_images": 96660,
+ "paco_train_overlap_rois_flagged_in_decoder_pool": 96660,
+ "paco_train_primary_rois": 99148,
+ "paco_train_primary_images_in_stream": 0,
+ "paco_val_images": 2051,
+ "paco_val_dirs": [
+  "/dataset/Cambrian-10M/coco/train2017",
+  "/dataset/coco/images/val2014"
+ ],
+ "stream_cap_paco_val_images": 935,
+ "paco_val_rois_in_stream_images": 5071,
+ "paco_val_overlap_rois_flagged_in_decoder_pool": 5071,
+ "paco_val_primary_rois": 5516,
+ "paco_val_primary_images_in_stream": 0,
+ "paco_test_images": 8039,
+ "paco_test_dirs": [
+  "/dataset/Cambrian-10M/coco/train2017",
+  "/dataset/Cambrian-10M/coco/val2017",
+  "/dataset/coco/images/val2014"
+ ],
+ "stream_cap_paco_test_images": 2896,
+ "paco_test_rois_in_stream_images": 15838,
+ "paco_test_overlap_rois_flagged_in_decoder_pool": 15838,
+ "paco_test_primary_rois": 26444,
+ "paco_test_primary_images_in_stream": 0
+}

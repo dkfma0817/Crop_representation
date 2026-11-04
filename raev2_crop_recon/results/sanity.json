@@ -1,0 +1,229 @@
+{
+ "S1_official_vs_wrapper": {
+  "official_latent_shape": [
+   16,
+   768,
+   16,
+   16
+  ],
+  "raw_shape": [
+   16,
+   256,
+   768
+  ],
+  "decoder_out_shape": [
+   16,
+   3,
+   256,
+   256
+  ],
+  "encode_normalised_maxabs": 4.792213439941406e-05,
+  "encode_normalised_meanabs": 1.8134436459149583e-06,
+  "decode_maxabs": 2.8908252716064453e-05,
+  "official_training_flag": false,
+  "noise_tau": 0.0,
+  "official_do_normalization": true,
+  "stats_shape": [
+   768,
+   16,
+   16
+  ]
+ },
+ "S2_teacher_recon_gtcrop": {
+  "l1": 0.07373381406068802,
+  "psnr": 20.329010009765625,
+  "lpips": 0.1826128214597702,
+  "de_mean": 5.2002692222595215,
+  "de_8x8": 6.348779678344727,
+  "hp_corr": 0.35097071528434753,
+  "hf_ratio": 0.9417881965637207
+ },
+ "S2b_full_image_letterbox_recon": {
+  "l1": 0.08922455459833145,
+  "psnr": 17.938650131225586,
+  "lpips": 0.18910734355449677,
+  "de_mean": 4.782742500305176,
+  "de_8x8": 5.951185703277588,
+  "hp_corr": 0.17103126645088196,
+  "hf_ratio": 1.0823488235473633
+ },
+ "S3_bilinear_recon_gtcrop": {
+  "l1": 0.1871931552886963,
+  "psnr": 13.206719398498535,
+  "lpips": 0.42843472957611084,
+  "de_mean": 14.930095672607422,
+  "de_8x8": 19.08652114868164,
+  "hp_corr": 0.012656317092478275,
+  "hf_ratio": 1.3298754692077637,
+  "feat_mse_vs_teacher": 0.7286920547485352,
+  "feat_cos_vs_teacher": 0.6053098440170288,
+  "svar_ratio": 0.3169427812099457
+ },
+ "S4_shapes_spaces": {
+  "teacher_raw": [
+   64,
+   256,
+   768
+  ],
+  "full_raw": [
+   64,
+   256,
+   768
+  ],
+  "coordmlp_out": [
+   64,
+   256,
+   768
+  ],
+  "roi_tokens": [
+   64,
+   224,
+   768
+  ],
+  "coordmlp_out_space": "raw encoder tokens (final LN w/o affine), de-normalised by CoordMLP's own per-channel teacher mean_T/std_T buffers",
+  "feature_loss_space": "raw",
+  "decoder_input_space": "raw (decoder(raw) == official RAE.decode(normalise(raw)), S1)",
+  "teacher_token_norm": 27.712806701660156,
+  "pred_init_token_norm": 14.133583068847656,
+  "init_pred_equals_meanT": 0.0,
+  "crop_normalised_latent_content_mean_abs": 0.12773023545742035,
+  "crop_normalised_latent_content_var": 0.9245540499687195,
+  "crop_normalised_latent_pad_mean_abs": 0.5982964038848877
+ },
+ "S5_geometry": {
+  "crop_canvas_cell_centre_x_err_frac_of_W_max": 0.002727752752914597,
+  "full_canvas_at_bil_grid_x_err_frac_of_W_max": 0.002588844886192902,
+  "quantisation_frac": 0.00392156862745098,
+  "inside_tokens_outside_crop_frac_mean": 0.0,
+  "P_range": [
+   0.03125,
+   0.96875
+  ],
+  "P_is": "teacher (crop letterbox canvas) cell centres / 16, ROI-relative",
+  "other_positional_inputs": "u/G = full-image absolute query position; rel = token - query offsets (full-grid units); box_vector (full-grid box)",
+  "output_grid": [
+   16,
+   16
+  ],
+  "teacher_grid": [
+   16,
+   16
+  ]
+ },
+ "S6_pixel_gradient": {
+  "steps": [
+   {
+    "step": 0,
+    "loss": 0.6542145013809204,
+    "gZ_norm": 0.024615494534373283,
+    "gZ_pad_cells_norm": 0.014491571113467216,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 2,
+    "last_layer_grad": 0.6015058159828186,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   },
+   {
+    "step": 1,
+    "loss": 0.6283010244369507,
+    "gZ_norm": 0.020031917840242386,
+    "gZ_pad_cells_norm": 0.01007412001490593,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 16,
+    "last_layer_grad": 0.307881623506546,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   },
+   {
+    "step": 2,
+    "loss": 0.6103254556655884,
+    "gZ_norm": 0.018778149038553238,
+    "gZ_pad_cells_norm": 0.007652762345969677,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 20,
+    "last_layer_grad": 0.3726407289505005,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   },
+   {
+    "step": 3,
+    "loss": 0.5936887860298157,
+    "gZ_norm": 0.018118049949407578,
+    "gZ_pad_cells_norm": 0.005549967754632235,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 20,
+    "last_layer_grad": 0.30862799286842346,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   },
+   {
+    "step": 4,
+    "loss": 0.5887328386306763,
+    "gZ_norm": 0.0242079496383667,
+    "gZ_pad_cells_norm": 0.008982280269265175,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 20,
+    "last_layer_grad": 0.5993354916572571,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   },
+   {
+    "step": 5,
+    "loss": 0.5787222385406494,
+    "gZ_norm": 0.0213081743568182,
+    "gZ_pad_cells_norm": 0.0055963993072509766,
+    "n_param_tensors": 20,
+    "n_tensors_with_grad": 20,
+    "last_layer_grad": 0.2837373912334442,
+    "decoder_params_with_grad": 0,
+    "decoder_requires_grad": 0
+   }
+  ],
+  "decoder_unchanged": true,
+  "lpips_unchanged": true,
+  "decoder_training_flag": false,
+  "lpips_training_flag": false
+ },
+ "S7_memory": {
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "total_gb": 23.64971923828125,
+  "runs": [
+   {
+    "micro_rois": 1,
+    "peak_gb": 4.095111846923828,
+    "extra_peak_gb": 1.426316261291504,
+    "s_per_roi": 0.06723896662394206
+   },
+   {
+    "micro_rois": 2,
+    "peak_gb": 4.624774932861328,
+    "extra_peak_gb": 2.0105066299438477,
+    "s_per_roi": 0.03565522034962972
+   },
+   {
+    "micro_rois": 4,
+    "peak_gb": 5.7486982345581055,
+    "extra_peak_gb": 3.132457733154297,
+    "s_per_roi": 0.013844132423400879
+   },
+   {
+    "micro_rois": 8,
+    "peak_gb": 8.031928062438965,
+    "extra_peak_gb": 5.413209438323975,
+    "s_per_roi": 0.015571306149164835
+   },
+   {
+    "micro_rois": 16,
+    "peak_gb": 12.614001274108887,
+    "extra_peak_gb": 9.989349842071533,
+    "s_per_roi": 0.0204581618309021
+   },
+   {
+    "micro_rois": 32,
+    "oom": true
+   }
+  ],
+  "activation_checkpointing": false,
+  "note": "process-level peak incl. frozen encoder (fp32) + decoder (fp32 weights, bf16 autocast) + LPIPS"
+ }
+}

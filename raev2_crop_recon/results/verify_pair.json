@@ -1,0 +1,79 @@
+{
+ "n_images": 256,
+ "decoder_params": 415352704,
+ "variants": {
+  "dinov2-vit-b": {
+   "num_register_tokens": 4,
+   "norm_affine": false,
+   "pos_embed": [
+    1,
+    257,
+    768
+   ],
+   "patch": 14,
+   "embed_dim": 768,
+   "tokens_shape": [
+    256,
+    256,
+    768
+   ],
+   "psnr": 18.717397689819336,
+   "lpips": 0.2561939060688019,
+   "l1": 0.08078067749738693,
+   "bf16_vs_fp32": null,
+   "fp32": {
+    "psnr": 18.718097686767578,
+    "lpips": 0.25622308254241943,
+    "l1": 0.08077681064605713
+   },
+   "bf16_vs_fp32_maxabs": 0.24770542979240417,
+   "bf16_vs_fp32_meanabs": 0.0014407900162041187,
+   "normalise_roundtrip_maxabs": 9.5367431640625e-07,
+   "stats_mean_corr": 0.9930629134178162,
+   "stats_mean_absdiff_over_sd": 0.05066961795091629,
+   "stats_var_ratio_median": 0.9947326183319092,
+   "normalised_latent_mean_abs": 0.05066896975040436,
+   "normalised_latent_var_mean": 0.997677206993103,
+   "raw_token_norm_mean": 27.712800979614258,
+   "raw_token_absmax": 16.90084457397461
+  },
+  "dinov2-vit-b[woreg]": {
+   "num_register_tokens": 0,
+   "norm_affine": false,
+   "pos_embed": [
+    1,
+    257,
+    768
+   ],
+   "patch": 14,
+   "embed_dim": 768,
+   "tokens_shape": [
+    256,
+    256,
+    768
+   ],
+   "psnr": 8.372365951538086,
+   "lpips": 0.8779001235961914,
+   "l1": 0.3301481008529663
+  },
+  "dinov2-vit-b[norm]": {
+   "num_register_tokens": 4,
+   "norm_affine": true,
+   "pos_embed": [
+    1,
+    257,
+    768
+   ],
+   "patch": 14,
+   "embed_dim": 768,
+   "tokens_shape": [
+    256,
+    256,
+    768
+   ],
+   "psnr": 16.21479606628418,
+   "lpips": 0.3338277339935303,
+   "l1": 0.1117769107222557
+  }
+ }
+}

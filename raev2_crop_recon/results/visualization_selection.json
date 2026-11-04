@@ -1,0 +1,210 @@
+{
+ "rules": "(fixed rules, decided before looking at any reconstruction; rng = numpy default_rng(0) per group):\n  G1 small objects  : hval (rae_crop_pilot head_val, COCO GT boxes outside all training pools), F336 n_in 5-16; COCO categories in the order\n                      clock, cell phone, laptop, bicycle, tv, keyboard, dog, book -> one random ROI per available category, first 4.\n  G2 small parts    : hval has NO part annotations -> PACO test-primary (images outside every decoder pool; the manifest used by\n                      recon_rae.py 'pacot'), level part, F336 n_in 1-4; object categories in the order clock, cellular_telephone,\n                      laptop_computer, bicycle, dog, shoe, television_set, mug -> one random part ROI per object, first 4.\n  G3 pattern/detail : PACO test-primary objects, F336 n_in 5-16, positive pattern label in the order text, striped, logo, woven, floral,\n                      checkered -> one random ROI per label (no repeated ROI), first 4. (hval has no attribute labels.)",
+ "highpass_scale": 0.11480963230133057,
+ "rois": [
+  {
+   "group": "G1",
+   "label": "small object",
+   "source": "hval",
+   "roi_id": "417729_1",
+   "image_id": 417729,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000417729.jpg",
+   "ltrb": [
+    143,
+    303,
+    185,
+    344
+   ],
+   "category": "clock",
+   "n_in_f336": 9,
+   "attrs": ""
+  },
+  {
+   "group": "G1",
+   "label": "small object",
+   "source": "hval",
+   "roi_id": "441488_0",
+   "image_id": 441488,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000441488.jpg",
+   "ltrb": [
+    317,
+    245,
+    356,
+    292
+   ],
+   "category": "cell phone",
+   "n_in_f336": 6,
+   "attrs": ""
+  },
+  {
+   "group": "G1",
+   "label": "small object",
+   "source": "hval",
+   "roi_id": "472581_3",
+   "image_id": 472581,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000472581.jpg",
+   "ltrb": [
+    0,
+    385,
+    37,
+    489
+   ],
+   "category": "laptop",
+   "n_in_f336": 10,
+   "attrs": ""
+  },
+  {
+   "group": "G1",
+   "label": "small object",
+   "source": "hval",
+   "roi_id": "139390_1",
+   "image_id": 139390,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000139390.jpg",
+   "ltrb": [
+    50,
+    256,
+    90,
+    306
+   ],
+   "category": "bicycle",
+   "n_in_f336": 9,
+   "attrs": ""
+  },
+  {
+   "group": "G2",
+   "label": "small part",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row38574",
+   "image_id": 498804,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000498804.jpg",
+   "ltrb": [
+    232,
+    463,
+    251,
+    476
+   ],
+   "category": "clock:hand",
+   "n_in_f336": 2,
+   "attrs": "black,plain,metal,opaque"
+  },
+  {
+   "group": "G2",
+   "label": "small part",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row33422",
+   "image_id": 537270,
+   "path": "/dataset/Cambrian-10M/coco/val2017/000000537270.jpg",
+   "ltrb": [
+    422,
+    407,
+    439,
+    443
+   ],
+   "category": "cellular_telephone:bezel",
+   "n_in_f336": 4,
+   "attrs": "black,plain,plastic,opaque"
+  },
+  {
+   "group": "G2",
+   "label": "small part",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row31928",
+   "image_id": 26564,
+   "path": "/dataset/Cambrian-10M/coco/val2017/000000026564.jpg",
+   "ltrb": [
+    477,
+    273,
+    503,
+    281
+   ],
+   "category": "laptop_computer:touchpad",
+   "n_in_f336": 2,
+   "attrs": "grey,plain,plastic,opaque"
+  },
+  {
+   "group": "G2",
+   "label": "small part",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row21729",
+   "image_id": 399946,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000399946.jpg",
+   "ltrb": [
+    351,
+    354,
+    363,
+    367
+   ],
+   "category": "bicycle:seat_stay",
+   "n_in_f336": 1,
+   "attrs": "black,plain,metal,opaque"
+  },
+  {
+   "group": "G3",
+   "label": "pattern: text",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row10511",
+   "image_id": 170045,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000170045.jpg",
+   "ltrb": [
+    64,
+    192,
+    101,
+    241
+   ],
+   "category": "box",
+   "n_in_f336": 6,
+   "attrs": "black,blue,orange,white,yellow,logo,text,paper,opaque"
+  },
+  {
+   "group": "G3",
+   "label": "pattern: striped",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row4948",
+   "image_id": 63231,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000063231.jpg",
+   "ltrb": [
+    6,
+    259,
+    77,
+    307
+   ],
+   "category": "chair",
+   "n_in_f336": 9,
+   "attrs": "grey,striped,fabric,opaque"
+  },
+  {
+   "group": "G3",
+   "label": "pattern: logo",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row4803",
+   "image_id": 543992,
+   "path": "/dataset/Cambrian-10M/coco/train2017/000000543992.jpg",
+   "ltrb": [
+    401,
+    165,
+    454,
+    234
+   ],
+   "category": "mouse_(computer_equipment)",
+   "n_in_f336": 9,
+   "attrs": "black,grey,logo,plastic,opaque"
+  },
+  {
+   "group": "G3",
+   "label": "pattern: woven",
+   "source": "paco_test_primary",
+   "roi_id": "paco_test_row1592",
+   "image_id": 117914,
+   "path": "/dataset/Cambrian-10M/coco/val2017/000000117914.jpg",
+   "ltrb": [
+    206,
+    124,
+    255,
+    171
+   ],
+   "category": "basket",
+   "n_in_f336": 16,
+   "attrs": "light_brown,woven,rattan,opaque"
+  }
+ ]
+}

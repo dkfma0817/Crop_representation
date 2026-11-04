@@ -1,0 +1,86 @@
+[
+ {
+  "row": 337,
+  "bin": "D1-4",
+  "image_id": 64704,
+  "level": "part",
+  "category": "jar:sticker"
+ },
+ {
+  "row": 784,
+  "bin": "D1-4",
+  "image_id": 157593,
+  "level": "part",
+  "category": "bicycle:seat_tube"
+ },
+ {
+  "row": 906,
+  "bin": "D1-4",
+  "image_id": 181837,
+  "level": "part",
+  "category": "trash_can:lid"
+ },
+ {
+  "row": 2553,
+  "bin": "D1-4",
+  "image_id": 485027,
+  "level": "part",
+  "category": "shoe:vamp"
+ },
+ {
+  "row": 309,
+  "bin": "D17+",
+  "image_id": 60623,
+  "level": "object",
+  "category": "spoon"
+ },
+ {
+  "row": 738,
+  "bin": "D17+",
+  "image_id": 148620,
+  "level": "object",
+  "category": "laptop_computer"
+ },
+ {
+  "row": 871,
+  "bin": "D17+",
+  "image_id": 174964,
+  "level": "object",
+  "category": "pillow"
+ },
+ {
+  "row": 2495,
+  "bin": "D17+",
+  "image_id": 475484,
+  "level": "object",
+  "category": "car_(automobile)"
+ },
+ {
+  "row": 326,
+  "bin": "D5-16",
+  "image_id": 63231,
+  "level": "object",
+  "category": "chair"
+ },
+ {
+  "row": 814,
+  "bin": "D5-16",
+  "image_id": 163611,
+  "level": "object",
+  "category": "pencil"
+ },
+ {
+  "row": 914,
+  "bin": "D5-16",
+  "image_id": 183342,
+  "level": "object",
+  "category": "plate"
+ },
+ {
+  "row": 2462,
+  "bin": "D5-16",
+  "image_id": 467431,
+  "level": "object",
+  "category": "box"
+ }
+]
