@@ -24,6 +24,7 @@ def _resolve(key, value, base=ROOT):
 CACHE = _resolve("cache", _Y["project"]["cache"])
 EXP = _resolve("exp", _Y["project"]["exp"])
 LOGS = _resolve("logs", _Y["project"]["logs"])
+OUTPUT = _resolve("output", _Y["project"]["output"])
 RAEV2 = _resolve("raev2", _Y["project"]["raev2"])
 RES = os.path.join(EXP, "results")
 FIG = os.path.join(EXP, "figures")

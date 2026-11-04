@@ -32,7 +32,7 @@ import src.losses.pixel as PX  # noqa: E402
 import src.data.dataset as DR  # noqa: E402
 from src.models.coordmlp import MLRDecoder  # noqa: E402
 
-from src.config import INIT  # noqa: E402
+from src.config import INIT, OUTPUT  # noqa: E402
 from src.utils.yaml_config import with_config  # noqa: E402
 ROI_KEYS = ("img_index", "tok", "coords", "pad", "inside", "valid_w", "full_cov", "bil_grid", "n_in", "n_ctx")
 
@@ -138,10 +138,26 @@ def main():
     ap.add_argument("--gn_every", type=int, default=250)
     ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--dev_max", type=int, default=0)
-    ap.add_argument("--out", required=True)
-    ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--out", default=None, help="default: output/<YYYY-MM-DD>/<run> (run.py passes it explicitly)")
+    ap.add_argument("--resume", action=argparse.BooleanOptionalAction, default=False)   # --resume / --no-resume
     ap.add_argument("--slots", default="", help="overfit only: json list of fixed step slot lists (repeated)")
     a = with_config(ap)        # --config configs/raev2_crop_recon/train/<run>.yaml; CLI flags override the YAML
+    # Multi-GPU (torchrun --nproc_per_node N): every rank loads the same stream row, takes micro-batches rank, rank+N, ... and the
+    # gradients are summed with all_reduce -> the same update as single-GPU accumulation (up to float summation order).
+    # Rank 0 alone does the dev evaluation, logging and checkpoints.
+    world = int(os.environ.get("WORLD_SIZE", 1))
+    rank = int(os.environ.get("RANK", 0))
+    if world > 1:
+        import torch.distributed as dist
+        os.environ.setdefault("NCCL_IB_DISABLE", "1")     # single node: GPUs talk over NVLink; probing the 8 IB NICs stalls init
+        torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+        dist.init_process_group("nccl")
+        dist.all_reduce(torch.zeros(1, device="cuda"))   # build the communicator now, before data workers are forked
+        torch.cuda.synchronize()
+    main0 = rank == 0
+    if not a.out:
+        import datetime
+        a.out = os.path.join(OUTPUT, datetime.date.today().isoformat(), a.run)
     os.makedirs(a.out, exist_ok=True)
     dev = "cuda"
     RC.set_fp32()
@@ -172,22 +188,25 @@ def main():
     cfg = dict(vars(a), n_params=sum(p.numel() for p in m.parameters()), torch=torch.__version__,
                loss=(f"{a.w_feat} * (MSE_w + 1.0 (1 - cos)_w)" if a.w_feat else "") + (f" + {a.lam} * (L1 + {a.beta} LPIPS)" if a.lam else ""),
                decoder=os.path.join(RC.MODELS, "decoder.pt"), fingerprints_start=fp0, gpu=torch.cuda.get_device_name(0),
-               cuda_visible=os.environ.get("CUDA_VISIBLE_DEVICES"))
+               cuda_visible=os.environ.get("CUDA_VISIBLE_DEVICES"), world_size=world)
     step, t0 = 0, time.time()
     rpath = os.path.join(a.out, "resume.pt")
-    log = open(os.path.join(a.out, "train_log.jsonl"), "a")
+    log = open(os.path.join(a.out, "train_log.jsonl"), "a") if main0 else open(os.devnull, "w")
     if a.resume and os.path.exists(rpath):
         rs = torch.load(rpath, map_location="cpu", weights_only=False)
         m.load_state_dict(rs["state_dict"]), opt.load_state_dict(rs["opt"]), sched.load_state_dict(rs["sched"])
         step, t0 = rs["step"], time.time() - rs["elapsed_s"]
         torch.set_rng_state(rs["rng"])
-        print(json.dumps(dict(resumed_at=step)), file=log, flush=True)
-    else:
+        print(json.dumps(dict(resumed_at=step, world_size=world)), file=log, flush=True)
+    elif main0:
         json.dump(cfg, open(os.path.join(a.out, "config.json"), "w"), indent=1, default=float)
-    print(json.dumps(cfg, default=float), flush=True)
+    if main0:
+        print(json.dumps(cfg, default=float), flush=True)
+    t_start, step_start = time.time(), step
+    ps_all = [p for p in m.parameters() if p.requires_grad]
     dv_slots = fixed if a.slots else DR.seq_slots(ds_dv, 16)      # overfit: evaluate on the same fixed 256 ROIs
     dv_loader = lambda: DR.loader(ds_dv, dv_slots, 6)
-    if step == 0 and a.eval_every:
+    if step == 0 and a.eval_every and main0:
         ev = evaluate(m, rae, lp, dv_loader(), dev, P, a.beta, a.dev_max or None)
         for f in (log, sys.stdout):
             print(json.dumps(dict(step=0, dev=ev)), file=f, flush=True)
@@ -198,10 +217,10 @@ def main():
         b = DR.to_dev(batch, dev)
         R = b["teacher"].shape[0]
         chunks = [torch.arange(i, min(R, i + a.micro), device=dev) for i in range(0, R, a.micro)]
-        gn_rec = grad_record(m, rae, lp, b, chunks[0], P, a.beta, a.lam, R) if (step + 1) % a.gn_every == 0 or step == 0 else None
+        gn_rec = grad_record(m, rae, lp, b, chunks[0], P, a.beta, a.lam, R) if main0 and ((step + 1) % a.gn_every == 0 or step == 0) else None
         opt.zero_grad(set_to_none=True)
         tot = np.zeros(len(keys))
-        for ix in chunks:
+        for ix in chunks[rank::world]:
             Z, feat, pix, parts = micro_terms(m, rae, lp, b, ix, P, need_pix, a.beta)
             loss = a.w_feat * feat.sum() / R
             if need_pix:
@@ -210,6 +229,19 @@ def main():
             tot += [float(loss) * 1.0, float(feat.sum()) / R, float(pix.sum()) / R if need_pix else 0.0,
                     float(parts["mse"].sum()) / R, float(parts["cos"].sum()) / R,
                     float(parts["l1"].sum()) / R if need_pix else 0.0, float(parts["lpips"].sum()) / R if need_pix else 0.0]
+        if world > 1:
+            for p in ps_all:
+                if p.grad is None:
+                    p.grad = torch.zeros_like(p)
+            flat = torch.cat([p.grad.flatten() for p in ps_all])
+            dist.all_reduce(flat)
+            o = 0
+            for p in ps_all:
+                p.grad.copy_(flat[o:o + p.numel()].view_as(p))
+                o += p.numel()
+            tt = torch.as_tensor(tot, device=dev, dtype=torch.float64)
+            dist.all_reduce(tt)
+            tot = tt.cpu().numpy()
         gn = float(torch.nn.utils.clip_grad_norm_(m.parameters(), a.clip))
         if not all(math.isfinite(x) for x in tot) or not math.isfinite(gn):
             raise FloatingPointError(f"non-finite at step {step}: {tot} gn {gn}")
@@ -220,17 +252,18 @@ def main():
         step += 1
         if gn_rec is not None:
             print(json.dumps(dict(step=step, grad=gn_rec, clip_total=gn)), file=log, flush=True)
-        if step % 50 == 0:
+        if step % 50 == 0 and main0:
             r = run / nrun
             rec = dict(step=step, lr=sched.get_last_lr()[0], train={k: v for k, v in zip(keys, r)}, grad_norm=gn,
-                       s_per_step=(time.time() - t0) / step, mem_gb=torch.cuda.max_memory_allocated() / 2 ** 30)
+                       s_per_step=(time.time() - t_start) / max(1, step - step_start), mem_gb=torch.cuda.max_memory_allocated() / 2 ** 30)
             print(json.dumps(rec), file=log, flush=True)
             if step % 500 == 0:
                 print(json.dumps(rec), flush=True)
+        if step % 50 == 0:
             run[:] = 0
             nrun = 0
         do_eval = a.eval_every and (step % a.eval_every == 0 or step == a.steps)
-        if do_eval or step in save_at:
+        if (do_eval or step in save_at) and main0:
             ev = evaluate(m, rae, lp, dv_loader(), dev, P, a.beta, a.dev_max or None) if do_eval else None
             if step in save_at or step == a.steps:
                 torch.save(dict(arch="mlr", source="final", state_dict=m.state_dict(), step=step, dev=ev, cfg=cfg), os.path.join(a.out, f"ckpt_{step}.pt"))
@@ -239,13 +272,18 @@ def main():
             rec = dict(step=step, dev=ev, elapsed_s=time.time() - t0, peak_mem_gb=torch.cuda.max_memory_allocated() / 2 ** 30)
             for f in (log, sys.stdout):
                 print(json.dumps(rec), file=f, flush=True)
-    fp1 = dict(decoder=RC.param_hash(rae.dec), lpips=RC.param_hash(lp))
-    json.dump(dict(steps=step, time_s=time.time() - t0, peak_mem_gb=torch.cuda.max_memory_allocated() / 2 ** 30,
-                   frozen_unchanged={k: fp0[k] == fp1[k] for k in fp0}, fingerprints_end=fp1),
-              open(os.path.join(a.out, "done.json"), "w"), indent=1)
-    if not a.save_at:
-        torch.save(dict(arch="mlr", source="final", state_dict=m.state_dict(), step=step, cfg=cfg), os.path.join(a.out, f"ckpt_{step}.pt"))
-    print("DONE", flush=True)
+    if world > 1:
+        dist.barrier()
+    if main0:
+        fp1 = dict(decoder=RC.param_hash(rae.dec), lpips=RC.param_hash(lp))
+        json.dump(dict(steps=step, time_s=time.time() - t0, peak_mem_gb=torch.cuda.max_memory_allocated() / 2 ** 30,
+                       frozen_unchanged={k: fp0[k] == fp1[k] for k in fp0}, fingerprints_end=fp1, world_size=world),
+                  open(os.path.join(a.out, "done.json"), "w"), indent=1)
+        if not a.save_at:
+            torch.save(dict(arch="mlr", source="final", state_dict=m.state_dict(), step=step, cfg=cfg), os.path.join(a.out, f"ckpt_{step}.pt"))
+        print("DONE", flush=True)
+    if world > 1:
+        dist.destroy_process_group()
 
 
 if __name__ == "__main__":

@@ -8,3 +8,4 @@ third_party/
 *.npz
 *.safetensors
 logs/
+output/

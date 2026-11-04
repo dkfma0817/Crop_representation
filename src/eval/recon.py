@@ -23,7 +23,7 @@ import src.losses.pixel as PX  # noqa: E402
 import src.data.dataset as DR  # noqa: E402
 import src.engine.train as TR  # noqa: E402
 
-from src.config import PACO_LP as PACO, RUNS  # noqa: E402  (PACO_LP: earlier project, not on this server)
+from src.config import OUTPUT, PACO_LP as PACO, RUNS  # noqa: E402  (PACO_LP: earlier project, not on this server)
 OUTD = os.path.join(RC.RES, "recon")
 VIZ = os.path.join(RC.RES, "viz")
 
@@ -127,11 +127,17 @@ def main():
     ap.add_argument("--steps", default="4000,12000")
     ap.add_argument("--n_per", type=int, default=1000)
     ap.add_argument("--runs", default="A,B,C")
-    ap.add_argument("--out", default="", help="output subfolder name (default results/recon, results/viz)")
+    ap.add_argument("--root", default=RUNS, help="folder holding <run>/ckpt_<step>.pt (e.g. output/2026-11-04)")
+    ap.add_argument("--out_dir", default="", help="output folder (default output/<YYYY-MM-DD>/recon_<runs>)")
+    ap.add_argument("--out", default="", help="legacy: subfolder of experiments/.../results (original report used results/recon)")
     a = ap.parse_args()
     global OUTD, VIZ
     if a.out:
         OUTD, VIZ = os.path.join(RC.RES, a.out), os.path.join(RC.RES, a.out, "viz")
+    else:
+        import datetime
+        OUTD = a.out_dir or os.path.join(OUTPUT, datetime.date.today().isoformat(), "recon_" + a.runs.replace(",", "_"))
+        VIZ = os.path.join(OUTD, "viz")
     dev = "cuda"
     RC.set_fp32()
     os.makedirs(OUTD, exist_ok=True)
@@ -142,7 +148,7 @@ def main():
     decs = {}
     for st in a.steps.split(","):
         for run in a.runs.split(","):
-            p = os.path.join(RUNS, run, f"ckpt_{st}.pt")
+            p = os.path.join(a.root, run, f"ckpt_{st}.pt")
             if os.path.exists(p):
                 decs[f"{run}_{st}"] = TR.load_model(p, dev).eval()
     print("decoders", list(decs), flush=True)

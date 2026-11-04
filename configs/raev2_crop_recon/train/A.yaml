@@ -3,4 +3,3 @@ _base_: base.yaml
 run: A
 w_feat: 1.0
 lam: 0.0
-out: cache/runs/A

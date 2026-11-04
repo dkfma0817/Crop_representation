@@ -10,4 +10,3 @@ save_at: ""
 workers: 6
 resume: false
 slots: cache/overfit/slots256.json
-out: cache/overfit/feat

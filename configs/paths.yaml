@@ -7,6 +7,7 @@ project:
   cache: cache                                   # 모델 가중치, ROI 목록, feature 캐시, runs, probe (git 제외)
   exp: experiments/raev2_crop_recon              # 보고서, results/, figures/
   logs: logs
+  output: output                                 # 실행 결과: output/<YYYY-MM-DD>/<run>/ (run.py, git 제외)
   raev2: third_party/RAEv2                       # 공식 RAEv2 코드 (nanovisionx/RAEv2 @ 8a0d238)
 
 datasets:

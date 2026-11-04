@@ -3,4 +3,3 @@ _base_: overfit_feat.yaml
 run: OF_pix
 w_feat: 0.0
 lam: 0.1
-out: cache/overfit/pix
