@@ -1,6 +1,6 @@
 __pycache__/
 *.pyc
-perception_cache/
+cache/
 third_party/
 *.pt
 *.pth
