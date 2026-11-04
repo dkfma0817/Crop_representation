@@ -50,6 +50,8 @@ MODELS = _C["models"]
 TORCH_HOME = _C["torch_hub"]
 
 # --- data / code copied from earlier projects ------------------------------------------------------------------------
+RESEARCH_ROOT = _resolve("research_root", _Y["legacy"]["research_root"])
+os.environ.setdefault("RESEARCH_ROOT", RESEARCH_ROOT)   # read by the copied old-project code instead of /workspace/Areum/research
 PACO_LP = _resolve("paco_lp", _Y["legacy"]["paco_lp"])
 RAE_PILOT = _resolve("rae_pilot", _Y["legacy"]["rae_pilot"])
 PACO_READER_CODE = _resolve("paco_reader_code", _Y["legacy"]["paco_reader_code"])

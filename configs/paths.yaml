@@ -30,10 +30,19 @@ cache_files:
   models: raev2_models/stage1/imagenet/dinov2b-k1
   torch_hub: torch_hub
 
-# 이전 프로젝트에서 복사해 온 데이터·코드 (원래 서버: /workspace/Areum/research/...)
+# 이전 프로젝트에서 복사해 온 데이터·코드. third_party/research/ 가 원래 서버의 /workspace/Areum/research 를 같은 구조
+# (<날짜>/<프로젝트>/code) 로 재현하고, 복사한 코드 안의 절대 경로는 환경변수 RESEARCH_ROOT (= research_root) 로 바뀐다.
 legacy:
-  paco_lp: cache/paco_lp                                   # 2026-10-24/dinov2_oracle_region_decoder/perception_cache/paco_lp
-  rae_pilot: third_party/rae_crop_pilot                    # 2026-10-26/rae_crop_pilot (_pylib: lpips 0.1.4)
-  paco_reader_code: third_party/paco_region_reader/code    # 2026-10-30/paco_region_reader/code (common_rr)
-  feat_upsample_code: third_party/paco_feat_upsample/code  # 2026-10-31/paco_feat_upsample/code (eval_fu)
-  # 아직 없음: 2026-10-30/paco_full_vs_crop_ft/code (common.py), 2026-10-30/paco_token_upsample/code (eval_tu.py)
+  research_root: third_party/research
+  paco_lp: cache/paco_lp                                                        # = research/2026-10-24/dinov2_oracle_region_decoder/perception_cache/paco_lp (symlink)
+  rae_pilot: third_party/research/2026-10-26/rae_crop_pilot                     # _pylib: lpips 0.1.4
+  paco_reader_code: third_party/research/2026-10-30/paco_region_reader/code     # common_rr, eval_rr
+  feat_upsample_code: third_party/research/2026-10-31/paco_feat_upsample/code   # eval_fu, common_fu
+  # 있음: 2026-10-30/paco_full_vs_crop_ft/code (common.py, eval_all.py)
+  # 아직 없음 (PACO probe / M2 평가에 필요):
+  #   2026-10-24/dinov2_oracle_region_decoder/{data/paths.py, data/preprocessing.py, paco_lp/code/{paco_common,paco_data,probe}.py,
+  #                                           paco_lp_official_metric/code/{aggregate,pom_common}.py}
+  #   2026-10-26/multilevel_relation_decoder/code/{analyze_mlr,eval_mlr}.py
+  #   2026-10-28/paco_crop_finetune/code/eval_tables.py
+  #   2026-10-30/paco_token_upsample/code/{eval_tu,common_tu}.py
+  #   2026-10-29/crop_benefit_by_size/perception_cache/feat/n_in_siglip2_{train,val,test}.npy
