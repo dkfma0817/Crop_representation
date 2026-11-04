@@ -30,6 +30,7 @@ FIG = os.path.join(EXP, "figures")
 
 # --- datasets --------------------------------------------------------------------------------------------------------
 COCO_TRAIN = _resolve("coco_train", _Y["datasets"]["coco_train"])
+COCO_VAL = _resolve("coco_val", _Y["datasets"]["coco_val"])
 COCO_ANN = _resolve("coco_ann", _Y["datasets"]["coco_ann"])
 PACO_DIR = _resolve("paco_dir", _Y["datasets"]["paco_dir"])
 IMAGENET_VAL = _resolve("imagenet_val", _Y["datasets"]["imagenet_val"])

@@ -24,7 +24,18 @@ import torch
 import torch.nn.functional as F
 from PIL import Image
 
-from src.config import CACHE, COCO_ROIS, COCO_TRAIN, EXP, FIG, LOGS, MODELS, RAE_ROIS, RAEV2, RES, STREAM, TORCH_HOME  # noqa: F401
+from src.config import CACHE, COCO_ROIS, COCO_TRAIN, COCO_VAL, EXP, FIG, LOGS, MODELS, RAE_ROIS, RAEV2, RES, STREAM, TORCH_HOME  # noqa: F401
+
+
+def coco_image_path(old_path):
+    """Image path stored by the old server (paco_lp manifests: .../coco/train2017|val2017/<id>.jpg, .../val2014/COCO_val2014_<id>.jpg)
+    -> this server's COCO 2017 file with the same image id (2014 images are all in train2017 or val2017 under the same id)."""
+    cid = int(os.path.basename(old_path).split(".")[0].split("_")[-1])
+    for root in (COCO_TRAIN, COCO_VAL):
+        p = os.path.join(root, f"{cid:012d}.jpg")
+        if os.path.exists(p):
+            return p
+    raise FileNotFoundError(f"COCO image {cid} ({old_path}) not in {COCO_TRAIN} or {COCO_VAL}")
 
 DEC_CFG = os.path.join(RAEV2, "configs", "decoder", "ViTXL")
 ENC_NAME = "dinov2-vit-b"

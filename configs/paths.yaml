@@ -11,6 +11,7 @@ project:
 
 datasets:
   coco_train: /home/irteam/datasets/coco/train2017
+  coco_val: /home/irteam/datasets/coco/val2017
   coco_ann: /home/irteam/datasets/coco/annotations/instances_train2017.json
   paco_dir: /home/irteam/datasets/paco
   imagenet_val: /dataset/_imagenet_val_extracted_5000      # 이 서버에 없음 (verify_pair 전용)

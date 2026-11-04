@@ -53,7 +53,8 @@ class PacoRecon(torch.utils.data.Dataset):
         fulls, slot, crops, geoms, img_index, rects = [], {}, [], [], [], []
         for i in idx:
             r = self.df.iloc[i]
-            img = Image.open(r.path).convert("RGB")
+            img = Image.open(RC.coco_image_path(r.path)).convert("RGB")
+            assert img.size == (int(r.W), int(r.H)), (r.path, img.size)
             if r.path not in slot:
                 slot[r.path] = len(fulls)
                 fulls.append(RC.u8_canvas(img, RC.Letterbox(*img.size)))
