@@ -1,0 +1,12 @@
+# 과적합 점검: 고정 COCO dev 100 ROI(첫 25장 × 4)만으로 pixel-only(B loss) 학습 -> 같은 100 ROI로 평가.
+# 외우지도 못하면 모델/학습 경로 문제, 외우면 일반화(정보 병목) 문제. 원래 sanity S8(256 ROI, 1k step)의 작은 버전.
+_base_: base.yaml
+run: OF100_pix
+w_feat: 0.0
+lam: 0.1
+steps: 2000
+warmup: 100
+eval_every: 250           # 같은 100 ROI 평가 + viz/step_*.png (그림 ROI 8개도 이 100개 안에 있음)
+save_at: "2000"
+resume: false
+slots: cache/overfit/dev100.json     # [[0..24]] = 매 step 25장 100 ROI 전부, .set = "dev"
