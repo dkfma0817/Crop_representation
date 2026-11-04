@@ -11,6 +11,10 @@
 
 자세한 내용은 각 폴더의 `README.md`(보고서)와 `configs/protocol.md`(사전 등록 프로토콜)를 보세요.
 
+## 실험 환경
+
+[`env/`](env/)에 패키지 목록(`requirements.txt`)과 설치 스크립트(`setup_env.sh`)가 있습니다. 새 서버에서는 `bash env/setup_env.sh <env 경로>`로 설치하세요.
+
 ## `raev2_crop_recon/` 구성
 
 | 경로 | 내용 |
@@ -34,7 +38,7 @@
   - `2026-10-24/dinov2_oracle_region_decoder`: `coco_rois.parquet`, PACO 전처리 데이터
   - `2026-10-30/paco_region_reader`, `2026-10-31/paco_feat_upsample`: PACO probe(R0/R2 reader) 코드
 - **데이터셋:** COCO train2017, PACO(LVIS 기반), ImageNet val(pair 검증용).
-- **환경:** Python 3.10, torch 2.7.1 (cu118), transformers 4.52.1, timm.
+- **환경:** [`env/`](env/) 참고 (Python 3.10.19, torch 2.7.1+cu118).
 
 따라서 이 repo만으로는 바로 실행되지 않습니다. 실험 기록과 코드 열람용입니다.
 
