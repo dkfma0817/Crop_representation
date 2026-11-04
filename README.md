@@ -35,7 +35,9 @@ Crop_representation/
 ├── env/                        # requirements.txt, setup_env.sh
 ├── cache/                      # (git 제외) 모델 가중치, ROI 목록, feature 캐시, runs, probe
 ├── third_party/RAEv2/          # (git 제외) 공식 RAEv2 코드
-└── logs/                       # (git 제외) 실행 로그와 flag
+├── output/                     # (git 제외) 실행 결과 output/<날짜>/<run>/ (run.py)
+├── run.py                      # 런처: output 폴더 생성, 설정 저장, 로그, --gpus N 이면 torchrun
+└── logs/                       # (git 제외) 기타 실행 로그와 flag
 ```
 
 ## 실행
@@ -52,9 +54,17 @@ GPUS="2 3 2 3" EXTRACT_WORKERS=28 EXTRACT_BS=64 \
   nohup bash scripts/raev2_crop_recon/run_extract_local.sh > logs/run_extract_local.log 2>&1 &   # 캐시(73 GB) + 검증 + init
 
 # 2) 학습 (A / B / C). 설정은 configs/raev2_crop_recon/train/*.yaml, CLI 인자가 YAML보다 우선
-CUDA_VISIBLE_DEVICES=2 python -m src.engine.train --config configs/raev2_crop_recon/train/C.yaml
-CUDA_VISIBLE_DEVICES=3 python -m src.engine.train --config configs/raev2_crop_recon/train/A.yaml --steps 30 --out cache/runs/A_smoke   # 일부만 바꾸기
+#    run.py 가 output/<날짜>/<run>/ 을 만들고 config.yaml, cmd.txt, train.log 를 남긴다
+CUDA_VISIBLE_DEVICES=2 python run.py --config configs/raev2_crop_recon/train/C.yaml --bg                 # GPU 1개
+CUDA_VISIBLE_DEVICES=2,3 python run.py --config configs/raev2_crop_recon/train/B.yaml --gpus 2 --bg      # GPU 2개 (약 2배 빠름)
+CUDA_VISIBLE_DEVICES=3 python run.py --config configs/raev2_crop_recon/train/A.yaml --steps 30 --output_dir output/test/A   # 일부만 바꾸기
+
+# 3) 복원 평가 (hval + PACO test-primary, teacher / bilinear 포함)
+CUDA_VISIBLE_DEVICES=2 python -m src.eval.recon --root output/2026-11-04 --runs B --steps 4000,12000 --out_dir output/2026-11-04/B/recon
 ```
+
+- **결과 폴더:** `output/<YYYY-MM-DD>/<run>/`에 `config.yaml`, `cmd.txt`, `train.log`, `train_log.jsonl`(50 step마다 + dev 평가), `ckpt_<step>.pt`, `resume.pt`, `done.json`이 생깁니다. git에는 넣지 않습니다.
+- **GPU 2개 이상:** 한 step의 ROI 64개(micro-batch 16 × 4)를 GPU끼리 나눠 계산하고 gradient를 합칩니다. 업데이트는 GPU 1개와 같습니다 (50 step 비교에서 train loss 소수점 6자리까지 일치). 처음 통신 초기화에 2~3분 걸립니다.
 
 - 경로를 바꾸려면 `configs/paths.yaml`을 고치거나, 같은 이름의 대문자 환경변수를 주거나(`COCO_TRAIN=/data/coco/train2017`), `CROP_PATHS=<다른 yaml>`을 지정하세요.
 - 새 run 설정은 `_base_: base.yaml`로 공통 레시피를 상속하고 바뀌는 값만 적으면 됩니다 (`C_L1.yaml` 참고).
