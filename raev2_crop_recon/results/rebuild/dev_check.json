@@ -1,0 +1,6 @@
+{
+ "set": "dev",
+ "full_maxabs_err": 0.0039033889770507812,
+ "teacher_maxabs_err": 0.0039052963256835938,
+ "zero_full_rows_in_2000": 0
+}

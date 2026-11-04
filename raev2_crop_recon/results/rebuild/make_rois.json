@@ -1,0 +1,33 @@
+{
+ "seed": 0,
+ "min_side": 8,
+ "coco_images": 118287,
+ "eligible_images": 81373,
+ "paco_valtest_images": 11853,
+ "train_images": 60000,
+ "train_rois": 240000,
+ "train_paco_valtest_images": 5782,
+ "dev_images": 500,
+ "dev_rois": 2000,
+ "hval_images": 1000,
+ "hval_rois": 3819,
+ "overlap_train_dev": 0,
+ "overlap_train_hval": 0,
+ "overlap_dev_hval": 0,
+ "overlap_devhval_paco": 0,
+ "f336_bins_train_gt": {
+  "d1_4": 38308,
+  "d5_16": 53878,
+  "d17p": 87814
+ },
+ "f336_bins_dev_gt": {
+  "d1_4": 317,
+  "d5_16": 457,
+  "d17p": 726
+ },
+ "f336_bins_hval": {
+  "d1_4": 839,
+  "d5_16": 1162,
+  "d17p": 1818
+ }
+}

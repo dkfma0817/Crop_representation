@@ -63,10 +63,16 @@ def plan():
         print(name, info, flush=True)
 
 
+def npy(name, what):
+    """Cache arrays live in OUT; FEAT_WORK (e.g. /dev/shm/...) redirects them while extracting: scattered memmap writes on
+    Lustre stall on synchronous page reads, so write in RAM and copy to OUT sequentially afterwards (run_extract_local.sh)."""
+    return os.path.join(os.environ.get("FEAT_WORK", OUT), f"{name}_{what}.npy")
+
+
 def mm(name, what, mode):
     info = json.load(open(os.path.join(OUT, f"{name}_info.json")))
     shape = (info["n_img"], 256, 768) if what == "full" else (info["n_cells"], 768)
-    return np.lib.format.open_memmap(os.path.join(OUT, f"{name}_{what}.npy"), mode=mode, dtype=np.float16, shape=shape if mode == "w+" else None)
+    return np.lib.format.open_memmap(npy(name, what), mode=mode, dtype=np.float16, shape=shape if mode == "w+" else None)
 
 
 class ImgDS(Dataset):
@@ -86,12 +92,14 @@ class ImgDS(Dataset):
         full = RC.u8_canvas(img, RC.Letterbox(*img.size))
         crops = [RC.u8_canvas(img.crop((int(r.l), int(r.t), int(r.r), int(r.b))), RC.Letterbox(int(r.r - r.l), int(r.b - r.t)))
                  for r in g.itertuples()]
-        return dict(slot=s, full=full, crops=torch.stack(crops), roi_idx=torch.as_tensor(g.index.values))
+        masks = [torch.from_numpy(RC.Letterbox(int(r.r - r.l), int(r.b - r.t)).coverage() > 0) for r in g.itertuples()]
+        return dict(slot=s, full=full, crops=torch.stack(crops), roi_idx=torch.as_tensor(g.index.values), masks=torch.stack(masks))
 
 
 def coll(items):
     return dict(slot=torch.as_tensor([it["slot"] for it in items]), full=torch.stack([it["full"] for it in items]),
-                crops=torch.cat([it["crops"] for it in items]), roi_idx=torch.cat([it["roi_idx"] for it in items]))
+                crops=torch.cat([it["crops"] for it in items]), roi_idx=torch.cat([it["roi_idx"] for it in items]),
+                masks=torch.cat([it["masks"] for it in items]))
 
 
 def run(name, shard, nshard):
@@ -99,31 +107,35 @@ def run(name, shard, nshard):
     rois = pd.read_parquet(os.path.join(OUT, f"{name}_rois.parquet"))
     info = json.load(open(os.path.join(OUT, f"{name}_info.json")))
     for what in ("full", "teacher"):
-        p = os.path.join(OUT, f"{name}_{what}.npy")
-        if not os.path.exists(p):
+        if not os.path.exists(npy(name, what)):
             assert shard == 0, "shard 0 creates the files; start it first"
+            os.makedirs(os.path.dirname(npy(name, what)), exist_ok=True)
             mm(name, what, "w+").flush()
-    while not all(os.path.exists(os.path.join(OUT, f"{name}_{w}.npy")) for w in ("full", "teacher")):
+    while not all(os.path.exists(npy(name, w)) for w in ("full", "teacher")):
         time.sleep(5)
     time.sleep(3)
     full_mm, t_mm = mm(name, "full", "r+"), mm(name, "teacher", "r+")
     slots = [s for s in range(info["n_img"]) if s % nshard == shard]
     done_f = os.path.join(OUT, f"{name}_done_{shard}of{nshard}.json")
     rae = RC.FrozenRAE("cuda", decoder=False)
-    dl = DataLoader(ImgDS(rois, RC.COCO_TRAIN, slots), batch_size=32, num_workers=18, collate_fn=coll, pin_memory=True, prefetch_factor=4)
+    bs, nw = int(os.environ.get("EXTRACT_BS", 32)), int(os.environ.get("EXTRACT_WORKERS", 18))
+    dl = DataLoader(ImgDS(rois, RC.COCO_TRAIN, slots), batch_size=bs, num_workers=nw, collate_fn=coll, pin_memory=True, prefetch_factor=4)
     t0, n = time.time(), 0
     off, tn = rois.t_off.values, rois.t_n.values
     for b in dl:
         zf = rae.encode(b["full"]).half().cpu().numpy()
-        zc = rae.encode(b["crops"]).cpu()
+        zc = rae.encode(b["crops"])                                    # (R,256,768) fp32 on GPU
+        m = b["masks"]
+        sel = zc[m.to(zc.device)].half().cpu().numpy()                 # content cells, ROI by ROI, ascending cell order
         full_mm[b["slot"].numpy()] = zf
-        for k, ri in enumerate(b["roi_idx"].tolist()):
-            r = rois.iloc[ri]
-            m = RC.Letterbox(int(r.r - r.l), int(r.b - r.t)).coverage() > 0
-            assert m.sum() == tn[ri]
-            t_mm[off[ri]:off[ri] + tn[ri]] = zc[k][torch.from_numpy(m)].half().numpy()
+        ri = b["roi_idx"].numpy()
+        cnt = m.sum(1).numpy()
+        assert (cnt == tn[ri]).all()
+        pos = np.concatenate([[0], np.cumsum(cnt)])
+        for k, r in enumerate(ri):
+            t_mm[off[r]:off[r] + tn[r]] = sel[pos[k]:pos[k + 1]]
         n += len(b["slot"])
-        if n % 3200 < 32:
+        if n % 3200 < bs:
             print(json.dumps(dict(set=name, shard=shard, n=n, of=len(slots), s=round(time.time() - t0))), flush=True)
     full_mm.flush()
     t_mm.flush()

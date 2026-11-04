@@ -7,6 +7,10 @@ set -euo pipefail
 ENV="${1:-/workspace/Areum/research/envs/dinov2_ord_py310}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Ignore ~/.local site-packages: otherwise pip treats packages there as "already satisfied"
+# and skips installing them into the env (seen with sympy/safetensors/antlr4).
+export PYTHONNOUSERSITE=1
+
 if ! command -v conda >/dev/null 2>&1; then
   if [ ! -x "$HOME/miniforge3/bin/conda" ]; then
     echo "[setup] conda not found -> installing miniforge to $HOME/miniforge3"
@@ -21,6 +25,7 @@ if [ -x "$ENV/bin/python" ]; then
 else
   conda create -p "$ENV" python=3.10.19 -y
 fi
+conda env config vars set PYTHONNOUSERSITE=1 -p "$ENV" >/dev/null
 
 "$ENV/bin/pip" install -r "$HERE/requirements.txt" --extra-index-url https://download.pytorch.org/whl/cu118
 

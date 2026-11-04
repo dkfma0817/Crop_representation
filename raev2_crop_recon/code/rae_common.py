@@ -47,9 +47,10 @@ MEAN = torch.tensor([0.485, 0.456, 0.406])
 STD = torch.tensor([0.229, 0.224, 0.225])
 PAD_RGB = tuple(int(round(255 * m)) for m in (0.485, 0.456, 0.406))   # (124, 116, 103)
 
-COCO_ROIS = "/workspace/Areum/research/2026-10-24/dinov2_oracle_region_decoder/perception_cache/data/coco_rois.parquet"
-COCO_TRAIN = "/dataset/Cambrian-10M/coco/train2017"
-RAE_ROIS = "/workspace/Areum/research/2026-10-26/rae_crop_pilot/configs/rois.parquet"
+# ROI lists rebuilt by code/make_rois.py (originals: dinov2_oracle_region_decoder coco_rois.parquet, rae_crop_pilot configs/rois.parquet)
+COCO_ROIS = os.path.join(CACHE, "data", "coco_rois.parquet")
+COCO_TRAIN = os.environ.get("COCO_TRAIN", "/home/irteam/datasets/coco/train2017")   # was /dataset/Cambrian-10M/coco/train2017
+RAE_ROIS = os.path.join(CACHE, "data", "rae_rois.parquet")
 STREAM = os.path.join(CACHE, "stream", "stream_ids_12000.npy")   # COCO image ids (12000,16); make_stream.py (PACO val/test excluded)
 GEOM_KEYS = ("tok_idx", "inside", "coords", "n_in", "n_ctx", "valid_w", "full_cov", "bil_grid")
 

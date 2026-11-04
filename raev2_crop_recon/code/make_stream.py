@@ -9,11 +9,8 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import rae_common as RC
 from relation import build_stream
-M = "/workspace/Areum/research/2026-10-24/dinov2_oracle_region_decoder/perception_cache/paco_lp"
-cid = lambda p: int(os.path.basename(p).split(".")[0].split("_")[-1])
-excl = set()
-for sp in ("val", "test"):
-    excl |= {cid(p) for p in pd.read_parquet(os.path.join(M, f"manifest_{sp}.parquet")).path.unique()}
+# PACO-LVIS val + test COCO image ids (code/make_rois.py; originally read from paco_lp/manifest_{val,test}.parquet)
+excl = set(json.load(open(os.path.join(RC.CACHE, "data", "paco_valtest_ids.json"))))
 r = pd.read_parquet(RC.COCO_ROIS)
 tr = r[r.split == "train"]
 pool = tr[~tr.image_id.isin(excl)]

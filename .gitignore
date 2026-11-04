@@ -7,3 +7,4 @@ third_party/
 *.npy
 *.npz
 *.safetensors
+logs/
