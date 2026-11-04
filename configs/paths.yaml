@@ -38,11 +38,11 @@ legacy:
   rae_pilot: third_party/research/2026-10-26/rae_crop_pilot                     # _pylib: lpips 0.1.4
   paco_reader_code: third_party/research/2026-10-30/paco_region_reader/code     # common_rr, eval_rr
   feat_upsample_code: third_party/research/2026-10-31/paco_feat_upsample/code   # eval_fu, common_fu
-  # 있음: 2026-10-30/paco_full_vs_crop_ft/code (common.py, eval_all.py)
-  # 아직 없음 (PACO probe / M2 평가에 필요):
-  #   2026-10-24/dinov2_oracle_region_decoder/{data/paths.py, data/preprocessing.py, paco_lp/code/{paco_common,paco_data,probe}.py,
-  #                                           paco_lp_official_metric/code/{aggregate,pom_common}.py}
-  #   2026-10-26/multilevel_relation_decoder/code/{analyze_mlr,eval_mlr}.py
-  #   2026-10-28/paco_crop_finetune/code/eval_tables.py
-  #   2026-10-30/paco_token_upsample/code/{eval_tu,common_tu}.py
-  #   2026-10-29/crop_benefit_by_size/perception_cache/feat/n_in_siglip2_{train,val,test}.npy
+  # third_party/research 에 있는 것 (원래 서버에서 복사, git 제외):
+  #   2026-10-24/dinov2_oracle_region_decoder/{data, evaluation, models, paco_lp/code, paco_lp_official_metric/code}
+  #     + cache -> perception_cache, perception_cache/paco_lp -> ../../../../../cache/paco_lp (symlink)
+  #   2026-10-26/multilevel_relation_decoder/code, 2026-10-26/rae_crop_pilot/_pylib, 2026-10-28/paco_crop_finetune/code,
+  #   2026-10-29/crop_benefit_by_size/perception_cache/feat (n_in_siglip2_*.npy), 2026-10-30/{paco_full_vs_crop_ft,
+  #   paco_region_reader, paco_token_upsample}/code, 2026-10-31/paco_feat_upsample/code
+  # 복사본에서 바꾼 것: "/workspace/Areum/research..." -> os.environ.get("RESEARCH_ROOT", ...) + "...";
+  #   paco_token_upsample/code/eval_tu.py 의 ref_c1_fz / ref_full_fz (이전 실험 결과, RAE 비교에 안 씀) 는 curves.jsonl 이 있을 때만 읽음.
