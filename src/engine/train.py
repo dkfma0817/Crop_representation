@@ -141,6 +141,7 @@ def main():
     ap.add_argument("--out", default=None, help="default: output/<YYYY-MM-DD>/<run> (run.py passes it explicitly)")
     ap.add_argument("--resume", action=argparse.BooleanOptionalAction, default=False)   # --resume / --no-resume
     ap.add_argument("--slots", default="", help="overfit only: json list of fixed step slot lists (repeated)")
+    ap.add_argument("--viz", action=argparse.BooleanOptionalAction, default=True, help="<out>/viz/step_<step>.png at every dev eval")
     a = with_config(ap)        # --config configs/raev2_crop_recon/train/<run>.yaml; CLI flags override the YAML
     # Multi-GPU (torchrun --nproc_per_node N): every rank loads the same stream row, takes micro-batches rank, rank+N, ... and the
     # gradients are summed with all_reduce -> the same update as single-GPU accumulation (up to float summation order).
@@ -206,8 +207,14 @@ def main():
     ps_all = [p for p in m.parameters() if p.requires_grad]
     dv_slots = fixed if a.slots else DR.seq_slots(ds_dv, 16)      # overfit: evaluate on the same fixed 256 ROIs
     dv_loader = lambda: DR.loader(ds_dv, dv_slots, 6)
+    snap = None
+    if main0 and a.viz and a.eval_every:
+        from src.viz.progress import Snapshot
+        snap = Snapshot(rae, P, dev)               # fixed dev ROIs: GT / teacher / bilinear / current model
     if step == 0 and a.eval_every and main0:
         ev = evaluate(m, rae, lp, dv_loader(), dev, P, a.beta, a.dev_max or None)
+        if snap:
+            snap.save(m, 0, a.out)
         for f in (log, sys.stdout):
             print(json.dumps(dict(step=0, dev=ev)), file=f, flush=True)
     torch.cuda.reset_peak_memory_stats()
@@ -265,6 +272,8 @@ def main():
         do_eval = a.eval_every and (step % a.eval_every == 0 or step == a.steps)
         if (do_eval or step in save_at) and main0:
             ev = evaluate(m, rae, lp, dv_loader(), dev, P, a.beta, a.dev_max or None) if do_eval else None
+            if do_eval and snap:
+                snap.save(m, step, a.out)
             if step in save_at or step == a.steps:
                 torch.save(dict(arch="mlr", source="final", state_dict=m.state_dict(), step=step, dev=ev, cfg=cfg), os.path.join(a.out, f"ckpt_{step}.pt"))
             torch.save(dict(state_dict=m.state_dict(), opt=opt.state_dict(), sched=sched.state_dict(), step=step,
