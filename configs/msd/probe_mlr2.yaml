@@ -1,0 +1,8 @@
+# Reference: Full Multi-layer + R2 (blocks 4/8/12, direct read of the full-image tokens), same PACO protocol (dev held out).
+name: probe_mlr2
+mode: full
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2}

@@ -1,0 +1,9 @@
+# PACO R2 probe on the FROZEN encoder + COCO-pretrained S-series decoder B0 (dev-selected checkpoint); same protocol as configs/msd.
+name: probe_B0
+mode: dec
+seed: 0
+epochs: 10
+decoder: output/2026-11-05/sdec/B0/best_dev.pt
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2, layers: [12]}

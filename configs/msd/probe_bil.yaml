@@ -1,0 +1,9 @@
+# Reference: no decoder, bilinear read of the frozen original block-12 map at the crop grid (same R2 / geometry as H0-H3).
+name: probe_bil
+mode: dec
+seed: 0
+epochs: 10
+decoder: bilinear
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2, layers: [12]}

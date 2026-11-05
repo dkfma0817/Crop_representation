@@ -1,0 +1,9 @@
+# PACO R2 probe on the FROZEN COCO-pretrained student encoder + ROI decoder of H3 (dev-selected checkpoint).
+name: probe_H3
+mode: dec
+seed: 0
+epochs: 10
+decoder: output/2026-11-05/msd/H3/best_dev.pt
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2, layers: [12]}

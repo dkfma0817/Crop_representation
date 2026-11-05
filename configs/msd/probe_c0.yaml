@@ -1,0 +1,8 @@
+# Reference: GT crop C0 (original-pixel crop re-encoded per ROI), final layer R2, same PACO protocol (dev held out).
+name: probe_c0
+mode: c0
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2, layers: [12]}
