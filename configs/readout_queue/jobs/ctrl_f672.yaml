@@ -1,0 +1,9 @@
+# E12 teacher: the SAME 336 canvas upsampled x2 (bicubic, no new pixels) -> DINOv2 at 672 (48x48 tokens),
+# Multi-layer + R2 with the baseline's settings on the same real ROIs. Train-set predictions saved for E12.
+name: ctrl_f672
+mode: f672
+seed: 0
+epochs: 10
+readers:
+  - {name: f672_ml_r2, kind: r2}
+score_train: [f672_ml_r2]

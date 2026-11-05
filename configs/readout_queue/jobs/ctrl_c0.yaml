@@ -1,0 +1,7 @@
+# C0 crop reference for D0 only (original-pixel GT crop -> 336 letterbox, final layer, R2, crop-grid geometry). Not a teacher.
+name: ctrl_c0
+mode: c0
+seed: 0
+epochs: 10
+readers:
+  - {name: c0_r2, kind: r2, layers: [12]}

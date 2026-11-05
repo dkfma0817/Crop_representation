@@ -1,0 +1,11 @@
+# E08 repeated readout of the same shared features. Loss on the final output only; every step's prediction recorded.
+# x1 = one cross-attention read; x3 = the same block (shared weights) reads 3 times;
+# ffn3 = reads once, then 2 extra passes of the block's own FFN (same params / extra compute, no re-reading).
+name: E08
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: e08_x1, kind: rep, T: 1}
+  - {name: e08_x3, kind: rep, T: 3}
+  - {name: e08_ffn3, kind: ffn, T: 3}

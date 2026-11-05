@@ -1,0 +1,10 @@
+# E11 local/context: concat (one stream over local + context tokens, primary control) vs gate (separate local and
+# context readouts + learnable gate); ctx = context-only ablation. Same tokens, same output dimension.
+name: E11
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: e11_concat, kind: concat}
+  - {name: e11_gate, kind: gate}
+  - {name: e11_ctx, kind: ctx}

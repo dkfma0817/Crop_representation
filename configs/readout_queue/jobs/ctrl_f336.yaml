@@ -1,0 +1,9 @@
+# Controls on F336 (one shared encoder forward). ml_r2 = this queue's COMMON BASELINE "Multi-layer + R2"
+# (blocks 4/8/12; defined here, not claimed to reproduce the 11-04 run). r2_final = final layer only (earlier "F336 R2").
+name: ctrl_f336
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: ml_r2, kind: r2}
+  - {name: r2_final, kind: r2, layers: [12]}

@@ -1,0 +1,8 @@
+# E09 adaptive vs fixed 36-point sampling of the SAME fused F336 features (same reader, data, loss; no new pixels).
+name: E09
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: e09_ads, kind: ads, K: 36}
+  - {name: e09_fix, kind: fix, K: 36}

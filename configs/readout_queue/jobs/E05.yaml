@@ -1,0 +1,8 @@
+# E05 ROI binding: BCE + within-image ROI ranking loss (explicit pos/neg only, same level, lambda 0.5).
+# Control = ctrl_f336/ml_r2: identical batches (the same ROI pairs are in every step), BCE only.
+name: E05
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: e05_bind, kind: r2, bind: 0.5}

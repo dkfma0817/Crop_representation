@@ -1,0 +1,9 @@
+# E12 scale decision consistency: F336 student (baseline Multi-layer + R2) + BCE to the F672 teacher's sigmoid
+# predictions on all 59 attributes of the same real ROI (lambda 1.0). Control = ctrl_f336/ml_r2 (BCE only).
+# Inference uses F336 only. __RUN__ is filled by the queue (READOUT_RUN).
+name: E12
+mode: full
+seed: 0
+epochs: 10
+readers:
+  - {name: e12_cons, kind: r2, kd: {teacher: __RUN__/ctrl_f672/f672_ml_r2/scores_train_final.npy, lam: 1.0}}
