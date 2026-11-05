@@ -1,0 +1,122 @@
+[
+ {
+  "group": "G1",
+  "row": 7097,
+  "ann_id": 1476592,
+  "attr": 0,
+  "attr_name": "black",
+  "level": "part",
+  "category": "bicycle:head_tube",
+  "n_in": 2
+ },
+ {
+  "group": "G1",
+  "row": 5725,
+  "ann_id": 1410240,
+  "attr": 51,
+  "attr_name": "plastic",
+  "level": "part",
+  "category": "microwave_oven:control_panel",
+  "n_in": 4
+ },
+ {
+  "group": "G1",
+  "row": 9388,
+  "ann_id": 1593459,
+  "attr": 53,
+  "attr_name": "ceramic",
+  "level": "part",
+  "category": "plate:inner_wall",
+  "n_in": 180
+ },
+ {
+  "group": "G2",
+  "row": 170,
+  "ann_id": 66324,
+  "attr": 5,
+  "attr_name": "brown",
+  "level": "object",
+  "category": "mirror",
+  "n_in": 42
+ },
+ {
+  "group": "G2",
+  "row": 765,
+  "ann_id": 285012,
+  "attr": 44,
+  "attr_name": "fabric",
+  "level": "object",
+  "category": "shoe",
+  "n_in": 6
+ },
+ {
+  "group": "G2",
+  "row": 409,
+  "ann_id": 150839,
+  "attr": 55,
+  "attr_name": "opaque",
+  "level": "object",
+  "category": "plate",
+  "n_in": 432
+ },
+ {
+  "group": "G3",
+  "row": 6759,
+  "ann_id": 1458249,
+  "attr": 8,
+  "attr_name": "green",
+  "level": "part",
+  "category": "mug:handle",
+  "n_in": 4
+ },
+ {
+  "group": "G3",
+  "row": 4966,
+  "ann_id": 1365993,
+  "attr": 4,
+  "attr_name": "light_brown",
+  "level": "part",
+  "category": "bench:back",
+  "n_in": 48
+ },
+ {
+  "group": "G3",
+  "row": 10044,
+  "ann_id": 1626643,
+  "attr": 9,
+  "attr_name": "dark_green",
+  "level": "part",
+  "category": "bucket:handle",
+  "n_in": 12
+ },
+ {
+  "group": "G4",
+  "row": 8105,
+  "ann_id": 1529361,
+  "attr": 54,
+  "attr_name": "other(material)",
+  "level": "part",
+  "category": "dog:nose",
+  "n_in": 2
+ },
+ {
+  "group": "G4",
+  "row": 6133,
+  "ann_id": 1427254,
+  "attr": 44,
+  "attr_name": "fabric",
+  "level": "part",
+  "category": "shoe:toe_box",
+  "n_in": 2
+ },
+ {
+  "group": "G4",
+  "row": 7109,
+  "ann_id": 1477005,
+  "attr": 25,
+  "attr_name": "white",
+  "level": "part",
+  "category": "shoe:outsole",
+  "n_in": 2
+ }
+]

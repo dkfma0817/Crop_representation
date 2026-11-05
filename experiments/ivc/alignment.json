@@ -1,0 +1,92 @@
+{
+ "analytic": {
+  "n_roi": 11109,
+  "max_err_canvas_px": 9.834496694338668e-06,
+  "mean_roi_max_err_canvas_px": 3.756411872496413e-06,
+  "worst": [
+   9.834496694338668e-06,
+   [
+    612,
+    612,
+    0,
+    0,
+    611,
+    166
+   ]
+  ],
+  "n_valid_cells": 3890448,
+  "frac_valid_cells_border_clamped": 0.020556244422236206,
+  "frac_valid_cells_outside_image_content": 0.0031461672280416035,
+  "note": "error = |independent formula - roi_geometry bil_grid| in full-canvas px (float32 storage of the grid)"
+ },
+ "synthetic": {
+  "bilinear": {
+   "n_cells_in_hull": 683939,
+   "max_err_in_hull_px": 7.677078247070312e-05,
+   "n_cells_border": 14581,
+   "mean_err_border_px": 3.3838593125400553,
+   "max_err_border_px": 11.083938598632812
+  },
+  "bicubic": {
+   "n_cells_in_hull": 683939,
+   "max_err_in_hull_px": 1.347391128540039,
+   "n_cells_border": 14581,
+   "mean_err_border_px": 2.317762700526004,
+   "max_err_border_px": 10.723373413085938
+  },
+  "note": "sampled value of a map whose channels are the full-canvas X / Y of each cell centre vs the target point; border = target within 7 px of the canvas edge (clamped)"
+ },
+ "shift_scan": {
+  "n_roi": 600,
+  "shifts_px": [
+   -14,
+   -7,
+   0,
+   7,
+   14
+  ],
+  "mean_cos": [
+   [
+    0.2967,
+    0.3288,
+    0.3418,
+    0.3282,
+    0.2963
+   ],
+   [
+    0.3358,
+    0.3869,
+    0.4104,
+    0.3877,
+    0.3367
+   ],
+   [
+    0.3528,
+    0.4129,
+    0.4415,
+    0.4146,
+    0.3547
+   ],
+   [
+    0.336,
+    0.3857,
+    0.4093,
+    0.3878,
+    0.3387
+   ],
+   [
+    0.298,
+    0.3287,
+    0.3425,
+    0.3306,
+    0.3007
+   ]
+  ],
+  "frac_roi_argmax_at_0": 0.7116666666666667,
+  "mean_peak_offset_px": {
+   "dx": 0.11175924863591617,
+   "dy": -0.06083286730858121
+  },
+  "note": "bicubic read, grid shifted by (dx, dy) full-canvas px (14 px = 1 full cell); value = coverage-weighted mean token cosine to C0"
+ }
+}

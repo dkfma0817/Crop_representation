@@ -1,0 +1,122 @@
+[
+ {
+  "group": "G1",
+  "row": 6598,
+  "ann_id": 1450193,
+  "attr": 44,
+  "attr_name": "fabric",
+  "level": "part",
+  "category": "handbag:zip",
+  "n_in": 5
+ },
+ {
+  "group": "G1",
+  "row": 5262,
+  "ann_id": 1380993,
+  "attr": 17,
+  "attr_name": "pink",
+  "level": "part",
+  "category": "box:lid",
+  "n_in": 10
+ },
+ {
+  "group": "G1",
+  "row": 9351,
+  "ann_id": 1591260,
+  "attr": 0,
+  "attr_name": "black",
+  "level": "part",
+  "category": "telephone:button",
+  "n_in": 2
+ },
+ {
+  "group": "G2",
+  "row": 170,
+  "ann_id": 66324,
+  "attr": 30,
+  "attr_name": "plain",
+  "level": "object",
+  "category": "mirror",
+  "n_in": 42
+ },
+ {
+  "group": "G2",
+  "row": 767,
+  "ann_id": 285557,
+  "attr": 52,
+  "attr_name": "glass",
+  "level": "object",
+  "category": "cellular_telephone",
+  "n_in": 156
+ },
+ {
+  "group": "G2",
+  "row": 416,
+  "ann_id": 151806,
+  "attr": 5,
+  "attr_name": "brown",
+  "level": "object",
+  "category": "box",
+  "n_in": 9
+ },
+ {
+  "group": "G3",
+  "row": 6804,
+  "ann_id": 1460958,
+  "attr": 9,
+  "attr_name": "dark_green",
+  "level": "part",
+  "category": "can:text",
+  "n_in": 4
+ },
+ {
+  "group": "G3",
+  "row": 4966,
+  "ann_id": 1365993,
+  "attr": 36,
+  "attr_name": "perforated",
+  "level": "part",
+  "category": "bench:back",
+  "n_in": 48
+ },
+ {
+  "group": "G3",
+  "row": 10149,
+  "ann_id": 1633660,
+  "attr": 47,
+  "attr_name": "leather",
+  "level": "part",
+  "category": "shoe:toe_box",
+  "n_in": 1
+ },
+ {
+  "group": "G4",
+  "row": 8256,
+  "ann_id": 1536128,
+  "attr": 49,
+  "attr_name": "metal",
+  "level": "part",
+  "category": "fan:rod",
+  "n_in": 4
+ },
+ {
+  "group": "G4",
+  "row": 6298,
+  "ann_id": 1433467,
+  "attr": 57,
+  "attr_name": "transparent",
+  "level": "part",
+  "category": "bottle:body",
+  "n_in": 15
+ },
+ {
+  "group": "G4",
+  "row": 7169,
+  "ann_id": 1480733,
+  "attr": 1,
+  "attr_name": "light_blue",
+  "level": "part",
+  "category": "laptop_computer:screen",
+  "n_in": 130
+ }
+]
