@@ -1,0 +1,12 @@
+# B. F336 + bicubic ROI sampling (same grid / border / align_corners=False, mode bicubic), no decoder
+# Readers R0 + R2 trained in the same process on the same encoder forward (each reader its own init seed 7 / optimizer).
+name: ivc_bic
+mode: dec
+decoder: bilinear
+interp: bicubic
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r0, kind: r0}
+  - {name: r2, kind: r2, layers: [12]}
