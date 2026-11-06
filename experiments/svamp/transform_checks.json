@@ -1,0 +1,19 @@
+{
+ "mean_pres_max_abs": 6.67572021484375e-06,
+ "mean_pres_max_rel": 2.6596919155963406e-07,
+ "invalid_max_abs": 0.0,
+ "r0_pooled_max_abs": 6.67572021484375e-06,
+ "cov_c_vs_valid_w_max_abs": 0.0,
+ "sv_scale_err_max": {
+  "V0": 0.0,
+  "V1": 4.6609200188285627e-07,
+  "V2": 7.055357462704137e-07,
+  "V3": 1.1469463894187015e-06
+ },
+ "o2_mean_max_abs": 3.814697265625e-06,
+ "o2_sv_ratio_dev_max": 2.980232238769531e-07,
+ "n_invalid_cells": 2508336,
+ "n_roi": 11109,
+ "time_s": 1569,
+ "device": "cpu"
+}

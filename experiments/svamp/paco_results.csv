@@ -1,0 +1,397 @@
+method,reader,metric,column,epoch,dev_M0,value,source,note
+V0 Bicubic,R2,M0,Overall,6,47.80477998055795,42.71390306171952,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Obj D5-16,6,47.80477998055795,46.471616175237344,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Obj D1-4,6,47.80477998055795,71.81552615738312,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Obj D17+,6,47.80477998055795,54.06036017085994,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Part D1-4,6,47.80477998055795,40.10006425332352,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Part D5-16,6,47.80477998055795,48.29570583836764,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Object,6,47.80477998055795,45.43899813209975,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Part,6,47.80477998055795,40.186996723730566,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Color,6,47.80477998055795,24.334916641316063,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Material,6,47.80477998055795,73.8695124171306,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M0,Pattern,6,47.80477998055795,43.99878269350958,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Overall,6,47.80477998055795,44.05486846108179,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Obj D5-16,6,47.80477998055795,32.84671341122901,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Obj D1-4,6,47.80477998055795,,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Obj D17+,6,47.80477998055795,55.58452104392233,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Part D1-4,6,47.80477998055795,18.73010268180872,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Part D5-16,6,47.80477998055795,46.24253993322308,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Object,6,47.80477998055795,43.88249759115559,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Part,6,47.80477998055795,44.22723933100799,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Color,6,47.80477998055795,36.209541577336616,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Material,6,47.80477998055795,39.60877696431923,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R2,M2,Pattern,6,47.80477998055795,49.27916119943031,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Overall,10,42.575813966932294,37.03823029038576,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Obj D5-16,10,42.575813966932294,43.829342845143195,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Obj D1-4,10,42.575813966932294,69.10668167892547,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Obj D17+,10,42.575813966932294,47.121843922575,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Part D1-4,10,42.575813966932294,36.311871139624465,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Part D5-16,10,42.575813966932294,44.52295362286643,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Object,10,42.575813966932294,40.03176331807495,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Part,10,42.575813966932294,34.26240875561942,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Color,10,42.575813966932294,18.618663281769802,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Material,10,42.575813966932294,68.10422815337769,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M0,Pattern,10,42.575813966932294,37.33384716962034,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Overall,10,42.575813966932294,35.81792822543809,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Obj D5-16,10,42.575813966932294,25.33525248379178,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Obj D1-4,10,42.575813966932294,,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Obj D17+,10,42.575813966932294,45.158371589696955,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Part D1-4,10,42.575813966932294,16.398311774207862,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Part D5-16,10,42.575813966932294,39.92305782138155,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Object,10,42.575813966932294,36.47924243781466,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Part,10,42.575813966932294,35.15661401306152,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Color,10,42.575813966932294,26.36648530493365,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Material,10,42.575813966932294,29.89469816943442,output/2026-11-05/ivc/probe_bic,
+V0 Bicubic,R0,M2,Pattern,10,42.575813966932294,37.88869458020713,output/2026-11-05/ivc/probe_bic,
+V1 x1.25,R2,M0,Overall,6,48.16499198336602,42.63513191766485,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Obj D5-16,6,48.16499198336602,46.27467135342258,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Obj D1-4,6,48.16499198336602,71.30469886868018,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Obj D17+,6,48.16499198336602,53.98571025293371,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Part D1-4,6,48.16499198336602,40.517453580976756,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Part D5-16,6,48.16499198336602,48.24127436052558,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Object,6,48.16499198336602,45.28573148047944,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Part,6,48.16499198336602,40.17730323214584,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Color,6,48.16499198336602,24.432442542283408,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Material,6,48.16499198336602,74.32340845385379,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M0,Pattern,6,48.16499198336602,42.760382672991256,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Overall,6,48.16499198336602,42.96033405056105,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Obj D5-16,6,48.16499198336602,35.282860637989835,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Obj D1-4,6,48.16499198336602,,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Obj D17+,6,48.16499198336602,58.389401300093205,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Part D1-4,6,48.16499198336602,21.5427927433417,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Part D5-16,6,48.16499198336602,46.54135782948898,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Object,6,48.16499198336602,43.2970624058553,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Part,6,48.16499198336602,42.6236056952668,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Color,6,48.16499198336602,36.4653546571191,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Material,6,48.16499198336602,37.427111696385424,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V1 x1.25,R2,M2,Pattern,6,48.16499198336602,45.6949387184408,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V1,
+V2 x1.5,R2,M0,Overall,6,47.86103538411474,42.4498260515133,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Obj D5-16,6,47.86103538411474,46.44818826575852,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Obj D1-4,6,47.86103538411474,70.9541726690726,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Obj D17+,6,47.86103538411474,54.27543631556212,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Part D1-4,6,47.86103538411474,40.82584946645445,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Part D5-16,6,47.86103538411474,47.674298212877325,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Object,6,47.86103538411474,45.189957102085785,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Part,6,47.86103538411474,39.90897725916424,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Color,6,47.86103538411474,24.305342141559823,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Material,6,47.86103538411474,73.57450892272061,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M0,Pattern,6,47.86103538411474,43.084230590139335,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Overall,6,47.86103538411474,43.86047999711674,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Obj D5-16,6,47.86103538411474,35.797315845730395,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Obj D1-4,6,47.86103538411474,,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Obj D17+,6,47.86103538411474,56.981331668185064,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Part D1-4,6,47.86103538411474,22.44532755528662,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Part D5-16,6,47.86103538411474,46.91897591560526,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Object,6,47.86103538411474,43.45459531526789,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Part,6,47.86103538411474,44.266364678965594,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Color,6,47.86103538411474,36.79045723658507,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Material,6,47.86103538411474,38.82207936057437,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V2 x1.5,R2,M2,Pattern,6,47.86103538411474,48.666296759673656,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V2,
+V3 x2.0,R2,M0,Overall,6,47.706537937002,42.36168143212841,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Obj D5-16,6,47.706537937002,46.62219118779121,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Obj D1-4,6,47.706537937002,69.6938937920463,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Obj D17+,6,47.706537937002,53.722109491290084,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Part D1-4,6,47.706537937002,40.77076260082092,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Part D5-16,6,47.706537937002,48.18650476213971,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Object,6,47.706537937002,44.896982709811226,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Part,6,47.706537937002,40.0107657019134,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Color,6,47.706537937002,24.297719718323343,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Material,6,47.706537937002,72.5724374130126,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M0,Pattern,6,47.706537937002,43.90748878911134,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Overall,6,47.706537937002,43.16649431618136,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Obj D5-16,6,47.706537937002,34.37263424201171,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Obj D1-4,6,47.706537937002,,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Obj D17+,6,47.706537937002,54.4198502468753,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Part D1-4,6,47.706537937002,26.26392793351004,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Part D5-16,6,47.706537937002,47.264287588746114,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Object,6,47.706537937002,43.37748952454346,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Part,6,47.706537937002,42.95549910781925,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Color,6,47.706537937002,36.21614889731754,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Material,6,47.706537937002,35.89023145649941,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+V3 x2.0,R2,M2,Pattern,6,47.706537937002,48.55119035450774,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_V3,
+O2 C0 Spatial Oracle,R2,M0,Overall,6,51.524958910720386,46.12518229133291,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Obj D5-16,6,51.524958910720386,52.55588880538101,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Obj D1-4,6,51.524958910720386,78.61138846808214,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Obj D17+,6,51.524958910720386,55.792818063449715,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Part D1-4,6,51.524958910720386,45.69668041494535,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Part D5-16,6,51.524958910720386,53.19284351358572,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Object,6,51.524958910720386,48.489067577311026,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Part,6,51.524958910720386,43.93321593524414,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Color,6,51.524958910720386,27.412616994607987,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Material,6,51.524958910720386,75.81005711042242,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M0,Pattern,6,51.524958910720386,50.3124894502244,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Overall,6,51.524958910720386,48.97551085435767,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Obj D5-16,6,51.524958910720386,42.563114475961186,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Obj D1-4,6,51.524958910720386,,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Obj D17+,6,51.524958910720386,54.32207355328029,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Part D1-4,6,51.524958910720386,25.19878948824546,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Part D5-16,6,51.524958910720386,55.186768834743674,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Object,6,51.524958910720386,49.38386490488293,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Part,6,51.524958910720386,48.56715680383241,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Color,6,51.524958910720386,42.28785147091442,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Material,6,51.524958910720386,42.392243843204,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+O2 C0 Spatial Oracle,R2,M2,Pattern,6,51.524958910720386,58.177959980911396,/home/irteam/Crop_representation/output/2026-11-05/svamp/results/probe_O2,
+C0 Full Oracle,R2,M0,Overall,5,51.231083416826216,45.447813696864934,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Obj D5-16,5,51.231083416826216,54.916099333025535,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Obj D1-4,5,51.231083416826216,79.18191405961727,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Obj D17+,5,51.231083416826216,55.42770367467887,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Part D1-4,5,51.231083416826216,39.07099097189749,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Part D5-16,5,51.231083416826216,51.91180837922036,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Object,5,51.231083416826216,49.31274934954713,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Part,5,51.231083416826216,41.86396427346866,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Color,5,51.231083416826216,27.98805125553458,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Material,5,51.231083416826216,72.38665428497303,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M0,Pattern,5,51.231083416826216,50.1405752196108,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Overall,5,51.231083416826216,47.71660491174907,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Obj D5-16,5,51.231083416826216,43.360299970300396,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Obj D1-4,5,51.231083416826216,,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Obj D17+,5,51.231083416826216,59.432740836681845,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Part D1-4,5,51.231083416826216,24.949325135009012,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Part D5-16,5,51.231083416826216,50.029438621833464,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Object,5,51.231083416826216,49.14035449611267,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Part,5,51.231083416826216,46.29285532738547,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Color,5,51.231083416826216,43.19128472207376,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Material,5,51.231083416826216,42.1194895982298,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R2,M2,Pattern,5,51.231083416826216,54.112573764281066,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Overall,10,45.44811789913022,39.63603253477196,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Obj D5-16,10,45.44811789913022,48.83529593932111,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Obj D1-4,10,45.44811789913022,74.59523220678037,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Obj D17+,10,45.44811789913022,48.522500826589955,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Part D1-4,10,45.44811789913022,35.02231251976299,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Part D5-16,10,45.44811789913022,45.25781347941095,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Object,10,45.44811789913022,43.76959911946741,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Part,10,45.44811789913022,35.80308897441799,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Color,10,45.44811789913022,20.35035900149968,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Material,10,45.44811789913022,69.83206933638135,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M0,Pattern,10,45.44811789913022,43.696372570248556,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Overall,10,45.44811789913022,40.121760023443834,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Obj D5-16,10,45.44811789913022,34.86013313878974,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Obj D1-4,10,45.44811789913022,,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Obj D17+,10,45.44811789913022,46.947971521259966,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Part D1-4,10,45.44811789913022,18.226460315857455,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Part D5-16,10,45.44811789913022,54.79553733675095,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Object,10,45.44811789913022,40.36319163616567,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Part,10,45.44811789913022,39.88032841072199,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Color,10,45.44811789913022,28.82677294340985,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Material,10,45.44811789913022,34.47594877948185,output/2026-11-05/ivc/probe_c0,
+C0 Full Oracle,R0,M2,Pattern,10,45.44811789913022,47.28312773191501,output/2026-11-05/ivc/probe_c0,
+R00 (xdec),R2,M0,Overall,8,47.27914520138779,41.39202830349111,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Obj D5-16,8,47.27914520138779,46.44161570262651,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Obj D1-4,8,47.27914520138779,66.94301396413839,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Obj D17+,8,47.27914520138779,51.776989582102885,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Part D1-4,8,47.27914520138779,39.54753627488736,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Part D5-16,8,47.27914520138779,47.99826700224253,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Object,8,47.27914520138779,43.901106133800845,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Part,8,47.27914520138779,39.06542886084025,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Color,8,47.27914520138779,22.52621521988282,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Material,8,47.27914520138779,72.74749218396886,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M0,Pattern,8,47.27914520138779,43.334691112476285,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Overall,8,47.27914520138779,41.33408735379887,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Obj D5-16,8,47.27914520138779,40.731134750837036,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Obj D1-4,8,47.27914520138779,,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Obj D17+,8,47.27914520138779,51.67773324040724,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Part D1-4,8,47.27914520138779,24.41310942339249,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Part D5-16,8,47.27914520138779,48.91061544545157,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Object,8,47.27914520138779,41.322223021837836,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Part,8,47.27914520138779,41.34595168575991,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Color,8,47.27914520138779,34.71306160499978,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Material,8,47.27914520138779,36.21601701207242,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R2,M2,Pattern,8,47.27914520138779,43.73595385314656,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Overall,10,42.97481926284491,37.78865405270205,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Obj D5-16,10,42.97481926284491,43.45289381548244,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Obj D1-4,10,42.97481926284491,65.8138347728747,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Obj D17+,10,42.97481926284491,47.80524994017675,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Part D1-4,10,42.97481926284491,35.574891727186674,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Part D5-16,10,42.97481926284491,43.287604362666706,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Object,10,42.97481926284491,40.987352797879,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Part,10,42.97481926284491,34.822587943537975,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Color,10,42.97481926284491,18.705305440266493,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Material,10,42.97481926284491,69.52511460420074,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M0,Pattern,10,42.97481926284491,39.45901408655546,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Overall,10,42.97481926284491,35.65160077237789,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Obj D5-16,10,42.97481926284491,24.99551818848742,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Obj D1-4,10,42.97481926284491,,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Obj D17+,10,42.97481926284491,46.548361015405064,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Part D1-4,10,42.97481926284491,22.023813194476862,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Part D5-16,10,42.97481926284491,40.45489673152515,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Object,10,42.97481926284491,36.83884053533413,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Part,10,42.97481926284491,34.464361009421644,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Color,10,42.97481926284491,25.857878768697333,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Material,10,42.97481926284491,29.76649452662213,output/2026-11-05/xdec/results/probe_R00,
+R00 (xdec),R0,M2,Pattern,10,42.97481926284491,39.76564786606632,output/2026-11-05/xdec/results/probe_R00,
+E3 (xdec),R2,M0,Overall,8,47.3264474513114,41.54706132682981,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Obj D5-16,8,47.3264474513114,46.88057707507742,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Obj D1-4,8,47.3264474513114,69.75912331681809,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Obj D17+,8,47.3264474513114,51.13446647419744,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Part D1-4,8,47.3264474513114,39.76014810111273,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Part D5-16,8,47.3264474513114,48.535074544001034,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Object,8,47.3264474513114,44.121061951243675,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Part,8,47.3264474513114,39.16026074782785,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Color,8,47.3264474513114,22.933129499860996,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Material,8,47.3264474513114,74.3733510015488,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M0,Pattern,8,47.3264474513114,41.40014090587551,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Overall,8,47.3264474513114,41.0273951262426,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Obj D5-16,8,47.3264474513114,40.22551841706387,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Obj D1-4,8,47.3264474513114,,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Obj D17+,8,47.3264474513114,53.141052141487656,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Part D1-4,8,47.3264474513114,24.546602023570475,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Part D5-16,8,47.3264474513114,42.28656114060875,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Object,8,47.3264474513114,40.83401756540662,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Part,8,47.3264474513114,41.220772687078586,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Color,8,47.3264474513114,34.972066449260794,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Material,8,47.3264474513114,38.11444475463367,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R2,M2,Pattern,8,47.3264474513114,42.47840783978662,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Overall,10,41.56630150736036,35.87243507305327,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Obj D5-16,10,41.56630150736036,42.96807722689246,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Obj D1-4,10,41.56630150736036,67.05751790244989,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Obj D17+,10,41.56630150736036,43.868643290087,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Part D1-4,10,41.56630150736036,34.01325382078362,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Part D5-16,10,41.56630150736036,42.430865722694726,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Object,10,41.56630150736036,38.8250552796134,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Part,10,41.56630150736036,33.13455088151567,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Color,10,41.56630150736036,17.846645980066498,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Material,10,41.56630150736036,67.5235384461933,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M0,Pattern,10,41.56630150736036,35.199997816689105,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Overall,10,41.56630150736036,32.94340999188063,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Obj D5-16,10,41.56630150736036,28.242479144071353,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Obj D1-4,10,41.56630150736036,,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Obj D17+,10,41.56630150736036,40.660139203515286,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Part D1-4,10,41.56630150736036,22.66373713059763,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Part D5-16,10,41.56630150736036,38.888795488906894,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Object,10,41.56630150736036,33.87678711122169,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Part,10,41.56630150736036,32.010032872539576,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Color,10,41.56630150736036,26.696967119734605,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Material,10,41.56630150736036,28.11602413800619,output/2026-11-05/xdec/results/probe_E3,
+E3 (xdec),R0,M2,Pattern,10,41.56630150736036,33.287962476545154,output/2026-11-05/xdec/results/probe_E3,
+E6 (xdec),R2,M0,Overall,6,47.05683738568174,42.70424406592232,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Obj D5-16,6,47.05683738568174,47.52551000882629,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Obj D1-4,6,47.05683738568174,68.45286501284804,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Obj D17+,6,47.05683738568174,53.196465059670714,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Part D1-4,6,47.05683738568174,41.19207087373949,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Part D5-16,6,47.05683738568174,48.22487397645005,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Object,6,47.05683738568174,45.04506681031031,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Part,6,47.05683738568174,40.53366297567161,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Color,6,47.05683738568174,24.75823568380525,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Material,6,47.05683738568174,73.14652834288194,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M0,Pattern,6,47.05683738568174,43.64807734405273,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Overall,6,47.05683738568174,43.4321048568389,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Obj D5-16,6,47.05683738568174,34.49890866192111,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Obj D1-4,6,47.05683738568174,,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Obj D17+,6,47.05683738568174,58.52665580368055,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Part D1-4,6,47.05683738568174,27.242546891239172,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Part D5-16,6,47.05683738568174,49.130870185096796,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Object,6,47.05683738568174,44.0955163587785,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Part,6,47.05683738568174,42.7686933548993,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Color,6,47.05683738568174,37.612410710875565,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Material,6,47.05683738568174,36.375718863454956,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R2,M2,Pattern,6,47.05683738568174,48.218614882517855,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Overall,9,43.60932942306596,38.07387145059397,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Obj D5-16,9,43.60932942306596,44.504400719932185,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Obj D1-4,9,43.60932942306596,69.70458377620514,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Obj D17+,9,43.60932942306596,47.57732493345897,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Part D1-4,9,43.60932942306596,36.908957061108616,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Part D5-16,9,43.60932942306596,44.37360850717242,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Object,9,43.60932942306596,41.14733178548322,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Part,9,43.60932942306596,35.22393550369666,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Color,9,43.60932942306596,19.125897029896063,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Material,9,43.60932942306596,69.36563351384467,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M0,Pattern,9,43.60932942306596,39.69652841005606,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Overall,9,43.60932942306596,35.216997690420165,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Obj D5-16,9,43.60932942306596,25.69896538109625,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Obj D1-4,9,43.60932942306596,,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Obj D17+,9,43.60932942306596,45.556898313100426,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Part D1-4,9,43.60932942306596,17.987384137450125,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Part D5-16,9,43.60932942306596,39.590363695646516,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Object,9,43.60932942306596,36.495250778668144,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Part,9,43.60932942306596,33.938744602172186,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Color,9,43.60932942306596,26.73549063414803,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Material,9,43.60932942306596,28.24939752365696,output/2026-11-05/xdec/results/probe_E6,
+E6 (xdec),R0,M2,Pattern,9,43.60932942306596,38.600808197558564,output/2026-11-05/xdec/results/probe_E6,
+V1 x1.25,R0,M0,Overall,10,42.575813966932294,37.03823029038576,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Obj D5-16,10,42.575813966932294,43.829342845143195,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Obj D1-4,10,42.575813966932294,69.10668167892547,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Obj D17+,10,42.575813966932294,47.121843922575,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Part D1-4,10,42.575813966932294,36.311871139624465,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Part D5-16,10,42.575813966932294,44.52295362286643,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Object,10,42.575813966932294,40.03176331807495,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Part,10,42.575813966932294,34.26240875561942,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Color,10,42.575813966932294,18.618663281769802,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Material,10,42.575813966932294,68.10422815337769,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M0,Pattern,10,42.575813966932294,37.33384716962034,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Overall,10,42.575813966932294,35.81792822543809,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Obj D5-16,10,42.575813966932294,25.33525248379178,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Obj D1-4,10,42.575813966932294,,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Obj D17+,10,42.575813966932294,45.158371589696955,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Part D1-4,10,42.575813966932294,16.398311774207862,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Part D5-16,10,42.575813966932294,39.92305782138155,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Object,10,42.575813966932294,36.47924243781466,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Part,10,42.575813966932294,35.15661401306152,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Color,10,42.575813966932294,26.36648530493365,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Material,10,42.575813966932294,29.89469816943442,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V1 x1.25,R0,M2,Pattern,10,42.575813966932294,37.88869458020713,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Overall,10,42.575813966932294,37.03823029038576,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Obj D5-16,10,42.575813966932294,43.829342845143195,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Obj D1-4,10,42.575813966932294,69.10668167892547,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Obj D17+,10,42.575813966932294,47.121843922575,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Part D1-4,10,42.575813966932294,36.311871139624465,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Part D5-16,10,42.575813966932294,44.52295362286643,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Object,10,42.575813966932294,40.03176331807495,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Part,10,42.575813966932294,34.26240875561942,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Color,10,42.575813966932294,18.618663281769802,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Material,10,42.575813966932294,68.10422815337769,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M0,Pattern,10,42.575813966932294,37.33384716962034,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Overall,10,42.575813966932294,35.81792822543809,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Obj D5-16,10,42.575813966932294,25.33525248379178,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Obj D1-4,10,42.575813966932294,,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Obj D17+,10,42.575813966932294,45.158371589696955,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Part D1-4,10,42.575813966932294,16.398311774207862,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Part D5-16,10,42.575813966932294,39.92305782138155,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Object,10,42.575813966932294,36.47924243781466,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Part,10,42.575813966932294,35.15661401306152,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Color,10,42.575813966932294,26.36648530493365,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Material,10,42.575813966932294,29.89469816943442,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V2 x1.5,R0,M2,Pattern,10,42.575813966932294,37.88869458020713,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Overall,10,42.575813966932294,37.03823029038576,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Obj D5-16,10,42.575813966932294,43.829342845143195,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Obj D1-4,10,42.575813966932294,69.10668167892547,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Obj D17+,10,42.575813966932294,47.121843922575,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Part D1-4,10,42.575813966932294,36.311871139624465,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Part D5-16,10,42.575813966932294,44.52295362286643,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Object,10,42.575813966932294,40.03176331807495,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Part,10,42.575813966932294,34.26240875561942,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Color,10,42.575813966932294,18.618663281769802,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Material,10,42.575813966932294,68.10422815337769,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M0,Pattern,10,42.575813966932294,37.33384716962034,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Overall,10,42.575813966932294,35.81792822543809,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Obj D5-16,10,42.575813966932294,25.33525248379178,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Obj D1-4,10,42.575813966932294,,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Obj D17+,10,42.575813966932294,45.158371589696955,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Part D1-4,10,42.575813966932294,16.398311774207862,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Part D5-16,10,42.575813966932294,39.92305782138155,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Object,10,42.575813966932294,36.47924243781466,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Part,10,42.575813966932294,35.15661401306152,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Color,10,42.575813966932294,26.36648530493365,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Material,10,42.575813966932294,29.89469816943442,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+V3 x2.0,R0,M2,Pattern,10,42.575813966932294,37.88869458020713,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Overall,10,42.575813966932294,37.03823029038576,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Obj D5-16,10,42.575813966932294,43.829342845143195,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Obj D1-4,10,42.575813966932294,69.10668167892547,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Obj D17+,10,42.575813966932294,47.121843922575,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Part D1-4,10,42.575813966932294,36.311871139624465,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Part D5-16,10,42.575813966932294,44.52295362286643,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Object,10,42.575813966932294,40.03176331807495,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Part,10,42.575813966932294,34.26240875561942,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Color,10,42.575813966932294,18.618663281769802,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Material,10,42.575813966932294,68.10422815337769,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M0,Pattern,10,42.575813966932294,37.33384716962034,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Overall,10,42.575813966932294,35.81792822543809,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Obj D5-16,10,42.575813966932294,25.33525248379178,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Obj D1-4,10,42.575813966932294,,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Obj D17+,10,42.575813966932294,45.158371589696955,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Part D1-4,10,42.575813966932294,16.398311774207862,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Part D5-16,10,42.575813966932294,39.92305782138155,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Object,10,42.575813966932294,36.47924243781466,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Part,10,42.575813966932294,35.15661401306152,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Color,10,42.575813966932294,26.36648530493365,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Material,10,42.575813966932294,29.89469816943442,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
+O2 C0 Spatial Oracle,R0,M2,Pattern,10,42.575813966932294,37.88869458020713,output/2026-11-05/ivc/probe_bic,R0 input identical to V0 by construction (max diff <= 4e-6): V0 R0 reused
