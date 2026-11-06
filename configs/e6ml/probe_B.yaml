@@ -1,0 +1,11 @@
+# PACO probe of the FROZEN E6 multi-layer-memory decoder B (checkpoint = min COCO-dev L_old among 3k/6k/9k/12k), R2 + R0.
+# Identical to xdec configs/probe_E6.yaml except the decoder path (src.ivc.train protocol, PACO dev 1,000 for epoch selection).
+name: e6ml_probe_B
+mode: dec
+decoder: output/2026-11-06/e6_multilayer_memory/checkpoints/B/selected.pt
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r0, kind: r0}
+  - {name: r2, kind: r2, layers: [12]}
