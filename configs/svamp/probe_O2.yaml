@@ -1,0 +1,11 @@
+# PACO R2 probe on the FIXED (no learned weights) transform O2 of the xdec Bicubic tensor
+# (src.svamp.feature_transform). Protocol = 11-05 IVC / xdec probe (src.ivc.train): 10 epochs, PACO dev 1,000 train images
+# for epoch selection (max dev M0), val final; R0 is NOT trained: its pooled input equals V0's for every condition (checked).
+name: svamp_probe_O2
+mode: dec
+decoder: output/2026-11-05/svamp/configs/transform_O2.pt
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r2, kind: r2, layers: [12]}
