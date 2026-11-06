@@ -1,0 +1,9 @@
+{
+ "encoder": "declip",
+ "mode": "full",
+ "side": 1024,
+ "epoch": 9,
+ "dev_M0": 51.69160490223435,
+ "n_test_rows": 43718,
+ "n_test_images": 8039
+}

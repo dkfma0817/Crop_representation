@@ -1,0 +1,9 @@
+{
+ "encoder": "eva",
+ "side": 560,
+ "n_images": 4952,
+ "n_boxes": 36334,
+ "n_classes": 80,
+ "top1_macc": 42.27763863441631,
+ "top5_macc": 66.50216470237157
+}

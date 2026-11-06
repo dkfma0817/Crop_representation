@@ -1,0 +1,3 @@
+see conversation log: fp32 vs tf32/bf16/fp16 on 8 COCO val images @1024 (content tokens)
+eva: tf32 mean cos 1.0000 p1 0.9998 min 0.9927 | bf16 mean 0.9978 p1 0.9656 min 0.3195 frac<0.99 0.0299 | fp16 mean 1.0000 p1 0.9995 min 0.9757 frac<0.99 0.0003
+clipself: tf32 mean 1.0000 p1 0.9997 min 0.9876 | bf16 mean 0.9981 p1 0.9675 min 0.4615 frac<0.99 0.0309 | fp16 mean 1.0000 p1 0.9994 min 0.9469 frac<0.99 0.0002

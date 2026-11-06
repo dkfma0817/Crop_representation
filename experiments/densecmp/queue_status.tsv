@@ -1,0 +1,12 @@
+item	status	updated	note
+verify_cpu	DONE	2026-11-06 02:12:55	geometry + params
+qat_pause	DONE	2026-11-06 02:13:01	forced (user instruction), see qat_pause/paused.json
+smoke_gpu	DONE	2026-11-06 02:29:22	train smoke full1024 + c0224 ok
+zeroshot	DONE	2026-11-06 02:29:22	eva 17.5 clipself 71.3 declip 68.0 @1024
+p_eva_full1024	DONE	2026-11-06 03:06:18	028429435, "part/pattern_marking": 55.06928371408569, "part/
+p_clipself_full1024	DONE	2026-11-06 03:45:27	
+p_declip_full1024	DONE	2026-11-06 04:35:54	
+p_eva_c0224	DONE	2026-11-06 04:49:28	
+test	DONE	2026-11-06 04:50:44	4 probes scored once, val re-score max diff 0.0
+qat_resume	DONE	2026-11-06 05:00:56	2026-11-06 04:53:46 torchrun 1745069 checkpoint-30000 step 30054
+report	DONE	2026-11-06 05:03:36	README.md, final_tables.md, results.csv

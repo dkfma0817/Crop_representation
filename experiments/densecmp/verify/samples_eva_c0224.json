@@ -1,0 +1,239 @@
+{
+ "encoder": "eva",
+ "mode": "c0",
+ "side": 224,
+ "path": "v2",
+ "repo": "/home/irteam/ext_repos/CLIPSelf/src",
+ "input": [
+  14,
+  3,
+  224,
+  224
+ ],
+ "feature": [
+  14,
+  196,
+  512
+ ],
+ "token_grid": 14,
+ "feat_norm_mean": 1.0,
+ "rois": [
+  {
+   "row": 875,
+   "ann_id": 328546,
+   "level": "object",
+   "box_ltrb": [
+    338,
+    257,
+    502,
+    393
+   ],
+   "WH": [
+    640,
+    616
+   ],
+   "n_in_dinov2_grid": 42,
+   "roi_tokens_cov_gt0": 168,
+   "cov_sum": 162.75,
+   "box4_canvas": [
+    0.0,
+    19.0,
+    224.0,
+    186.0
+   ],
+   "img_index": 0
+  },
+  {
+   "row": 6499,
+   "ann_id": 1445700,
+   "level": "part",
+   "box_ltrb": [
+    339,
+    258,
+    501,
+    392
+   ],
+   "WH": [
+    640,
+    616
+   ],
+   "n_in_dinov2_grid": 42,
+   "roi_tokens_cov_gt0": 168,
+   "cov_sum": 161.875,
+   "box4_canvas": [
+    0.0,
+    19.0,
+    224.0,
+    185.0
+   ],
+   "img_index": 1
+  },
+  {
+   "row": 1614,
+   "ann_id": 626863,
+   "level": "object",
+   "box_ltrb": [
+    573,
+    237,
+    606,
+    296
+   ],
+   "WH": [
+    640,
+    428
+   ],
+   "n_in_dinov2_grid": 8,
+   "roi_tokens_cov_gt0": 112,
+   "cov_sum": 109.375,
+   "box4_canvas": [
+    49.0,
+    0.0,
+    125.0,
+    224.0
+   ],
+   "img_index": 2
+  },
+  {
+   "row": 8547,
+   "ann_id": 1552401,
+   "level": "part",
+   "box_ltrb": [
+    574,
+    241,
+    599,
+    294
+   ],
+   "WH": [
+    640,
+    428
+   ],
+   "n_in_dinov2_grid": 6,
+   "roi_tokens_cov_gt0": 112,
+   "cov_sum": 92.75,
+   "box4_canvas": [
+    59.0,
+    0.0,
+    106.0,
+    224.0
+   ],
+   "img_index": 3
+  },
+  {
+   "row": 2674,
+   "ann_id": 1074489,
+   "level": "object",
+   "box_ltrb": [
+    0,
+    21,
+    500,
+    417
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 456,
+   "roi_tokens_cov_gt0": 168,
+   "cov_sum": 154.875,
+   "box4_canvas": [
+    0.0,
+    23.0,
+    224.0,
+    177.0
+   ],
+   "img_index": 4
+  },
+  {
+   "row": 3663,
+   "ann_id": 1296649,
+   "level": "part",
+   "box_ltrb": [
+    186,
+    261,
+    274,
+    416
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 48,
+   "roi_tokens_cov_gt0": 112,
+   "cov_sum": 111.125,
+   "box4_canvas": [
+    48.0,
+    0.0,
+    127.0,
+    224.0
+   ],
+   "img_index": 5
+  },
+  {
+   "row": 3664,
+   "ann_id": 1296650,
+   "level": "part",
+   "box_ltrb": [
+    0,
+    41,
+    499,
+    245
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 264,
+   "roi_tokens_cov_gt0": 84,
+   "cov_sum": 80.5,
+   "box4_canvas": [
+    0.0,
+    66.0,
+    224.0,
+    92.0
+   ],
+   "img_index": 6
+  },
+  {
+   "row": 3665,
+   "ann_id": 1296651,
+   "level": "part",
+   "box_ltrb": [
+    0,
+    22,
+    499,
+    185
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 192,
+   "roi_tokens_cov_gt0": 84,
+   "cov_sum": 63.875,
+   "box4_canvas": [
+    0.0,
+    75.0,
+    224.0,
+    73.0
+   ],
+   "img_index": 7
+  }
+ ],
+ "sdpa_shim_vs_repo_math_attention": {
+  "max_abs": 0.11640244722366333,
+  "min_cos": 0.6614702939987183
+ },
+ "load_report": {
+  "ckpt": "/home/irteam/ext_repos/checkpoints/EVA02_CLIP_B_psz16_s8B.pt",
+  "ckpt_meta": {},
+  "n_visual_tensors_model": 286,
+  "n_visual_tensors_ckpt": 286,
+  "missing_in_ckpt": [],
+  "unexpected_in_ckpt": [],
+  "value_mismatch": [],
+  "n_visual_params": 86263040,
+  "repo": "/home/irteam/ext_repos/CLIPSelf/src",
+  "path": "v2",
+  "rope_buffer_maxdiff": 0.00024402141571044922
+ }
+}

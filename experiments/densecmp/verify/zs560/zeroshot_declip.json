@@ -1,0 +1,9 @@
+{
+ "encoder": "declip",
+ "side": 560,
+ "n_images": 4952,
+ "n_boxes": 36334,
+ "n_classes": 80,
+ "top1_macc": 73.0256474798077,
+ "top5_macc": 91.69590481581325
+}

@@ -1,0 +1,40 @@
+{
+ "dinov2_reproduction": {
+  "n_rois": 3000,
+  "n_mismatch": {
+   "letterbox": 0,
+   "roi_geo": 0,
+   "box4": 0,
+   "cov": 0,
+   "crop_geo": 0
+  },
+  "canvas_max_abs_diff": 0.0,
+  "n_canvases": 40
+ },
+ "align_1024": {
+  "n_rois": 600,
+  "max_abs_err_cov": 0.012903690338134766,
+  "mean_abs_err_cov": 0.006364492497717341,
+  "roi_tokens_cov_gt0": {
+   "D1-4": {
+    "n": 20,
+    "min": 15,
+    "median": 19.0,
+    "max": 33
+   },
+   "D5-16": {
+    "n": 255,
+    "min": 18,
+    "median": 42.0,
+    "max": 104
+   },
+   "D17+": {
+    "n": 325,
+    "min": 60,
+    "median": 320.0,
+    "max": 4096
+   }
+  },
+  "zero_token_rois": 0
+ }
+}

@@ -1,0 +1,242 @@
+{
+ "encoder": "declip",
+ "mode": "full",
+ "side": 1024,
+ "path": "qq",
+ "repo": "/home/irteam/ext_repos/DeCLIP/src",
+ "input": [
+  4,
+  3,
+  1024,
+  1024
+ ],
+ "feature": [
+  4,
+  4096,
+  512
+ ],
+ "token_grid": 64,
+ "feat_norm_mean": 1.0,
+ "rois": [
+  {
+   "row": 875,
+   "ann_id": 328546,
+   "level": "object",
+   "box_ltrb": [
+    338,
+    257,
+    502,
+    393
+   ],
+   "WH": [
+    640,
+    616
+   ],
+   "n_in_dinov2_grid": 42,
+   "roi_tokens_cov_gt0": 270,
+   "cov_sum": 223.131,
+   "box4_canvas": [
+    540.8,
+    430.4,
+    262.4,
+    217.7
+   ],
+   "img_index": 0
+  },
+  {
+   "row": 6499,
+   "ann_id": 1445700,
+   "level": "part",
+   "box_ltrb": [
+    339,
+    258,
+    501,
+    392
+   ],
+   "WH": [
+    640,
+    616
+   ],
+   "n_in_dinov2_grid": 42,
+   "roi_tokens_cov_gt0": 270,
+   "cov_sum": 217.168,
+   "box4_canvas": [
+    542.4,
+    432.0,
+    259.2,
+    214.5
+   ],
+   "img_index": 0
+  },
+  {
+   "row": 1614,
+   "ann_id": 626863,
+   "level": "object",
+   "box_ltrb": [
+    573,
+    237,
+    606,
+    296
+   ],
+   "WH": [
+    640,
+    428
+   ],
+   "n_in_dinov2_grid": 8,
+   "roi_tokens_cov_gt0": 28,
+   "cov_sum": 19.476,
+   "box4_canvas": [
+    916.8,
+    548.3,
+    52.8,
+    94.4
+   ],
+   "img_index": 1
+  },
+  {
+   "row": 8547,
+   "ann_id": 1552401,
+   "level": "part",
+   "box_ltrb": [
+    574,
+    241,
+    599,
+    294
+   ],
+   "WH": [
+    640,
+    428
+   ],
+   "n_in_dinov2_grid": 6,
+   "roi_tokens_cov_gt0": 18,
+   "cov_sum": 13.254,
+   "box4_canvas": [
+    918.4,
+    554.7,
+    40.0,
+    84.8
+   ],
+   "img_index": 1
+  },
+  {
+   "row": 2674,
+   "ann_id": 1074489,
+   "level": "object",
+   "box_ltrb": [
+    0,
+    21,
+    500,
+    417
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 456,
+   "roi_tokens_cov_gt0": 3264,
+   "cov_sum": 3243.971,
+   "box4_canvas": [
+    0.0,
+    128.0,
+    1024.0,
+    811.0
+   ],
+   "img_index": 2
+  },
+  {
+   "row": 3663,
+   "ann_id": 1296649,
+   "level": "part",
+   "box_ltrb": [
+    186,
+    261,
+    274,
+    416
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 48,
+   "roi_tokens_cov_gt0": 273,
+   "cov_sum": 223.474,
+   "box4_canvas": [
+    380.9,
+    619.5,
+    180.2,
+    317.4
+   ],
+   "img_index": 2
+  },
+  {
+   "row": 3664,
+   "ann_id": 1296650,
+   "level": "part",
+   "box_ltrb": [
+    0,
+    41,
+    499,
+    245
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 264,
+   "roi_tokens_cov_gt0": 1728,
+   "cov_sum": 1667.794,
+   "box4_canvas": [
+    0.0,
+    169.0,
+    1022.0,
+    417.8
+   ],
+   "img_index": 2
+  },
+  {
+   "row": 3665,
+   "ann_id": 1296651,
+   "level": "part",
+   "box_ltrb": [
+    0,
+    22,
+    499,
+    185
+   ],
+   "WH": [
+    500,
+    417
+   ],
+   "n_in_dinov2_grid": 192,
+   "roi_tokens_cov_gt0": 1344,
+   "cov_sum": 1332.6,
+   "box4_canvas": [
+    0.0,
+    130.1,
+    1022.0,
+    333.8
+   ],
+   "img_index": 2
+  }
+ ],
+ "sdpa_shim_vs_repo_math_attention": {
+  "max_abs": 0.0345676951110363,
+  "min_cos": 0.963958740234375
+ },
+ "load_report": {
+  "ckpt": "/home/irteam/ext_repos/checkpoints/declip_zsss_evab_dinov2B_csa_560_0.25_seg.pt",
+  "ckpt_meta": {
+   "epoch": "6",
+   "name": "evab_dinov2B_qq_560_0.25"
+  },
+  "n_visual_tensors_model": 286,
+  "n_visual_tensors_ckpt": 286,
+  "missing_in_ckpt": [],
+  "unexpected_in_ckpt": [],
+  "value_mismatch": [],
+  "n_visual_params": 86263040,
+  "repo": "/home/irteam/ext_repos/DeCLIP/src",
+  "path": "qq",
+  "rope_buffer_maxdiff": 5.960464477539063e-08
+ }
+}

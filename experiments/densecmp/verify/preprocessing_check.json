@@ -1,0 +1,85 @@
+{
+ "identical_inputs_3_models_40imgs": true,
+ "example": {
+  "image": "000000410337.jpg",
+  "WH": [
+   400,
+   500
+  ],
+  "gt_bbox_xywh": [
+   287.85,
+   215.26,
+   106.2,
+   68.18
+  ],
+  "int_box_ltrb": [
+   287,
+   215,
+   395,
+   284
+  ],
+  "scale": 2.0475,
+  "scale_y": 2.048,
+  "resized_wh": [
+   819,
+   1024
+  ],
+  "pad_offset_xy": [
+   102,
+   0
+  ],
+  "canvas": 1024,
+  "box_canvas_xyxy": [
+   689.63,
+   440.32,
+   910.76,
+   581.63
+  ],
+  "cells_rows": [
+   27,
+   36
+  ],
+  "cells_cols": [
+   43,
+   56
+  ],
+  "n_tokens_cov_gt0": 140,
+  "n_in_dinov2": 24
+ },
+ "pixel_alignment": {
+  "n_rois": 814,
+  "max_edge_err_px": 0.5520000000000209,
+  "mean_edge_err_px": 0.3868626364668526,
+  "p99_edge_err_px": 0.5360000000000508,
+  "painted_cells_outside_cov": 0
+ },
+ "hflip_cov_mirror": {
+  "symmetric_letterbox_imgs": 46,
+  "mirror_ok": 46
+ },
+ "encoder": {
+  "model_image_size": [
+   224,
+   224
+  ],
+  "patch": [
+   16,
+   16
+  ],
+  "tokens_for_1024": 4096,
+  "changed_token_for_cell_37_11": [
+   2379
+  ],
+  "expected": 2379,
+  "pos_embed_shape_after_rescale": [
+   1,
+   4097,
+   768
+  ],
+  "pos_embed_native": [
+   1,
+   197,
+   768
+  ]
+ }
+}

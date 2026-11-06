@@ -1,0 +1,9 @@
+{
+ "encoder": "clipself",
+ "side": 560,
+ "n_images": 4952,
+ "n_boxes": 36334,
+ "n_classes": 80,
+ "top1_macc": 69.4198850170634,
+ "top5_macc": 88.883987824129
+}

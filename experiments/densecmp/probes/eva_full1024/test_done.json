@@ -1,0 +1,9 @@
+{
+ "encoder": "eva",
+ "mode": "full",
+ "side": 1024,
+ "epoch": 8,
+ "dev_M0": 41.25467321511235,
+ "n_test_rows": 43718,
+ "n_test_images": 8039
+}
