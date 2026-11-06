@@ -1,0 +1,168 @@
+{
+ "feature_shapes": {
+  "4": [
+   8,
+   576,
+   768
+  ],
+  "8": [
+   8,
+   576,
+   768
+  ],
+  "12": [
+   8,
+   576,
+   768
+  ]
+ },
+ "student_vs_fullML_encoder_max_abs": {
+  "4": 0.0,
+  "8": 0.0,
+  "12": 0.0
+ },
+ "feature_stats_mean_std_tokennorm": {
+  "4": [
+   -0.003035635221749544,
+   0.04868381842970848,
+   1.3453480005264282
+  ],
+  "8": [
+   -0.011521374806761742,
+   0.2115629017353058,
+   5.807069778442383
+  ],
+  "12": [
+   -0.023995859548449516,
+   1.7813299894332886,
+   49.277469635009766
+  ]
+ },
+ "n_params": {
+  "E6-original": 2183168,
+  "A": 2579968,
+  "B": 2579968
+ },
+ "n_params_P4P8": {
+  "A": 396800,
+  "B": 396800
+ },
+ "A_B_identical_init_state": true,
+ "A_shares_E6_original_init_for_common_keys": true,
+ "init_memory_max_abs": {
+  "A-E6orig": 0.0,
+  "B-E6orig": 0.0
+ },
+ "init_output_max_abs": {
+  "A-B": 0.0,
+  "A-E6orig": 0.0,
+  "B-Bicubic": 0.0
+ },
+ "grad_flow_A": [
+  {
+   "step": 1,
+   "loss": 3.595877170562744,
+   "grad_head_last_linear": 0.9115480184555054,
+   "grad_trunk": 0.0,
+   "grad_P12 (mem_in)": 0.0,
+   "grad_P4P8_linear": 0.0,
+   "grad_P4P8_ln": 0.0
+  },
+  {
+   "step": 2,
+   "loss": 3.5780858993530273,
+   "grad_head_last_linear": 0.897553563117981,
+   "grad_trunk": 0.011586055159568787,
+   "grad_P12 (mem_in)": 0.006464705336838961,
+   "grad_P4P8_linear": 0.009120925329625607,
+   "grad_P4P8_ln": 0.0
+  },
+  {
+   "step": 3,
+   "loss": 3.558432102203369,
+   "grad_head_last_linear": 0.9392556548118591,
+   "grad_trunk": 0.018294529989361763,
+   "grad_P12 (mem_in)": 0.009032957255840302,
+   "grad_P4P8_linear": 0.012743880040943623,
+   "grad_P4P8_ln": 3.614223896875046e-05
+  },
+  {
+   "step": 4,
+   "loss": 3.5376062393188477,
+   "grad_head_last_linear": 0.9733070731163025,
+   "grad_trunk": 0.020901329815387726,
+   "grad_P12 (mem_in)": 0.00867204088717699,
+   "grad_P4P8_linear": 0.012236415408551693,
+   "grad_P4P8_ln": 6.955739809200168e-05
+  },
+  {
+   "step": 5,
+   "loss": 3.5165164470672607,
+   "grad_head_last_linear": 0.9908884763717651,
+   "grad_trunk": 0.020526336506009102,
+   "grad_P12 (mem_in)": 0.006951699033379555,
+   "grad_P4P8_linear": 0.009811357595026493,
+   "grad_P4P8_ln": 7.393285341095179e-05
+  }
+ ],
+ "P4P8_weight_norm_after_A": 0.19391782581806183,
+ "grad_flow_B": [
+  {
+   "step": 1,
+   "loss": 3.595877170562744,
+   "grad_head_last_linear": 0.9115480184555054,
+   "grad_trunk": 0.0,
+   "grad_P12 (mem_in)": 0.0,
+   "grad_P4P8_linear": 0.0,
+   "grad_P4P8_ln": 0.0
+  },
+  {
+   "step": 2,
+   "loss": 3.5780858993530273,
+   "grad_head_last_linear": 0.897553563117981,
+   "grad_trunk": 0.011586055159568787,
+   "grad_P12 (mem_in)": 0.006464705336838961,
+   "grad_P4P8_linear": 0.011986144818365574,
+   "grad_P4P8_ln": 0.0
+  },
+  {
+   "step": 3,
+   "loss": 3.558393955230713,
+   "grad_head_last_linear": 0.9410354495048523,
+   "grad_trunk": 0.018204813823103905,
+   "grad_P12 (mem_in)": 0.008875162340700626,
+   "grad_P4P8_linear": 0.016388600692152977,
+   "grad_P4P8_ln": 3.8127913285279647e-05
+  },
+  {
+   "step": 4,
+   "loss": 3.537550449371338,
+   "grad_head_last_linear": 0.9762535095214844,
+   "grad_trunk": 0.02074073813855648,
+   "grad_P12 (mem_in)": 0.008363304659724236,
+   "grad_P4P8_linear": 0.015254229307174683,
+   "grad_P4P8_ln": 7.086562982294708e-05
+  },
+  {
+   "step": 5,
+   "loss": 3.516494035720825,
+   "grad_head_last_linear": 0.9937846660614014,
+   "grad_trunk": 0.02036348730325699,
+   "grad_P12 (mem_in)": 0.00665906211361289,
+   "grad_P4P8_linear": 0.011675595305860043,
+   "grad_P4P8_ln": 7.15911082806997e-05
+  }
+ ],
+ "P4P8_weight_norm_after_B": 0.1921667903661728,
+ "after_updates_A_vs_B_output_max_abs": 0.016460418701171875,
+ "checks": {
+  "encoder_match": true,
+  "same_grid": true,
+  "params_equal_A_B": true,
+  "init_equal": true,
+  "P4P8_linear_gets_grad": true,
+  "P4P8_ln_gets_grad": true,
+  "A_B_diverge_after_updates": true
+ },
+ "ALL_PASS": true
+}

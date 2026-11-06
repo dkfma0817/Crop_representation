@@ -1,0 +1,11 @@
+item	status	updated	note
+smoke_cpu	DONE	2026-11-06 06:14:33	smoke/smoke.json ALL_PASS
+qat_pause	DONE	2026-11-06 06:16:36	
+smoke_gpu	DONE	2026-11-06 06:17:53	
+train_A	DONE	2026-11-06 06:26:59	
+train_B	DONE	2026-11-06 06:35:57	
+probe_A	DONE	2026-11-06 06:47:01	
+probe_B	DONE	2026-11-06 06:58:23	
+recon	DONE	2026-11-06 06:59:47	
+qat_resume	DONE	2026-11-06 07:02:34	see qat_resume_status.md
+analysis	DONE	2026-11-06 07:06:43	

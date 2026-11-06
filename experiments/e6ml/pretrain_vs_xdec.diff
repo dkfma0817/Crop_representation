@@ -1,0 +1,26 @@
+1c1,5
+< """COCO decoder training for the decoder-architecture pilot (E1-E7, R00). GPU 2+3 DDP, seed 0. No PACO data.
+---
+> """E6 multi-layer memory pilot (2026-11-06) = verbatim copy of src/xdec/pretrain.py with ONLY: the decoder is
+> src.e6ml.models.E6Mem(A | B) (E6 + 3-projection K/V memory); the step-0 skip identity check also applies to it.
+> Loss (L_old), data, recipe, checkpoints and selection rule (min COCO-dev L_old among 3k/6k/9k/12k) are unchanged.
+> Original docstring:
+> COCO decoder training for the decoder-architecture pilot (E1-E7, R00). GPU 2+3 DDP, seed 0. No PACO data.
+37a42
+> from src.e6ml import models as EM
+64c69
+<     ap.add_argument("--cond", required=True, choices=list(XM.COND_SPEC) + ["R00"])
+---
+>     ap.add_argument("--cond", required=True, choices=["A", "B"])
+98c103
+<     dec = XM.build(a.cond).to(dev)
+---
+>     dec = EM.build(a.cond).to(dev)
+116c121
+<     theta0 = {k: flat(v).to(dev) for k, v in XM.build(a.cond).groups().items()}       # deterministic init (seed-0 canonical)
+---
+>     theta0 = {k: flat(v).to(dev) for k, v in EM.build(a.cond).groups().items()}       # deterministic init (seed-0 canonical)
+178c183
+<             if p.get("B") is not None and XM.COND_SPEC.get(a.cond, {}).get("out") == "skip":
+---
+>             if p.get("B") is not None:                                     # E6 skip: Z == B at step 0
