@@ -1,0 +1,10 @@
+# B0 Direct Full: F336 final-layer full-image tokens, GT ROI given by the reader geometry (full-grid cov > 0), no decoder.
+# Same probe protocol (src.ivc.train), R2 (layers [12]) + R0 (coverage-weighted ROI mean on the full grid).
+name: xdec_probe_B0_direct
+mode: full
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r0, kind: r0}
+  - {name: r2, kind: r2, layers: [12]}

@@ -1,0 +1,11 @@
+# PACO probe of the FROZEN E7 decoder (COCO-trained, checkpoint selected by COCO-dev feature loss), R2 primary + R0.
+# Identical to the 11-05 IVC probe protocol (src.ivc.train): 10 epochs, PACO dev 1,000 train images for epoch selection.
+name: xdec_probe_E7
+mode: dec
+decoder: output/2026-11-05/xdec/checkpoints/E7/selected.pt
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r0, kind: r0}
+  - {name: r2, kind: r2, layers: [12]}
