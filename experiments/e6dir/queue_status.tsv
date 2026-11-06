@@ -1,0 +1,10 @@
+item	status	updated	note
+loss_checks	DONE	2026-11-06 05:15:37	smoke/loss_checks.json ALL_PASS
+qat_pause	DONE	2026-11-06 05:20:25	
+calib	DONE	2026-11-06 05:20:46	
+smoke_gpu	DONE	2026-11-06 05:21:26	
+train	DONE	2026-11-06 05:30:31	
+probe	DONE	2026-11-06 05:41:45	
+recon	DONE	2026-11-06 05:43:01	
+qat_resume	DONE	2026-11-06 05:45:32	see qat_resume_status.md
+analysis	DONE	2026-11-06 05:48:19	

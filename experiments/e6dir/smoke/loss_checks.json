@@ -1,0 +1,33 @@
+{
+ "identical_pattern_c": [
+  0.9999999403953552,
+  0.9999999403953552,
+  0.9999999403953552,
+  0.9999999403953552,
+  1.0000001192092896,
+  1.0
+ ],
+ "common_offset_max_abs_change": 8.149072527885437e-10,
+ "positive_scale_max_abs_change": 4.656612873077393e-10,
+ "negative_scale_c_plus_c0_max_abs": 0.0,
+ "vs_flatten_sqrtw_reference_max_abs": 4.868903899848953e-10,
+ "if_weights_were_squared_diff": 0.001029669489859619,
+ "padding_cells_change_max_abs": 0.0,
+ "constant_teacher_excluded": true,
+ "zero_coverage_excluded": true,
+ "n_valid": 4,
+ "forward_finite": true,
+ "grad_finite": true,
+ "grad_zero_on_excluded": 0.0,
+ "constant_student_c": [
+  1.4395004654943477e-07,
+  3.921230273817855e-08,
+  -4.343024606612289e-09,
+  3.165101603030962e-08,
+  1.6969803340316503e-08,
+  1.7967371590543735e-08
+ ],
+ "constant_student_grad_finite": true,
+ "teacher_grad_is_none": true,
+ "ALL_PASS": true
+}

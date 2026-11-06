@@ -1,0 +1,64 @@
+1c1,7
+< """COCO decoder training for the decoder-architecture pilot (E1-E7, R00). GPU 2+3 DDP, seed 0. No PACO data.
+---
+> """E6 + Centered Direction Loss (2026-11-06 pilot) = verbatim copy of src/xdec/pretrain.py with ONLY these additions:
+>   * loss = L_old + lambda_dir * L_dir (src.e6dir.loss; lambda_dir and the teacher-energy threshold read from calib.json,
+>     fixed for the whole run); L_old unchanged (weights, reduction)
+>   * logging of L_old / L_dir / L_new / c_dir / excluded ROIs (train and COCO dev)
+>   * dev 'loss' stays L_old -> checkpoint selection = min COCO-dev L_old among 3k/6k/9k/12k (unchanged rule)
+> Original docstring:
+> COCO decoder training for the decoder-architecture pilot (E1-E7, R00). GPU 2+3 DDP, seed 0. No PACO data.
+35a42
+> from src.e6dir.loss import dir_terms
+73a81
+>     ap.add_argument("--calib", required=True, help="calib.json from src.e6dir.calibrate (lambda_dir, thr_eT)")
+89a98,100
+>     cal = json.load(open(a.calib))
+>     assert cal["sane"], "calibration not sane"
+>     LAM, THR = float(cal["lambda_dir"]), float(cal["thr_eT"])
+124c135,136
+<                 loss="mean_ROI [ MSE_w + 1.0 (1 - cos)_w ] on raw final-LN tokens (src.losses.feature)",
+---
+>                 loss="L_old = mean_ROI [ MSE_w + 1.0 (1 - cos)_w ] (src.losses.feature) + lambda_dir * L_dir (src.e6dir.loss)",
+>                 lambda_dir=LAM, thr_eT=THR, calib=a.calib,
+145c157,158
+<         return dict(Z=Z, T=T, w=w, mse=mse, cos=cos, feats=feats, parts=parts)
+---
+>         dsum, nval, cdir, valid, eT = dir_terms(Z, T, w, THR)
+>         return dict(Z=Z, T=T, w=w, mse=mse, cos=cos, feats=feats, parts=parts, dsum=dsum, nval=nval, cdir=cdir, valid=valid)
+150c163
+<         acc = torch.zeros(4, device=dev, dtype=torch.float64)          # sum loss, sum mse, sum cos, n rois
+---
+>         acc = torch.zeros(7, device=dev, dtype=torch.float64)          # sum loss, mse, cos, n rois, sum (1-c_dir) valid, n valid, sum c_dir all
+154c167,168
+<             acc += torch.stack([(o["mse"] + 1 - o["cos"]).sum(), o["mse"].sum(), o["cos"].sum(), torch.tensor(float(len(o["mse"])), device=dev)]).double()
+---
+>             acc += torch.stack([(o["mse"] + 1 - o["cos"]).sum(), o["mse"].sum(), o["cos"].sum(), torch.tensor(float(len(o["mse"])), device=dev),
+>                                 o["dsum"], o["nval"].float(), o["cdir"].sum()]).double()
+157c171,173
+<         return dict(loss=float(acc[0] / acc[3]), mse=float(acc[1] / acc[3]), cos=float(acc[2] / acc[3]), n_rois=int(acc[3]))
+---
+>         return dict(loss=float(acc[0] / acc[3]), mse=float(acc[1] / acc[3]), cos=float(acc[2] / acc[3]), n_rois=int(acc[3]),
+>                     L_dir=float(acc[4] / acc[5]), L_new=float(acc[0] / acc[3] + LAM * acc[4] / acc[5]), c_dir=float(acc[6] / acc[3]),
+>                     n_excluded_dir=int(acc[3] - acc[5]))
+167c183
+<     gc, run = {}, torch.zeros(4, device=dev)
+---
+>     gc, run = {}, torch.zeros(7, device=dev)
+172c188,191
+<         loss = (o["mse"] + 1.0 * (1 - o["cos"])).sum() / R_glob
+---
+>         l_old = (o["mse"] + 1.0 * (1 - o["cos"])).sum() / R_glob
+>         N_valid = RC.all_sum(o["nval"].float().clone())
+>         l_dir = o["dsum"] / N_valid.clamp_min(1)
+>         loss = l_old + LAM * l_dir
+192c211,212
+<         run += torch.stack([loss.detach() * world, (o["mse"].sum() / R_glob).detach() * world, (o["cos"].sum() / R_glob).detach() * world, gn.detach()])
+---
+>         run += torch.stack([l_old.detach() * world, (o["mse"].sum() / R_glob).detach() * world, (o["cos"].sum() / R_glob).detach() * world, gn.detach(),
+>                             l_dir.detach() * world, (o["cdir"].sum() / R_glob).detach() * world, (R_glob - N_valid).detach()])
+200c220,221
+<             rec = dict(step=step, lr=sched.get_last_lr()[0], loss=r[0], mse=r[1], cos=r[2], grad_norm=r[3], s=round(time.time() - t0))
+---
+>             rec = dict(step=step, lr=sched.get_last_lr()[0], loss=r[0], mse=r[1], cos=r[2], grad_norm=r[3], L_dir=r[4], L_new=r[0] + LAM * r[4],
+>                        c_dir=r[5], n_excluded_dir_per_step=r[6], s=round(time.time() - t0))
