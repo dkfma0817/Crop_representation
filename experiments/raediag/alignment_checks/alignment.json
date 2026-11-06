@@ -1,0 +1,129 @@
+{
+ "feature_grid": {
+  "n_roi": 11109,
+  "max_err_px": 7.61539564564373e-06,
+  "frac_valid_cells_border_clamped": 0.032863244798623126,
+  "note": "|independent formula - bil_grid| on the 256 canvas; clamped = sample point within 8 px of the canvas edge"
+ },
+ "feature_synthetic": {
+  "bilinear": {
+   "interior_max_px": 3.814697265625e-05,
+   "interior_mean_px": 6.058525974060269e-06,
+   "near_edge_max_px": 3.814697265625e-05
+  },
+  "bicubic": {
+   "interior_max_px": 0.7700309753417969,
+   "interior_mean_px": 0.6237678271966606,
+   "near_edge_max_px": 1.5397415161132812
+  },
+  "note": "interior = >= 1.5 cells from the canvas edge; bicubic (A = -0.75) does not reproduce linear ramps (kernel property, grid identical)"
+ },
+ "rgb_resampling": {
+  "n_roi": 600,
+  "max_err_px": 4.57763671875e-05,
+  "note": "synthetic coordinate canvas through resample_full_to_crop vs independent formula, interior content pixels"
+ },
+ "pixel_registration_B_in": {
+  "n_roi": 600,
+  "shifts_crop_px": [
+   -2,
+   -1,
+   0,
+   1,
+   2
+  ],
+  "mean_l1": [
+   [
+    0.05102,
+    0.04713,
+    0.04544,
+    0.04707,
+    0.0509
+   ],
+   [
+    0.04574,
+    0.04074,
+    0.03835,
+    0.04072,
+    0.04566
+   ],
+   [
+    0.04328,
+    0.03747,
+    0.03406,
+    0.03747,
+    0.04329
+   ],
+   [
+    0.04563,
+    0.0407,
+    0.03834,
+    0.04072,
+    0.04571
+   ],
+   [
+    0.05085,
+    0.04705,
+    0.04542,
+    0.0471,
+    0.05098
+   ]
+  ],
+  "argmin": [
+   0,
+   0
+  ],
+  "note": "B_in sampling map shifted by (dy, dx) crop-canvas px; L1 to the GT crop canvas on content pixels"
+ },
+ "feature_registration": {
+  "n_roi": 600,
+  "shifts_full_px": [
+   -16,
+   -8,
+   0,
+   8,
+   16
+  ],
+  "mean_cos": [
+   [
+    0.4782,
+    0.5061,
+    0.5178,
+    0.5062,
+    0.4783
+   ],
+   [
+    0.508,
+    0.5504,
+    0.5694,
+    0.5506,
+    0.5084
+   ],
+   [
+    0.5198,
+    0.5683,
+    0.5908,
+    0.5693,
+    0.5208
+   ],
+   [
+    0.5069,
+    0.547,
+    0.5655,
+    0.5483,
+    0.5082
+   ],
+   [
+    0.4773,
+    0.5029,
+    0.5137,
+    0.5031,
+    0.4776
+   ]
+  ],
+  "argmax": [
+   0,
+   0
+  ]
+ }
+}
