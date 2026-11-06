@@ -1,0 +1,23 @@
+{
+ "status": "done",
+ "steps": 12000,
+ "time_s": 983,
+ "peak_mem_gb": 3.656041145324707,
+ "weight_change_norm_total": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 11.926655769348145,
+  "decoder_trunk (attention / FFN / embeddings)": 27.947755813598633,
+  "decoder_output_head (zero-init)": 13.75206184387207,
+  "aux_heads (removed after training)": 28.581058502197266
+ },
+ "selected": {
+  "step": 12000,
+  "dev": {
+   "L4": 1.3199604749679565,
+   "L8": 1.3783851861953735,
+   "L12": 1.1873027086257935,
+   "cos12_raw": 0.6125712990760803,
+   "n_rois": 1872
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "job": {
+  "name": "ctrl_c0",
+  "mode": "c0",
+  "seed": 0,
+  "epochs": 10,
+  "readers": [
+   {
+    "name": "c0_r2",
+    "kind": "r2",
+    "layers": [
+     12
+    ]
+   }
+  ]
+ },
+ "args": {
+  "job": "configs/readout_queue/jobs/ctrl_c0.yaml",
+  "out": "output/2026-11-04/readout_queue/ctrl_c0",
+  "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+  "limit": 0,
+  "epochs": 0,
+  "max_steps": 0,
+  "workers": 16,
+  "cache": ""
+ },
+ "world": 2,
+ "n_train_rows": 205499,
+ "n_train_images": 38472,
+ "n_val_rows": 11109,
+ "n_val_images": 2051,
+ "steps_per_epoch": [
+  1601,
+  1602,
+  1601,
+  1602,
+  1602,
+  1602,
+  1601,
+  1603,
+  1602,
+  1601
+ ],
+ "total_steps": 16017,
+ "n_params": {
+  "c0_r2": 10738294
+ },
+ "n_params_reader_only": {
+  "c0_r2": 10647552
+ },
+ "encoder": "vit_base_patch14_dinov2.lvd142m",
+ "layers": [
+  12
+ ],
+ "torch": "2.7.1+cu118"
+}

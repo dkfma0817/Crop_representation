@@ -1,0 +1,70 @@
+{
+ "job": {
+  "name": "E08",
+  "mode": "full",
+  "seed": 0,
+  "epochs": 10,
+  "readers": [
+   {
+    "name": "e08_x1",
+    "kind": "rep",
+    "T": 1
+   },
+   {
+    "name": "e08_x3",
+    "kind": "rep",
+    "T": 3
+   },
+   {
+    "name": "e08_ffn3",
+    "kind": "ffn",
+    "T": 3
+   }
+  ]
+ },
+ "args": {
+  "job": "configs/readout_queue/jobs/E08.yaml",
+  "out": "output/2026-11-04/readout_queue/E08",
+  "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+  "limit": 0,
+  "epochs": 0,
+  "max_steps": 0,
+  "workers": 6,
+  "cache": "/dev/shm/readout_cache"
+ },
+ "world": 2,
+ "n_train_rows": 205499,
+ "n_train_images": 38472,
+ "n_val_rows": 11109,
+ "n_val_images": 2051,
+ "steps_per_epoch": [
+  1601,
+  1602,
+  1601,
+  1602,
+  1602,
+  1602,
+  1601,
+  1603,
+  1602,
+  1601
+ ],
+ "total_steps": 16017,
+ "n_params": {
+  "e08_x1": 7786870,
+  "e08_x3": 7788406,
+  "e08_ffn3": 7788406
+ },
+ "n_params_reader_only": {
+  "e08_x1": 7696128,
+  "e08_x3": 7697664,
+  "e08_ffn3": 7697664
+ },
+ "encoder": "vit_base_patch14_dinov2.lvd142m",
+ "layers": [
+  4,
+  8,
+  12
+ ],
+ "torch": "2.7.1+cu118"
+}

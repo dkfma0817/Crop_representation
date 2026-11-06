@@ -1,0 +1,40 @@
+2026-11-05 02:00:15	queue	start pid=762889
+2026-11-05 02:00:15	qat	running; waiting for checkpoint-15000 (last 10000) before pausing
+2026-11-05 02:11:35	qat	process ended by itself
+2026-11-05 02:13:05	qat	pausing (SIGTERM torchrun 591943) after checkpoint-15000
+2026-11-05 02:13:15	qat	paused; GPU: 2, 0 MiB 3, 0 MiB 
+2026-11-05 02:13:15	probe_bil	start
+2026-11-05 02:13:15	H0	pretrain start (COCO stream, 12k steps)
+2026-11-05 02:13:23	qat	correction: stopped manually at user request at step ~13.9k; last checkpoint = checkpoint-10000 (the line above saying 15000 is wrong); resume will start from checkpoint-10000
+2026-11-05 02:25:15	H0	pretrain done (selected step 12000 dev L12 1.0872 time 702s)
+2026-11-05 02:25:15	probe_H0	start
+2026-11-05 02:25:15	H1	pretrain start (COCO stream, 12k steps)
+2026-11-05 02:26:25	probe_bil	done
+2026-11-05 02:37:58	H1	pretrain done (selected step 12000 dev L12 1.1194 time 745s)
+2026-11-05 02:37:58	probe_H1	start
+2026-11-05 02:37:58	probe_mlr2	start
+2026-11-05 02:37:58	H2	pretrain start (COCO stream, 12k steps)
+2026-11-05 02:43:10	probe_H0	done
+2026-11-05 02:56:47	probe_mlr2	done
+2026-11-05 02:59:55	probe_H1	done
+2026-11-05 03:00:47	H2	pretrain done (selected step 12000 dev L12 1.0624 time 1350s)
+2026-11-05 03:00:47	probe_H2	start
+2026-11-05 03:00:47	probe_c0	start
+2026-11-05 03:00:47	H3	pretrain start (COCO stream, 12k steps)
+2026-11-05 03:24:40	probe_H2	done
+2026-11-05 03:25:41	H3	pretrain done (selected step 12000 dev L12 1.0962 time 1473s)
+2026-11-05 03:25:41	probe_H3	start
+2026-11-05 03:25:41	queue	pre-training finished; waiting for probes
+2026-11-05 03:32:02	probe_c0	done
+2026-11-05 03:37:39	probe_H3	done
+2026-11-05 03:37:39	direct	start
+2026-11-05 03:39:07	direct	done
+2026-11-05 03:39:07	report	start
+2026-11-05 03:39:33	qat	resumed manually at user request (pid 892535, GPU 2,3, --resume from checkpoint-10000); queue will not relaunch it
+2026-11-05 03:40:59	qat	manual resume (pid 892537) cancelled at user request before training started; GPUs 2,3 left to the queue; QAT will be resumed at queue end
+2026-11-05 03:42:14	report	done -> output/2026-11-05/msd/REPORT.md
+2026-11-05 03:42:14	qat	resuming with --resume from /home/irteam/low-bit-training-v2/output/2026-11-04/scale-800m/800m-ste-code7.5e-5-compile/checkpoint-10000
+2026-11-05 03:42:19	qat	resumed pid 898393 (log appended to /home/irteam/low-bit-training-v2/output/2026-11-04/scale-800m/800m-ste-code7.5e-5-compile/train.log)
+2026-11-05 03:42:19	queue	end
+2026-11-05 03:42:34	qat	resumed manually: all GPU work of the queue is done (report = CPU only); torchrun pid 898399, --resume from checkpoint-10000
+2026-11-05 03:43:08	qat	check: exactly ONE QAT instance running (torchrun 898399 launched by the queue); the manual relaunch at the same moment did not start a second one

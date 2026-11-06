@@ -1,0 +1,59 @@
+{
+ "job": {
+  "name": "E12",
+  "mode": "full",
+  "seed": 0,
+  "epochs": 10,
+  "readers": [
+   {
+    "name": "e12_cons",
+    "kind": "r2",
+    "kd": {
+     "teacher": "/home/irteam/Crop_representation/output/2026-11-04/readout_queue/ctrl_f672/f672_ml_r2/scores_train_final.npy",
+     "lam": 1.0
+    }
+   }
+  ]
+ },
+ "args": {
+  "job": "configs/readout_queue/jobs/E12.yaml",
+  "out": "output/2026-11-04/readout_queue/E12",
+  "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+  "limit": 0,
+  "epochs": 0,
+  "max_steps": 0,
+  "workers": 6,
+  "cache": "/dev/shm/readout_cache"
+ },
+ "world": 2,
+ "n_train_rows": 205499,
+ "n_train_images": 38472,
+ "n_val_rows": 11109,
+ "n_val_images": 2051,
+ "steps_per_epoch": [
+  1601,
+  1602,
+  1601,
+  1602,
+  1602,
+  1602,
+  1601,
+  1603,
+  1602,
+  1601
+ ],
+ "total_steps": 16017,
+ "n_params": {
+  "e12_cons": 12513142
+ },
+ "n_params_reader_only": {
+  "e12_cons": 12422400
+ },
+ "encoder": "vit_base_patch14_dinov2.lvd142m",
+ "layers": [
+  4,
+  8,
+  12
+ ],
+ "torch": "2.7.1+cu118"
+}

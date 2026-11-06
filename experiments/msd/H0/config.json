@@ -1,0 +1,70 @@
+{
+ "cond": "H0",
+ "cfg": {
+  "adapters": false,
+  "multi": false
+ },
+ "lam_aux": 0.0,
+ "lam_glob": 0.0,
+ "steps": 12000,
+ "world": 2,
+ "excluded": {
+  "stream": [
+   388662,
+   397819
+  ],
+  "dev": [
+   9113,
+   30328,
+   35423,
+   53335,
+   62203,
+   79992,
+   121997,
+   140797,
+   142000,
+   174771,
+   198621,
+   227734,
+   269913,
+   272578,
+   273142,
+   276597,
+   286322,
+   293909,
+   317208,
+   333691,
+   337541,
+   348982,
+   349052,
+   373440,
+   385743,
+   424220,
+   436025,
+   440528,
+   493235,
+   498436,
+   514346,
+   517176
+  ]
+ },
+ "n_dev_images": 468,
+ "n_dev_rois": 1872,
+ "trainable_params": {
+  "encoder_backbone (frozen, = teacher weights)": 0,
+  "decoder_input_adapters A4/A8": 594816,
+  "decoder_body (CoordMLP)": 9863424,
+  "aux_heads (removed after training)": 1181184
+ },
+ "trainable_total": 11639424,
+ "recipe": {
+  "lr": 0.0001,
+  "betas": [
+   0.9,
+   0.95
+  ],
+  "wd": 0.05,
+  "warmup": 600,
+  "clip": 1.0
+ }
+}

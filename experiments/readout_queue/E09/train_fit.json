@@ -1,0 +1,46 @@
+{
+ "e09_ads": {
+  "train_subset_loss": 0.07287439331412315,
+  "train_subset_M2": {
+   "object/color": 55.71325001031554,
+   "object/pattern_marking": 71.36473412669494,
+   "object/material": 58.68906782386936,
+   "object/transparency": 53.33304508645518,
+   "object": 59.77502426183376,
+   "part/color": 58.29693041259092,
+   "part/pattern_marking": 67.46119990678433,
+   "part/material": 57.55978659688099,
+   "part/transparency": 60.5719638149672,
+   "part": 60.97247018280586,
+   "color": 57.005090211453236,
+   "pattern_marking": 69.41296701673963,
+   "material": 58.124427210375174,
+   "transparency": 56.95250445071118,
+   "overall": 60.37374722231981
+  },
+  "n_images": 2000,
+  "n_rows": 10600
+ },
+ "e09_fix": {
+  "train_subset_loss": 0.0676636416465044,
+  "train_subset_M2": {
+   "object/color": 60.21297012215688,
+   "object/pattern_marking": 71.74454512442527,
+   "object/material": 66.50245658893004,
+   "object/transparency": 61.95121950696794,
+   "object": 65.10279783562004,
+   "part/color": 65.3097344046716,
+   "part/pattern_marking": 68.23819134079581,
+   "part/material": 64.07990732690956,
+   "part/transparency": 63.78253345169428,
+   "part": 65.35259163101782,
+   "color": 62.76135226341424,
+   "pattern_marking": 69.99136823261054,
+   "material": 65.2911819579198,
+   "transparency": 62.86687647933111,
+   "overall": 65.22769473331893
+  },
+  "n_images": 2000,
+  "n_rows": 10600
+ }
+}

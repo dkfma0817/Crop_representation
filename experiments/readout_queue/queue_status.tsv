@@ -1,0 +1,22 @@
+2026-11-04 17:34:06	queue	start pid=402155 host=vail-4-2-0
+2026-11-04 17:34:06	data_check	ok (train excluded 6 left {'image_id': 0, 'md5': 0, 'pix_md5': 0, 'dhash': 0})
+2026-11-04 17:34:06	ctrl_f336	start
+2026-11-04 17:46:22	queue	stopped by operator (queue bash only; ctrl_f336 torchrun left running) for input-pipeline optimisation
+2026-11-04 18:20:04	queue2	start pid=485109 maxj=4 cache=/dev/shm/readout_cache
+2026-11-04 18:20:04	ctrl_c0	start (port 29907, on-the-fly)
+2026-11-04 18:20:04	ctrl_f672	start (port 29914, cache/dev/shm/readout_cache)
+2026-11-04 18:20:04	E11	start (port 29921, cache/dev/shm/readout_cache)
+2026-11-04 18:20:04	E09	start (port 29928, cache/dev/shm/readout_cache)
+2026-11-04 18:57:04	E09	done
+2026-11-04 19:04:04	E11	done
+2026-11-04 19:05:24	ctrl_c0	done
+2026-11-04 19:05:35	D0	start
+2026-11-04 19:06:03	D0	done -> slot1=E08
+2026-11-04 19:06:03	E08	start (port 29935, cache/dev/shm/readout_cache)
+2026-11-04 19:10:36	ctrl_f672	done
+2026-11-04 19:10:48	E12	start (port 29942, cache/dev/shm/readout_cache)
+2026-11-04 19:21:28	E12	done
+2026-11-04 19:27:56	E08	done
+2026-11-04 19:28:03	report	start
+2026-11-04 19:29:12	report	done -> output/2026-11-04/readout_queue/REPORT.md
+2026-11-04 19:29:12	queue2	end

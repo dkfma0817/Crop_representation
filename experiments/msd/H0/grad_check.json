@@ -1,0 +1,63 @@
+{
+ "aux_loss_only_grad_norm_into_decoder_body": 0.3110620677471161,
+ "step1_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 0.0,
+  "decoder_body (CoordMLP)": 0.9999999403953552,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step1_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 0.0,
+  "decoder_body (CoordMLP)": 0.00018099462613463402,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step2_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 1.3092015933580115e-06,
+  "decoder_body (CoordMLP)": 1.0000001192092896,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step2_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 1.6511565263499506e-05,
+  "decoder_body (CoordMLP)": 0.00033187781809829175,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step3_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 5.0566241043270566e-06,
+  "decoder_body (CoordMLP)": 1.0,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step3_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 5.026314829592593e-05,
+  "decoder_body (CoordMLP)": 0.0005903915734961629,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step4_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 1.1927657396881841e-05,
+  "decoder_body (CoordMLP)": 0.9999999403953552,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step4_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 9.75004950305447e-05,
+  "decoder_body (CoordMLP)": 0.00086672801990062,
+  "aux_heads (removed after training)": 2.0548350221361034e-06
+ },
+ "step5_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 1.888751648948528e-05,
+  "decoder_body (CoordMLP)": 0.9999998807907104,
+  "aux_heads (removed after training)": 0.0
+ },
+ "step5_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 0.00015106132195796818,
+  "decoder_body (CoordMLP)": 0.001165444147773087,
+  "aux_heads (removed after training)": 2.0548350221361034e-06
+ }
+}

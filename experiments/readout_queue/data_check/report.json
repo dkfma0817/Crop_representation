@@ -1,0 +1,137 @@
+{
+ "ok": true,
+ "time_s": 25.7,
+ "n_images": {
+  "paco_train": 38478,
+  "paco_val": 2051,
+  "paco_test": 8039,
+  "raev2_stream": 50491,
+  "raev2_dev": 500,
+  "raev2_hval": 1000
+ },
+ "n_hashed": 100559,
+ "read_errors": [],
+ "n_read_errors": 0,
+ "pair_overlaps": {
+  "paco_train__paco_val": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 2
+  },
+  "paco_train__paco_test": {
+   "image_id": 0,
+   "md5": 1,
+   "pix_md5": 1,
+   "dhash": 4
+  },
+  "paco_train__raev2_stream": {
+   "image_id": 18354,
+   "md5": 18354,
+   "pix_md5": 18354,
+   "dhash": 18351
+  },
+  "paco_train__raev2_dev": {
+   "image_id": 154,
+   "md5": 154,
+   "pix_md5": 154,
+   "dhash": 154
+  },
+  "paco_train__raev2_hval": {
+   "image_id": 304,
+   "md5": 304,
+   "pix_md5": 304,
+   "dhash": 304
+  },
+  "paco_val__paco_test": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 0
+  },
+  "paco_val__raev2_stream": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 0
+  },
+  "paco_val__raev2_dev": {
+   "image_id": 9,
+   "md5": 9,
+   "pix_md5": 9,
+   "dhash": 9
+  },
+  "paco_val__raev2_hval": {
+   "image_id": 31,
+   "md5": 31,
+   "pix_md5": 31,
+   "dhash": 31
+  },
+  "paco_test__raev2_stream": {
+   "image_id": 0,
+   "md5": 1,
+   "pix_md5": 1,
+   "dhash": 1
+  },
+  "paco_test__raev2_dev": {
+   "image_id": 23,
+   "md5": 23,
+   "pix_md5": 23,
+   "dhash": 23
+  },
+  "paco_test__raev2_hval": {
+   "image_id": 79,
+   "md5": 79,
+   "pix_md5": 79,
+   "dhash": 79
+  },
+  "raev2_stream__raev2_dev": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 0
+  },
+  "raev2_stream__raev2_hval": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 0
+  },
+  "raev2_dev__raev2_hval": {
+   "image_id": 0,
+   "md5": 0,
+   "pix_md5": 0,
+   "dhash": 0
+  }
+ },
+ "train_vs_eval_hits_by_key": {
+  "image_id": 0,
+  "md5": 1,
+  "pix_md5": 1,
+  "dhash": 6
+ },
+ "n_train_excluded": 6,
+ "train_vs_eval_after_exclusion": {
+  "image_id": 0,
+  "md5": 0,
+  "pix_md5": 0,
+  "dhash": 0
+ },
+ "paco_lp_feat_rows": {
+  "train": 205516,
+  "val": 11109,
+  "test": 43718
+ },
+ "used_by_queue": [
+  "paco_train (training + E12 C0 teacher crops)",
+  "paco_val (evaluation)"
+ ],
+ "not_read_by_queue": [
+  "paco_test",
+  "raev2_stream",
+  "raev2_dev",
+  "raev2_hval",
+  "paco_lp feature cache"
+ ],
+ "not_checkable": "DINOv2 LVD-142M pretraining images (no list available)"
+}

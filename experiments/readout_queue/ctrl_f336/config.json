@@ -1,0 +1,63 @@
+{
+ "job": {
+  "name": "ctrl_f336",
+  "mode": "full",
+  "seed": 0,
+  "epochs": 10,
+  "readers": [
+   {
+    "name": "ml_r2",
+    "kind": "r2"
+   },
+   {
+    "name": "r2_final",
+    "kind": "r2",
+    "layers": [
+     12
+    ]
+   }
+  ]
+ },
+ "args": {
+  "job": "configs/readout_queue/jobs/ctrl_f336.yaml",
+  "out": "output/2026-11-04/readout_queue/ctrl_f336",
+  "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+  "limit": 0,
+  "epochs": 0,
+  "max_steps": 0,
+  "workers": 12
+ },
+ "world": 2,
+ "n_train_rows": 205499,
+ "n_train_images": 38472,
+ "n_val_rows": 11109,
+ "n_val_images": 2051,
+ "steps_per_epoch": [
+  1601,
+  1602,
+  1601,
+  1602,
+  1602,
+  1602,
+  1601,
+  1603,
+  1602,
+  1601
+ ],
+ "total_steps": 16017,
+ "n_params": {
+  "ml_r2": 12513142,
+  "r2_final": 10738294
+ },
+ "n_params_reader_only": {
+  "ml_r2": 12422400,
+  "r2_final": 10647552
+ },
+ "encoder": "vit_base_patch14_dinov2.lvd142m",
+ "layers": [
+  4,
+  8,
+  12
+ ],
+ "torch": "2.7.1+cu118"
+}

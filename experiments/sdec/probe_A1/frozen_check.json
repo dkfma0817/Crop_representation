@@ -1,0 +1,8 @@
+{
+ "requires_grad_any": false,
+ "grads_present": false,
+ "checksum_before": -1196.3565999228051,
+ "checksum_after": -1196.3565999228051,
+ "unchanged": true,
+ "decoder": "output/2026-11-05/sdec/A1/best_dev.pt"
+}

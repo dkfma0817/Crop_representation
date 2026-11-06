@@ -1,0 +1,1313 @@
+{
+ "controls": {
+  "ctrl_f336/ml_r2": {
+   "validity": {
+    "valid": true,
+    "status": "done",
+    "epochs_logged": 10,
+    "finite": true,
+    "info": {
+     "status": "done",
+     "epochs": 10,
+     "steps": 16017,
+     "time_s": 1080,
+     "time": "2026-11-04 17:52:18"
+    },
+    "train_loss": [
+     0.1214,
+     0.0908,
+     0.0861,
+     0.0832,
+     0.0799,
+     0.0765,
+     0.0727,
+     0.0688,
+     0.0654,
+     0.0635
+    ],
+    "val_loss": [
+     0.7677,
+     0.1037,
+     0.0961,
+     0.0937,
+     0.0919,
+     0.0909,
+     0.0898,
+     0.0894,
+     0.0899,
+     0.0909,
+     0.0915
+    ],
+    "val_M2": [
+     14.75,
+     38.82,
+     42.43,
+     43.44,
+     45.22,
+     45.24,
+     46.21,
+     45.87,
+     46.77,
+     46.53,
+     46.23
+    ],
+    "best_val_epoch": 8,
+    "train_subset_loss": 0.0664124172180891,
+    "train_subset_M2": 67.20988300743342
+   },
+   "M2": {
+    "overall": 46.234955501979435,
+    "object": 47.02386618118923,
+    "part": 45.446044822769636,
+    "color": 46.224315428543086,
+    "pattern_marking": 44.88761916539205,
+    "material": 38.87895657666969,
+    "transparency": 54.948930837312915
+   }
+  },
+  "ctrl_f336/r2_final": {
+   "validity": {
+    "valid": true,
+    "status": "done",
+    "epochs_logged": 10,
+    "finite": true,
+    "info": {
+     "status": "done",
+     "epochs": 10,
+     "steps": 16017,
+     "time_s": 1080,
+     "time": "2026-11-04 17:52:18"
+    },
+    "train_loss": [
+     0.1273,
+     0.093,
+     0.0878,
+     0.0842,
+     0.0803,
+     0.0759,
+     0.0702,
+     0.0639,
+     0.0585,
+     0.0555
+    ],
+    "val_loss": [
+     0.7235,
+     0.1038,
+     0.0982,
+     0.095,
+     0.0939,
+     0.0931,
+     0.0936,
+     0.0954,
+     0.0986,
+     0.1022,
+     0.1034
+    ],
+    "val_M2": [
+     13.52,
+     36.89,
+     41.2,
+     42.1,
+     43.13,
+     43.27,
+     43.14,
+     43.36,
+     43.22,
+     42.3,
+     42.23
+    ],
+    "best_val_epoch": 7,
+    "train_subset_loss": 0.057524243369698524,
+    "train_subset_M2": 76.56007409209388
+   },
+   "M2": {
+    "overall": 42.23223366951918,
+    "object": 41.57526259434716,
+    "part": 42.88920474469121,
+    "color": 36.432314384010624,
+    "pattern_marking": 48.400016865290205,
+    "material": 35.863474940681826,
+    "transparency": 48.23312848809407
+   }
+  },
+  "ctrl_c0/c0_r2": {
+   "validity": {
+    "valid": true,
+    "status": "done",
+    "epochs_logged": 10,
+    "finite": true,
+    "info": {
+     "status": "done",
+     "epochs": 10,
+     "steps": 16017,
+     "time_s": 2705,
+     "time": "2026-11-04 19:05:20"
+    },
+    "train_loss": [
+     0.1214,
+     0.0903,
+     0.0848,
+     0.0808,
+     0.0764,
+     0.0709,
+     0.0638,
+     0.0561,
+     0.0498,
+     0.0465
+    ],
+    "val_loss": [
+     0.7118,
+     0.0987,
+     0.0929,
+     0.0911,
+     0.0904,
+     0.0896,
+     0.091,
+     0.0948,
+     0.1007,
+     0.105,
+     0.1065
+    ],
+    "val_M2": [
+     14.25,
+     44.6,
+     46.86,
+     45.79,
+     47.28,
+     48.2,
+     47.66,
+     46.74,
+     46.41,
+     45.99,
+     45.54
+    ],
+    "best_val_epoch": 5,
+    "train_subset_loss": 0.04476192779839039,
+    "train_subset_M2": 84.83763961089458
+   },
+   "M2": {
+    "overall": 45.53547305351893,
+    "object": 48.03231886684941,
+    "part": 43.03862724018845,
+    "color": 40.80638610322035,
+    "pattern_marking": 53.95711773354259,
+    "material": 38.15673203756399,
+    "transparency": 49.2216563397488
+   }
+  },
+  "ctrl_f672/f672_ml_r2": {
+   "validity": {
+    "valid": true,
+    "status": "done",
+    "epochs_logged": 10,
+    "finite": true,
+    "info": {
+     "status": "done",
+     "epochs": 10,
+     "steps": 16017,
+     "time_s": 3017,
+     "time": "2026-11-04 19:10:34"
+    },
+    "train_loss": [
+     0.1169,
+     0.0852,
+     0.0804,
+     0.0773,
+     0.0743,
+     0.0709,
+     0.0672,
+     0.0634,
+     0.0601,
+     0.0582
+    ],
+    "val_loss": [
+     0.7934,
+     0.098,
+     0.0909,
+     0.088,
+     0.0858,
+     0.0843,
+     0.0835,
+     0.0829,
+     0.0836,
+     0.0842,
+     0.0847
+    ],
+    "val_M2": [
+     14.48,
+     42.84,
+     47.03,
+     47.63,
+     48.2,
+     48.13,
+     49.27,
+     49.54,
+     49.69,
+     48.93,
+     49.03
+    ],
+    "best_val_epoch": 8,
+    "train_subset_loss": 0.06065811403095722,
+    "train_subset_M2": 70.18845115854002
+   },
+   "M2": {
+    "overall": 49.026648523498054,
+    "object": 48.87165011693359,
+    "part": 49.18164693006252,
+    "color": 48.4226579592497,
+    "pattern_marking": 50.42217175014414,
+    "material": 40.82664000353209,
+    "transparency": 56.43512438106628
+   }
+  }
+ },
+ "experiments": {
+  "E08": {
+   "spec": {
+    "title": "Weight-sharing Repeated Readout",
+    "readers": [
+     "e08_x1",
+     "e08_x3",
+     "e08_ffn3"
+    ],
+    "main": "e08_x3",
+    "hyp": "Reading the same shared features again with the same cross-attention finds information a single read missed.",
+    "train": "One cross block: x1 reads once; x3 reads 3 times with shared weights; ffn3 reads once + 2 extra passes of the same block's FFN (same params and extra compute, no re-reading). Loss on the final output only; every step recorded."
+   },
+   "validity": {
+    "e08_x1": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 1301,
+      "time": "2026-11-04 19:27:54"
+     },
+     "train_loss": [
+      0.1223,
+      0.091,
+      0.0863,
+      0.0835,
+      0.0805,
+      0.0772,
+      0.0736,
+      0.07,
+      0.067,
+      0.0652
+     ],
+     "val_loss": [
+      0.7352,
+      0.1021,
+      0.0969,
+      0.0939,
+      0.0923,
+      0.0912,
+      0.0906,
+      0.0903,
+      0.0909,
+      0.0919,
+      0.0925
+     ],
+     "val_M2": [
+      13.62,
+      39.3,
+      42.55,
+      42.9,
+      44.13,
+      44.86,
+      43.6,
+      44.92,
+      45.21,
+      44.71,
+      44.66
+     ],
+     "best_val_epoch": 8,
+     "train_subset_loss": 0.06815667822957039,
+     "train_subset_M2": 66.87048368111101
+    },
+    "e08_x3": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 1301,
+      "time": "2026-11-04 19:27:54"
+     },
+     "train_loss": [
+      0.1228,
+      0.0909,
+      0.0861,
+      0.0829,
+      0.0798,
+      0.0763,
+      0.0725,
+      0.0687,
+      0.0654,
+      0.0636
+     ],
+     "val_loss": [
+      0.7309,
+      0.1027,
+      0.0971,
+      0.0938,
+      0.0917,
+      0.0906,
+      0.09,
+      0.0896,
+      0.09,
+      0.091,
+      0.0914
+     ],
+     "val_M2": [
+      13.61,
+      40.81,
+      42.57,
+      43.04,
+      43.85,
+      44.6,
+      45.0,
+      45.48,
+      44.82,
+      44.85,
+      45.06
+     ],
+     "best_val_epoch": 7,
+     "train_subset_loss": 0.06649071909487247,
+     "train_subset_M2": 66.24845154312705
+    },
+    "e08_ffn3": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 1301,
+      "time": "2026-11-04 19:27:54"
+     },
+     "train_loss": [
+      0.1218,
+      0.0911,
+      0.0862,
+      0.0833,
+      0.0802,
+      0.0769,
+      0.0731,
+      0.0692,
+      0.0659,
+      0.064
+     ],
+     "val_loss": [
+      0.7399,
+      0.1022,
+      0.0968,
+      0.0942,
+      0.0924,
+      0.0913,
+      0.0905,
+      0.0902,
+      0.0907,
+      0.0919,
+      0.0925
+     ],
+     "val_M2": [
+      13.77,
+      39.14,
+      42.24,
+      42.91,
+      43.94,
+      44.38,
+      44.49,
+      45.91,
+      45.0,
+      44.9,
+      44.94
+     ],
+     "best_val_epoch": 7,
+     "train_subset_loss": 0.06655524857342243,
+     "train_subset_M2": 66.12484239335927
+    }
+   },
+   "direct": {
+    "ability": false,
+    "rule": "x3 - x1 CI lo > 0 AND x3 - ffn3 CI lo > 0 (val M2 Overall)",
+    "rows": [
+     [
+      "e08_x1 step 1 val M2 Overall",
+      "44.66"
+     ],
+     [
+      "e08_x3 step 1 val M2 Overall",
+      "39.75"
+     ],
+     [
+      "e08_x3 step 2 val M2 Overall",
+      "44.45"
+     ],
+     [
+      "e08_x3 step 3 val M2 Overall",
+      "45.06"
+     ],
+     [
+      "e08_ffn3 step 1 val M2 Overall",
+      "45.31"
+     ],
+     [
+      "e08_ffn3 step 2 val M2 Overall",
+      "44.98"
+     ],
+     [
+      "e08_ffn3 step 3 val M2 Overall",
+      "44.94"
+     ],
+     [
+      "x3 - x1 (Overall)",
+      "+0.40 [-1.08, +1.67]"
+     ],
+     [
+      "x3 - ffn3 (Overall)",
+      "+0.12 [-1.70, +1.38]"
+     ],
+     [
+      "x3 - x1 (Part)",
+      "+0.53 [-1.28, +1.81]"
+     ],
+     [
+      "x3 - ffn3 (Part)",
+      "-0.40 [-2.14, +1.49]"
+     ]
+    ]
+   },
+   "downstream": {
+    "abs": {
+     "overall": 45.060686508362465,
+     "object": 45.26793326220061,
+     "part": 44.85343975452432,
+     "color": 45.81015102497255,
+     "pattern_marking": 43.730021056693644,
+     "material": 37.60719563745892,
+     "transparency": 53.09537831432473
+    },
+    "base": {
+     "overall": 46.234955501979435,
+     "object": 47.02386618118923,
+     "part": 45.446044822769636,
+     "color": 46.224315428543086,
+     "pattern_marking": 44.88761916539205,
+     "material": 38.87895657666969,
+     "transparency": 54.948930837312915
+    },
+    "delta": {
+     "overall": {
+      "point": -1.1742689936169697,
+      "lo": -2.9145007775179774,
+      "hi": 0.021462882971707006
+     },
+     "object": {
+      "point": -1.75593291898862,
+      "lo": -3.932508408532924,
+      "hi": -0.252355833721523
+     },
+     "part": {
+      "point": -0.5926050682453194,
+      "lo": -2.549923574220625,
+      "hi": 0.9199199572297583
+     },
+     "color": {
+      "point": -0.4141644035705383,
+      "lo": -2.5805361715037294,
+      "hi": 1.482809827004933
+     },
+     "pattern_marking": {
+      "point": -1.1575981086984086,
+      "lo": -5.552952719703864,
+      "hi": 1.9181459898375548
+     },
+     "material": {
+      "point": -1.2717609392107647,
+      "lo": -4.27319310736166,
+      "hi": 0.5408476668150323
+     },
+     "transparency": {
+      "point": -1.8535525229881813,
+      "lo": -4.803225288608711,
+      "hi": 1.0796359959198054
+     }
+    },
+    "overall_improved": false,
+    "concentrated": false,
+    "top_type": null,
+    "top_share": null,
+    "major_degradation": [
+     "object"
+    ],
+    "downstream_success": false
+   },
+   "verdict": {
+    "run_valid": true,
+    "ability_shown": false,
+    "overall_improved": false,
+    "concentrated_in_one_type": "False (top None, share n/a)",
+    "major_degradation": [
+     "object"
+    ],
+    "downstream_success": false
+   }
+  },
+  "E09": {
+   "spec": {
+    "title": "Query-conditioned Adaptive Sampling",
+    "readers": [
+     "e09_ads",
+     "e09_fix"
+    ],
+    "main": "e09_ads",
+    "hyp": "With the same number of feature samples (36), choosing WHERE to sample from the query improves discrimination.",
+    "train": "ml_r2 + 36 bilinear samples of the same fused F336 map per block (box coords in [-0.25, 1.25]); ads predicts the points from the query (initialised on the grid), fix keeps the grid. No new pixels, no crop encoding."
+   },
+   "validity": {
+    "e09_ads": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 2204,
+      "time": "2026-11-04 18:57:01"
+     },
+     "train_loss": [
+      0.121,
+      0.0915,
+      0.0876,
+      0.0849,
+      0.0822,
+      0.0794,
+      0.0763,
+      0.0733,
+      0.0708,
+      0.0694
+     ],
+     "val_loss": [
+      0.725,
+      0.1035,
+      0.0979,
+      0.0954,
+      0.0933,
+      0.0917,
+      0.0907,
+      0.0893,
+      0.089,
+      0.0892,
+      0.0895
+     ],
+     "val_M2": [
+      14.48,
+      39.38,
+      41.84,
+      42.19,
+      43.81,
+      43.89,
+      43.98,
+      45.19,
+      45.93,
+      45.55,
+      45.41
+     ],
+     "best_val_epoch": 8,
+     "train_subset_loss": 0.07287439331412315,
+     "train_subset_M2": 60.37374722231981
+    },
+    "e09_fix": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 2204,
+      "time": "2026-11-04 18:57:01"
+     },
+     "train_loss": [
+      0.1215,
+      0.0913,
+      0.0865,
+      0.0835,
+      0.0804,
+      0.0771,
+      0.0734,
+      0.0697,
+      0.0665,
+      0.0646
+     ],
+     "val_loss": [
+      0.7682,
+      0.1032,
+      0.0976,
+      0.0947,
+      0.0926,
+      0.0911,
+      0.0901,
+      0.0896,
+      0.0901,
+      0.0908,
+      0.0913
+     ],
+     "val_M2": [
+      14.55,
+      38.57,
+      42.6,
+      43.11,
+      44.0,
+      43.51,
+      45.13,
+      45.77,
+      44.96,
+      44.98,
+      44.89
+     ],
+     "best_val_epoch": 7,
+     "train_subset_loss": 0.0676636416465044,
+     "train_subset_M2": 65.22769473331893
+    }
+   },
+   "direct": {
+    "ability": false,
+    "rule": "ads - fix val M2 Overall CI lo > 0 (point movement reported alongside)",
+    "rows": [
+     [
+      "ads - fix (Overall)",
+      "+0.52 [-0.83, +1.87]"
+     ],
+     [
+      "ads - fix (Part)",
+      "+0.84 [-0.99, +2.33]"
+     ],
+     [
+      "ads - fix (Object)",
+      "+0.20 [-1.58, +2.25]"
+     ],
+     [
+      "block 0: mean |ads point - grid| (box units)",
+      "0.338"
+     ],
+     [
+      "block 0: fraction of ads points outside the box",
+      "0.040"
+     ],
+     [
+      "block 0: mean distance to box centre ads / fix",
+      "0.298 / 0.379"
+     ],
+     [
+      "block 1: mean |ads point - grid| (box units)",
+      "1.112"
+     ],
+     [
+      "block 1: fraction of ads points outside the box",
+      "0.999"
+     ],
+     [
+      "block 1: mean distance to box centre ads / fix",
+      "1.033 / 0.379"
+     ],
+     [
+      "fraction of last-block points on the instance mask ads / fix",
+      "0.006 / 0.528"
+     ]
+    ],
+    "in_mask": {
+     "ads": 0.006185185185185184,
+     "fix": 0.527962962962963
+    }
+   },
+   "downstream": {
+    "abs": {
+     "overall": 45.41477040549316,
+     "object": 45.22249554188298,
+     "part": 45.60704526910333,
+     "color": 47.69578127093311,
+     "pattern_marking": 44.243854193639606,
+     "material": 36.40944267916213,
+     "transparency": 53.310003478237775
+    },
+    "base": {
+     "overall": 46.234955501979435,
+     "object": 47.02386618118923,
+     "part": 45.446044822769636,
+     "color": 46.224315428543086,
+     "pattern_marking": 44.88761916539205,
+     "material": 38.87895657666969,
+     "transparency": 54.948930837312915
+    },
+    "delta": {
+     "overall": {
+      "point": -0.8201850964862771,
+      "lo": -2.2163172196994347,
+      "hi": 0.6826129055516913
+     },
+     "object": {
+      "point": -1.8013706393062492,
+      "lo": -3.5653851319993835,
+      "hi": 0.6061688339873373
+     },
+     "part": {
+      "point": 0.16100044633369492,
+      "lo": -1.953344423706977,
+      "hi": 1.6989589321787608
+     },
+     "color": {
+      "point": 1.4714658423900246,
+      "lo": -0.7500425092523988,
+      "hi": 3.250710665003705
+     },
+     "pattern_marking": {
+      "point": -0.6437649717524465,
+      "lo": -4.132354376565735,
+      "hi": 2.1170014272610835
+     },
+     "material": {
+      "point": -2.4695138975075537,
+      "lo": -4.968168261937153,
+      "hi": 0.39759057750862775
+     },
+     "transparency": {
+      "point": -1.63892735907514,
+      "lo": -4.518439443294947,
+      "hi": 2.434280441053844
+     }
+    },
+    "overall_improved": false,
+    "concentrated": true,
+    "top_type": "color",
+    "top_share": 1.0,
+    "major_degradation": [],
+    "downstream_success": false
+   },
+   "verdict": {
+    "run_valid": true,
+    "ability_shown": false,
+    "overall_improved": false,
+    "concentrated_in_one_type": "True (top color, share 1.00)",
+    "major_degradation": "none",
+    "downstream_success": false
+   }
+  },
+  "E11": {
+   "spec": {
+    "title": "Local/Context Gated Readout",
+    "readers": [
+     "e11_concat",
+     "e11_gate",
+     "e11_ctx"
+    ],
+    "main": "e11_gate",
+    "hyp": "Reading local and context evidence separately and gating them uses context better than one joint read of the same tokens.",
+    "train": "concat (primary control): one stream, 2 blocks over [ROI tokens ; all tokens]; gate: local stream (ROI tokens) and context stream (all tokens) + learnable per-channel gate; ctx: context-only ablation. Same tokens, same output dim."
+   },
+   "validity": {
+    "e11_concat": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 2624,
+      "time": "2026-11-04 19:04:01"
+     },
+     "train_loss": [
+      0.1214,
+      0.0908,
+      0.0858,
+      0.0827,
+      0.0795,
+      0.0759,
+      0.0718,
+      0.0675,
+      0.0638,
+      0.0617
+     ],
+     "val_loss": [
+      0.7654,
+      0.1039,
+      0.0967,
+      0.0934,
+      0.0915,
+      0.0906,
+      0.09,
+      0.0897,
+      0.0906,
+      0.0922,
+      0.0931
+     ],
+     "val_M2": [
+      13.97,
+      39.18,
+      42.61,
+      42.82,
+      44.32,
+      44.73,
+      45.02,
+      45.89,
+      45.78,
+      45.51,
+      45.31
+     ],
+     "best_val_epoch": 7,
+     "train_subset_loss": 0.06429285556077957,
+     "train_subset_M2": 67.88853234974171
+    },
+    "e11_gate": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 2624,
+      "time": "2026-11-04 19:04:01"
+     },
+     "train_loss": [
+      0.1188,
+      0.09,
+      0.0853,
+      0.0823,
+      0.079,
+      0.0753,
+      0.0708,
+      0.0659,
+      0.0614,
+      0.0589
+     ],
+     "val_loss": [
+      0.7375,
+      0.101,
+      0.0968,
+      0.0933,
+      0.0914,
+      0.0903,
+      0.0893,
+      0.0894,
+      0.0913,
+      0.0932,
+      0.0942
+     ],
+     "val_M2": [
+      13.86,
+      40.33,
+      41.44,
+      43.12,
+      44.39,
+      44.4,
+      45.77,
+      46.64,
+      45.99,
+      45.45,
+      45.35
+     ],
+     "best_val_epoch": 7,
+     "train_subset_loss": 0.06128900125622749,
+     "train_subset_M2": 70.67465108213675
+    },
+    "e11_ctx": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 2624,
+      "time": "2026-11-04 19:04:01"
+     },
+     "train_loss": [
+      0.1221,
+      0.0911,
+      0.0861,
+      0.083,
+      0.0798,
+      0.0762,
+      0.0722,
+      0.068,
+      0.0643,
+      0.0622
+     ],
+     "val_loss": [
+      0.7675,
+      0.1034,
+      0.0971,
+      0.0939,
+      0.0916,
+      0.0907,
+      0.0898,
+      0.0895,
+      0.0902,
+      0.0914,
+      0.0922
+     ],
+     "val_M2": [
+      14.31,
+      39.24,
+      42.52,
+      43.28,
+      45.79,
+      45.5,
+      45.47,
+      45.96,
+      46.27,
+      45.75,
+      45.64
+     ],
+     "best_val_epoch": 8,
+     "train_subset_loss": 0.06479421444237232,
+     "train_subset_M2": 68.24481383365367
+    }
+   },
+   "direct": {
+    "ability": false,
+    "rule": "gate - concat Part M2 CI lo > 0 AND removing context lowers gate's Part M2 (CI lo > 0)",
+    "rows": [
+     [
+      "gate - concat (Overall)",
+      "+0.04 [-1.67, +1.41]"
+     ],
+     [
+      "gate - concat (Part)",
+      "-0.61 [-2.74, +1.02]"
+     ],
+     [
+      "gate - concat (Object)",
+      "+0.70 [-1.63, +2.76]"
+     ],
+     [
+      "ctx-only - concat (Overall)",
+      "+0.33 [-1.49, +1.65]"
+     ],
+     [
+      "e11_gate: M2 drop when context removed (Overall / Part)",
+      "+5.04 [+3.15, +6.35] / +6.21 [+3.73, +8.15]"
+     ],
+     [
+      "e11_gate: mean |dp| when context removed",
+      "0.0196"
+     ],
+     [
+      "e11_gate: M2 drop when context swapd (Overall / Part)",
+      "-0.03 [-0.65, +0.84] / -0.51 [-1.34, +0.81]"
+     ],
+     [
+      "e11_gate: mean |dp| when context swapd",
+      "0.0051"
+     ],
+     [
+      "e11_concat: M2 drop when context removed (Overall / Part)",
+      "+0.48 [-0.46, +1.13] / +0.23 [-0.72, +1.23]"
+     ],
+     [
+      "e11_concat: mean |dp| when context removed",
+      "0.0063"
+     ],
+     [
+      "e11_concat: M2 drop when context swapd (Overall / Part)",
+      "+0.25 [-0.58, +0.87] / +0.12 [-0.56, +1.17]"
+     ],
+     [
+      "e11_concat: mean |dp| when context swapd",
+      "0.0057"
+     ],
+     [
+      "e11_ctx: M2 drop when context removed (Overall / Part)",
+      "-0.15 [-1.16, +1.06] / +0.67 [-0.55, +2.13]"
+     ],
+     [
+      "e11_ctx: mean |dp| when context removed",
+      "0.0095"
+     ],
+     [
+      "e11_ctx: M2 drop when context swapd (Overall / Part)",
+      "+0.02 [-0.79, +0.76] / +0.17 [-0.72, +1.22]"
+     ],
+     [
+      "e11_ctx: mean |dp| when context swapd",
+      "0.0063"
+     ],
+     [
+      "mean local gate g [object n_in 1-16] (1 = local only)",
+      "0.659"
+     ],
+     [
+      "mean local gate g [object 17+] (1 = local only)",
+      "0.675"
+     ],
+     [
+      "mean local gate g [part] (1 = local only)",
+      "0.643"
+     ]
+    ]
+   },
+   "downstream": {
+    "abs": {
+     "overall": 45.35100356242749,
+     "object": 45.70391469135604,
+     "part": 44.99809243349895,
+     "color": 46.16567398294295,
+     "pattern_marking": 45.05290397282561,
+     "material": 38.10779157306299,
+     "transparency": 52.077644720878425
+    },
+    "base": {
+     "overall": 46.234955501979435,
+     "object": 47.02386618118923,
+     "part": 45.446044822769636,
+     "color": 46.224315428543086,
+     "pattern_marking": 44.88761916539205,
+     "material": 38.87895657666969,
+     "transparency": 54.948930837312915
+    },
+    "delta": {
+     "overall": {
+      "point": -0.8839519395519417,
+      "lo": -2.5973218534452926,
+      "hi": 0.4624998271298955
+     },
+     "object": {
+      "point": -1.319951489833187,
+      "lo": -3.5382166292515205,
+      "hi": 0.5182123463994499
+     },
+     "part": {
+      "point": -0.44795238927068937,
+      "lo": -2.6938553074526728,
+      "hi": 1.189693363814964
+     },
+     "color": {
+      "point": -0.05864144560013784,
+      "lo": -2.434072974562945,
+      "hi": 1.7442624412791041
+     },
+     "pattern_marking": {
+      "point": 0.165284807433558,
+      "lo": -3.7187610598190375,
+      "hi": 2.938186722634912
+     },
+     "material": {
+      "point": -0.771165003606697,
+      "lo": -4.11770175578355,
+      "hi": 2.801800546554737
+     },
+     "transparency": {
+      "point": -2.87128611643449,
+      "lo": -6.080149706757574,
+      "hi": -0.10976137255659746
+     }
+    },
+    "overall_improved": false,
+    "concentrated": true,
+    "top_type": "pattern_marking",
+    "top_share": 1.0,
+    "major_degradation": [
+     "transparency"
+    ],
+    "downstream_success": false
+   },
+   "verdict": {
+    "run_valid": true,
+    "ability_shown": false,
+    "overall_improved": false,
+    "concentrated_in_one_type": "True (top pattern_marking, share 1.00)",
+    "major_degradation": [
+     "transparency"
+    ],
+    "downstream_success": false
+   }
+  },
+  "E12": {
+   "spec": {
+    "title": "Scale Decision Consistency",
+    "readers": [
+     "e12_cons"
+    ],
+    "main": "e12_cons",
+    "hyp": "Training the F336 reader to agree with the decisions of a 672-encoded view of the SAME 336 image (no new pixels) reduces the encoding-scale discrimination gap; inference uses F336 only.",
+    "train": "Student = ml_r2 on F336, BCE + 1.0 x BCE(student, sigmoid(teacher)) on all 59 attributes of the same real ROI. Teacher = ctrl_f672/f672_ml_r2 (336 canvas upsampled x2 -> DINOv2 672, same reader). Control = ml_r2 (BCE only)."
+   },
+   "validity": {
+    "e12_cons": {
+     "valid": true,
+     "status": "done",
+     "epochs_logged": 10,
+     "finite": true,
+     "info": {
+      "status": "done",
+      "epochs": 10,
+      "steps": 16017,
+      "time_s": 628,
+      "time": "2026-11-04 19:21:26"
+     },
+     "train_loss": [
+      0.1165,
+      0.087,
+      0.0823,
+      0.0792,
+      0.0763,
+      0.073,
+      0.0695,
+      0.0661,
+      0.0634,
+      0.0619
+     ],
+     "val_loss": [
+      0.7677,
+      0.1005,
+      0.0945,
+      0.091,
+      0.091,
+      0.0891,
+      0.0879,
+      0.0877,
+      0.0877,
+      0.0881,
+      0.0884
+     ],
+     "val_M2": [
+      14.75,
+      41.39,
+      43.56,
+      44.24,
+      44.8,
+      45.91,
+      46.15,
+      46.79,
+      46.88,
+      46.88,
+      46.74
+     ],
+     "best_val_epoch": 9,
+     "train_subset_loss": 0.06474314071238041,
+     "train_subset_M2": 68.2805727354538
+    }
+   },
+   "direct": {
+    "ability": true,
+    "rule": "student closer to the teacher than the baseline (CI hi < 0) AND gap closure > 0",
+    "rows": [
+     [
+      "teacher F672 - baseline F336 (val M2 Overall; does the teacher discriminate better?)",
+      "+2.79 [+0.96, +4.77]"
+     ],
+     [
+      "teacher F672 val M2 Overall / Part / Object",
+      "49.03 / 49.18 / 48.87"
+     ],
+     [
+      "student - baseline (val M2 Overall)",
+      "+0.50 [-1.04, +1.73]"
+     ],
+     [
+      "student - baseline (Part / Object)",
+      "+1.19 [-0.66, +2.48] / -0.18 [-2.18, +1.62]"
+     ],
+     [
+      "disagreement with teacher: BCE(student) - BCE(baseline) (lower = closer)",
+      "-0.0028 [-0.0031, -0.0026]"
+     ],
+     [
+      "gap closure = d(student) / d(teacher)",
+      "0.180"
+     ]
+    ]
+   },
+   "downstream": {
+    "abs": {
+     "overall": 46.73773909803164,
+     "object": 46.840504346501874,
+     "part": 46.6349738495614,
+     "color": 46.565106278581524,
+     "pattern_marking": 47.779930350451025,
+     "material": 38.60946323595375,
+     "transparency": 53.99645652714027
+    },
+    "base": {
+     "overall": 46.234955501979435,
+     "object": 47.02386618118923,
+     "part": 45.446044822769636,
+     "color": 46.224315428543086,
+     "pattern_marking": 44.88761916539205,
+     "material": 38.87895657666969,
+     "transparency": 54.948930837312915
+    },
+    "delta": {
+     "overall": {
+      "point": 0.502783596052204,
+      "lo": -1.0358822347874006,
+      "hi": 1.726560552851279
+     },
+     "object": {
+      "point": -0.18336183468735356,
+      "lo": -2.181138194807789,
+      "hi": 1.6210118157726576
+     },
+     "part": {
+      "point": 1.1889290267917616,
+      "lo": -0.6589198008386151,
+      "hi": 2.4777402429928563
+     },
+     "color": {
+      "point": 0.340790850038438,
+      "lo": -1.6031106528841543,
+      "hi": 2.229714627955259
+     },
+     "pattern_marking": {
+      "point": 2.892311185058972,
+      "lo": -0.9261605133840406,
+      "hi": 5.304900234266411
+     },
+     "material": {
+      "point": -0.26949334071593967,
+      "lo": -3.612297709888122,
+      "hi": 2.591915415164554
+     },
+     "transparency": {
+      "point": -0.9524743101726472,
+      "lo": -3.2880376647735643,
+      "hi": 1.9372451551031395
+     }
+    },
+    "overall_improved": false,
+    "concentrated": true,
+    "top_type": "pattern_marking",
+    "top_share": 0.8945932276993014,
+    "major_degradation": [],
+    "downstream_success": false
+   },
+   "verdict": {
+    "run_valid": true,
+    "ability_shown": true,
+    "overall_improved": false,
+    "concentrated_in_one_type": "True (top pattern_marking, share 0.89)",
+    "major_degradation": "none",
+    "downstream_success": false
+   }
+  }
+ }
+}

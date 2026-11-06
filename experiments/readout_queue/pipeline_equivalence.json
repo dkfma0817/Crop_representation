@@ -1,0 +1,18 @@
+{
+ "feat_L4_maxabs": 0.0,
+ "feat_L8_maxabs": 0.0,
+ "feat_L12_maxabs": 0.0,
+ "ml_r2": {
+  "logit_maxabs": 0.0,
+  "logit_meanabs": 0.0,
+  "M2_old": 46.234955501979435,
+  "M2_new": 46.234955501979435
+ },
+ "r2_final": {
+  "logit_maxabs": 0.0,
+  "logit_meanabs": 0.0,
+  "M2_old": 42.23223366951918,
+  "M2_new": 42.23223366951918
+ },
+ "ml_r2_vs_saved_ep10_maxabs": 0.0
+}

@@ -1,0 +1,8 @@
+{
+ "requires_grad_any": false,
+ "grads_present": false,
+ "checksum_before": -3447.499121916789,
+ "checksum_after": -3447.499121916789,
+ "unchanged": true,
+ "decoder": "output/2026-11-05/msd/H2/best_dev.pt"
+}

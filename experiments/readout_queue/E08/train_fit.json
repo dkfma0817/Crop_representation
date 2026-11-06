@@ -1,0 +1,68 @@
+{
+ "e08_x1": {
+  "train_subset_loss": 0.06815667822957039,
+  "train_subset_M2": {
+   "object/color": 60.565731918981236,
+   "object/pattern_marking": 71.89545873210295,
+   "object/material": 66.42224348562442,
+   "object/transparency": 64.81867119176535,
+   "object": 65.9255263321185,
+   "part/color": 65.58416512224615,
+   "part/pattern_marking": 71.92398491515574,
+   "part/material": 66.47690692051687,
+   "part/transparency": 67.27670716249543,
+   "part": 67.81544103010356,
+   "color": 63.074948520613695,
+   "pattern_marking": 71.90972182362934,
+   "material": 66.44957520307064,
+   "transparency": 66.04768917713038,
+   "overall": 66.87048368111101
+  },
+  "n_images": 2000,
+  "n_rows": 10600
+ },
+ "e08_x3": {
+  "train_subset_loss": 0.06649071909487247,
+  "train_subset_M2": {
+   "object/color": 61.11849700348885,
+   "object/pattern_marking": 73.23786753454884,
+   "object/material": 66.77028445736143,
+   "object/transparency": 63.638646875934015,
+   "object": 66.19132396783328,
+   "part/color": 63.41736520828536,
+   "part/pattern_marking": 70.92221408708073,
+   "part/material": 65.69505598549993,
+   "part/transparency": 65.18768119281718,
+   "part": 66.3055791184208,
+   "color": 62.26793110588711,
+   "pattern_marking": 72.08004081081478,
+   "material": 66.2326702214307,
+   "transparency": 64.4131640343756,
+   "overall": 66.24845154312705
+  },
+  "n_images": 2000,
+  "n_rows": 10600
+ },
+ "e08_ffn3": {
+  "train_subset_loss": 0.06655524857342243,
+  "train_subset_M2": {
+   "object/color": 60.64918932460232,
+   "object/pattern_marking": 73.6366532670013,
+   "object/material": 66.06541320024057,
+   "object/transparency": 60.027416050625824,
+   "object": 65.0946679606175,
+   "part/color": 66.44640601305125,
+   "part/pattern_marking": 67.8784669687953,
+   "part/material": 68.08849642231598,
+   "part/transparency": 66.20669790024166,
+   "part": 67.15501682610105,
+   "color": 63.547797668826774,
+   "pattern_marking": 70.7575601178983,
+   "material": 67.07695481127828,
+   "transparency": 63.11705697543375,
+   "overall": 66.12484239335927
+  },
+  "n_images": 2000,
+  "n_rows": 10600
+ }
+}

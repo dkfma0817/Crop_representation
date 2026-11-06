@@ -1,0 +1,112 @@
+{
+ "aux_loss_only_grad_norm_into_decoder_body": 0.12173617631196976,
+ "cache_checksum_before": {
+  "4": -10740.723925121953,
+  "8": -40801.8391997266,
+  "12": -84247.27789196302
+ },
+ "decoder_output_shape": [
+  32,
+  576,
+  768
+ ],
+ "teacher_shapes": {
+  "4": [
+   32,
+   576,
+   768
+  ],
+  "8": [
+   32,
+   576,
+   768
+  ],
+  "12": [
+   32,
+   576,
+   768
+  ]
+ },
+ "n_rois_rank0_step0": 32,
+ "step1_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 0.0,
+  "decoder_trunk (attention / FFN / embeddings)": 0.0,
+  "decoder_output_head (zero-init)": 0.2989908754825592,
+  "aux_heads (removed after training)": 0.17809832096099854
+ },
+ "cache_checksum_after_backward": {
+  "4": -10740.723925121953,
+  "8": -40801.8391997266,
+  "12": -84247.27789196302
+ },
+ "cache_unchanged": true,
+ "cache_requires_grad": {
+  "4": false,
+  "8": false,
+  "12": false
+ },
+ "step1_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 0.0,
+  "decoder_trunk (attention / FFN / embeddings)": 0.0,
+  "decoder_output_head (zero-init)": 9.058663999894634e-05,
+  "aux_heads (removed after training)": 0.00018082524184137583
+ },
+ "step2_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 1.6398284969909582e-06,
+  "decoder_trunk (attention / FFN / embeddings)": 2.0396402760525234e-05,
+  "decoder_output_head (zero-init)": 0.291287899017334,
+  "aux_heads (removed after training)": 0.17588533461093903
+ },
+ "step2_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 1.8996459402842447e-05,
+  "decoder_trunk (attention / FFN / embeddings)": 0.00016314047388732433,
+  "decoder_output_head (zero-init)": 0.00013678542745765299,
+  "aux_heads (removed after training)": 0.00026489634183235466
+ },
+ "step3_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 5.434837021311978e-06,
+  "decoder_trunk (attention / FFN / embeddings)": 6.766623846488073e-05,
+  "decoder_output_head (zero-init)": 0.30004018545150757,
+  "aux_heads (removed after training)": 0.17663465440273285
+ },
+ "step3_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 5.587990744970739e-05,
+  "decoder_trunk (attention / FFN / embeddings)": 0.0003986953233834356,
+  "decoder_output_head (zero-init)": 0.00018254949827678502,
+  "aux_heads (removed after training)": 0.00034475926076993346
+ },
+ "step4_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 6.5168310356966686e-06,
+  "decoder_trunk (attention / FFN / embeddings)": 7.846977678127587e-05,
+  "decoder_output_head (zero-init)": 0.24929873645305634,
+  "aux_heads (removed after training)": 0.1749943047761917
+ },
+ "step4_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 9.375971421832219e-05,
+  "decoder_trunk (attention / FFN / embeddings)": 0.0006248799618333578,
+  "decoder_output_head (zero-init)": 0.00022165020345710218,
+  "aux_heads (removed after training)": 0.00041532525210641325
+ },
+ "step5_grad_norm": {
+  "encoder_backbone (frozen, = teacher weights)": null,
+  "decoder_input_adapters A4/A8": 1.4703124179504812e-05,
+  "decoder_trunk (attention / FFN / embeddings)": 0.00018622935749590397,
+  "decoder_output_head (zero-init)": 0.29548144340515137,
+  "aux_heads (removed after training)": 0.2062329798936844
+ },
+ "step5_weight_update_norm": {
+  "encoder_backbone (frozen, = teacher weights)": 0.0,
+  "decoder_input_adapters A4/A8": 0.00014884088886901736,
+  "decoder_trunk (attention / FFN / embeddings)": 0.0009182772482745349,
+  "decoder_output_head (zero-init)": 0.0002649806847330183,
+  "aux_heads (removed after training)": 0.0004927515401504934
+ }
+}
