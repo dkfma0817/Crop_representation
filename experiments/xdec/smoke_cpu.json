@@ -1,0 +1,395 @@
+{
+ "time": "2026-11-05 15:55:32",
+ "device": "cpu",
+ "alignment_worst": {
+  "q_impl": 1.0013580322265625e-05,
+  "mem_impl": 3.814697265625e-06,
+  "bil_lin": 6.151199340820312e-05,
+  "bic_lin": 1.3473830223083496
+ },
+ "encoder": {
+  "requires_grad_any": false,
+  "feats_shape": [
+   8,
+   576,
+   768
+  ],
+  "teacher_shape": [
+   32,
+   576,
+   768
+  ],
+  "feats_std_mean": 1.4108763933181763,
+  "teacher_std_mean": 1.4615790843963623,
+  "n_roi": 32,
+  "valid_cells_per_roi_mean": 371.25
+ },
+ "bicubic_baseline_loss": 3.595877170562744,
+ "conds": {
+  "E1": {
+   "n_params": 1983744,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 0,
+    "pos_enc": 7936,
+    "trunk": 1579520,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1786368
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.315772533416748,
+   "valid_outputs_invariant_to_invalid_query_perturbation_max_abs": 0.0,
+   "n_invalid_queries": 6552,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 0.9155546426773071,
+    "head_last_linear": 0.9155546426773071,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.01464629266411066,
+    "memory_in": 0.0,
+    "pos_enc": 0.0028844629414379597,
+    "trunk": 0.013793716207146645,
+    "head": 0.9020093679428101,
+    "head_last_linear": 0.9020076990127563,
+    "all_before_last_linear": 0.020399201661348343
+   },
+   "loss_first_last": [
+    3.595877170562744,
+    2.803694725036621
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.27377152
+  },
+  "E2": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.5704157948493958,
+   "E2_invariant_to_non_roi_tokens_max_abs": 0.0,
+   "update1_grad_norm": {
+    "query_gen": 0.1213245838880539,
+    "memory_in": 0.8071808218955994,
+    "pos_enc": 0.3847813606262207,
+    "trunk": 1.6453839540481567,
+    "head": 1.2272776365280151,
+    "head_last_linear": 1.2151398658752441,
+    "all_before_last_linear": 1.8844764232635498
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.09236612915992737,
+    "memory_in": 0.6485683917999268,
+    "pos_enc": 0.3136633634567261,
+    "trunk": 1.3267885446548462,
+    "head": 1.0107874870300293,
+    "head_last_linear": 1.0002779960632324,
+    "all_before_last_linear": 1.5195592641830444
+   },
+   "loss_first_last": [
+    4.541930675506592,
+    2.70043683052063
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.11470336
+  },
+  "E3": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.3567161560058594,
+   "update1_grad_norm": {
+    "query_gen": 0.14263056218624115,
+    "memory_in": 0.8918806314468384,
+    "pos_enc": 0.4257854223251343,
+    "trunk": 1.8634341955184937,
+    "head": 1.429369568824768,
+    "head_last_linear": 1.41685152053833,
+    "all_before_last_linear": 2.122523069381714
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.10246989876031876,
+    "memory_in": 0.6187419295310974,
+    "pos_enc": 0.33564120531082153,
+    "trunk": 1.4240522384643555,
+    "head": 1.1033381223678589,
+    "head_last_linear": 1.0923148393630981,
+    "all_before_last_linear": 1.5994137525558472
+   },
+   "loss_first_last": [
+    4.555775165557861,
+    2.8332161903381348
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.112749568
+  },
+  "E4": {
+   "n_params": 2183168,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1985792
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.9583631157875061,
+   "update1_grad_norm": {
+    "query_gen": 1.111746072769165,
+    "memory_in": 0.5179634094238281,
+    "pos_enc": 0.23817412555217743,
+    "trunk": 0.9673096537590027,
+    "head": 1.0658057928085327,
+    "head_last_linear": 1.0540285110473633,
+    "all_before_last_linear": 1.587969183921814
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.9589599370956421,
+    "memory_in": 0.3910658359527588,
+    "pos_enc": 0.20132067799568176,
+    "trunk": 0.7943605184555054,
+    "head": 0.8794306516647339,
+    "head_last_linear": 0.868980348110199,
+    "all_before_last_linear": 1.3275340795516968
+   },
+   "loss_first_last": [
+    4.540375709533691,
+    2.634455680847168
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.339241984
+  },
+  "E5": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.315772533416748,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 1.0086569786071777,
+    "head_last_linear": 1.0086569786071777,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.002138062845915556,
+    "memory_in": 0.012558069080114365,
+    "pos_enc": 0.00542709045112133,
+    "trunk": 0.02458811178803444,
+    "head": 0.9828122854232788,
+    "head_last_linear": 0.9828104376792908,
+    "all_before_last_linear": 0.028282834216952324
+   },
+   "loss_first_last": [
+    3.595877170562744,
+    2.9324276447296143
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.112749568
+  },
+  "E6": {
+   "n_params": 2183168,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1985792
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.315772533416748,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 0.9115480184555054,
+    "head_last_linear": 0.9115480184555054,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.012712497264146805,
+    "memory_in": 0.006464705336838961,
+    "pos_enc": 0.0026861897204071283,
+    "trunk": 0.011586055159568787,
+    "head": 0.8975552916526794,
+    "head_last_linear": 0.897553563117981,
+    "all_before_last_linear": 0.01865215413272381
+   },
+   "loss_first_last": [
+    3.595877170562744,
+    2.805960178375244
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.339241984
+  },
+  "E7": {
+   "n_params": 2512384,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 2107904,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 2315008
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.381268709897995,
+   "valid_outputs_invariant_to_invalid_query_perturbation_max_abs": 0.0,
+   "n_invalid_queries": 6552,
+   "update1_grad_norm": {
+    "query_gen": 0.21910955011844635,
+    "memory_in": 1.191799521446228,
+    "pos_enc": 0.5718200206756592,
+    "trunk": 3.236192226409912,
+    "head": 2.0154449939727783,
+    "head_last_linear": 2.0026309490203857,
+    "all_before_last_linear": 3.5099573135375977
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.13662849366664886,
+    "memory_in": 0.7329574227333069,
+    "pos_enc": 0.38366979360580444,
+    "trunk": 2.059699773788452,
+    "head": 1.3159184455871582,
+    "head_last_linear": 1.3053275346755981,
+    "all_before_last_linear": 2.230072021484375
+   },
+   "loss_first_last": [
+    4.622899055480957,
+    2.8086953163146973
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.716729344
+  },
+  "R00": {
+   "n_params": 10160832,
+   "n_params_groups": {
+    "adapter": 297408,
+    "body": 9863424,
+    "head_last_linear": 1180416,
+    "all_before_last_linear": 8980416
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.0,
+   "update1_grad_norm": {
+    "adapter": 0.0,
+    "body": 0.36744391918182373,
+    "head_last_linear": 0.36744391918182373,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "adapter": 0.0014401074731722474,
+    "body": 0.36051687598228455,
+    "head_last_linear": 0.35872596502304077,
+    "all_before_last_linear": 0.03591911494731903
+   },
+   "loss_first_last": [
+    3.4602346420288086,
+    1.9340744018554688
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 10.215773184
+  }
+ }
+}

@@ -1,0 +1,419 @@
+{
+ "time": "2026-11-05 16:22:03",
+ "device": "cuda",
+ "alignment_worst": {
+  "q_impl": 1.0013580322265625e-05,
+  "mem_impl": 3.814697265625e-06,
+  "bil_lin": 6.151199340820312e-05,
+  "bic_lin": 1.3473830223083496
+ },
+ "encoder": {
+  "requires_grad_any": false,
+  "feats_shape": [
+   8,
+   576,
+   768
+  ],
+  "teacher_shape": [
+   32,
+   576,
+   768
+  ],
+  "feats_std_mean": 1.4115046262741089,
+  "teacher_std_mean": 1.461888313293457,
+  "n_roi": 32,
+  "valid_cells_per_roi_mean": 371.25
+ },
+ "bicubic_baseline_loss": 3.591609239578247,
+ "conds": {
+  "E1": {
+   "n_params": 1983744,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 0,
+    "pos_enc": 7936,
+    "trunk": 1579520,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1786368
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.3161242008209229,
+   "valid_outputs_invariant_to_invalid_query_perturbation_max_abs": 0.0,
+   "n_invalid_queries": 6552,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 0.9134262204170227,
+    "head_last_linear": 0.9134262204170227,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.014600112102925777,
+    "memory_in": 0.0,
+    "pos_enc": 0.0028752449434250593,
+    "trunk": 0.013761074282228947,
+    "head": 0.8998462557792664,
+    "head_last_linear": 0.8998445868492126,
+    "all_before_last_linear": 0.02034260332584381
+   },
+   "loss_first_last": [
+    3.591609239578247,
+    3.2657296657562256
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.953248768,
+   "latency_ms_per_batch": 3.321659564971924,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 237.79345703125
+  },
+  "E2": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.5704376697540283,
+   "E2_invariant_to_non_roi_tokens_max_abs": 0.0,
+   "update1_grad_norm": {
+    "query_gen": 0.12124365568161011,
+    "memory_in": 0.8062005639076233,
+    "pos_enc": 0.38425305485725403,
+    "trunk": 1.6435927152633667,
+    "head": 1.2268966436386108,
+    "head_last_linear": 1.214761734008789,
+    "all_before_last_linear": 1.8823752403259277
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.09231580048799515,
+    "memory_in": 0.6480308771133423,
+    "pos_enc": 0.313244491815567,
+    "trunk": 1.3251630067825317,
+    "head": 1.010695457458496,
+    "head_last_linear": 1.0001858472824097,
+    "all_before_last_linear": 1.5178204774856567
+   },
+   "loss_first_last": [
+    4.542410373687744,
+    3.2292983531951904
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.581843968,
+   "latency_ms_per_batch": 2.326953411102295,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 207.9755859375
+  },
+  "E3": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.3567504286766052,
+   "update1_grad_norm": {
+    "query_gen": 0.1426270753145218,
+    "memory_in": 0.8897886872291565,
+    "pos_enc": 0.4254651367664337,
+    "trunk": 1.861585021018982,
+    "head": 1.4292327165603638,
+    "head_last_linear": 1.4167197942733765,
+    "all_before_last_linear": 2.1199522018432617
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.10251493752002716,
+    "memory_in": 0.6178175210952759,
+    "pos_enc": 0.3354475498199463,
+    "trunk": 1.4227612018585205,
+    "head": 1.103878378868103,
+    "head_last_linear": 1.0928535461425781,
+    "all_before_last_linear": 1.5978739261627197
+   },
+   "loss_first_last": [
+    4.556290626525879,
+    3.2798030376434326
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.792226816,
+   "latency_ms_per_batch": 2.2280216217041016,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 210.77587890625
+  },
+  "E4": {
+   "n_params": 2183168,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1985792
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.9581602811813354,
+   "update1_grad_norm": {
+    "query_gen": 1.1108251810073853,
+    "memory_in": 0.5164124369621277,
+    "pos_enc": 0.23773202300071716,
+    "trunk": 0.9656336307525635,
+    "head": 1.0655598640441895,
+    "head_last_linear": 1.0537961721420288,
+    "all_before_last_linear": 1.5857206583023071
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.9585759043693542,
+    "memory_in": 0.38996458053588867,
+    "pos_enc": 0.20102810859680176,
+    "trunk": 0.7930303812026978,
+    "head": 0.8796592950820923,
+    "head_last_linear": 0.8692212104797363,
+    "all_before_last_linear": 1.326086163520813
+   },
+   "loss_first_last": [
+    4.5404767990112305,
+    3.2660045623779297
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 3.018719232,
+   "latency_ms_per_batch": 3.1972169876098633,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 247.1513671875
+  },
+  "E5": {
+   "n_params": 1985024,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1787648
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.3161242008209229,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 1.005694031715393,
+    "head_last_linear": 1.005694031715393,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.00213579717092216,
+    "memory_in": 0.012525921687483788,
+    "pos_enc": 0.005419610068202019,
+    "trunk": 0.024543331936001778,
+    "head": 0.9800002574920654,
+    "head_last_linear": 0.9799984097480774,
+    "all_before_last_linear": 0.028227904811501503
+   },
+   "loss_first_last": [
+    3.591609239578247,
+    3.328298568725586
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 2.792226816,
+   "latency_ms_per_batch": 3.0538320541381836,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 264.77587890625
+  },
+  "E6": {
+   "n_params": 2183168,
+   "n_params_groups": {
+    "query_gen": 198400,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 1580544,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 1985792
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "step0_head_max_abs": 0.0,
+   "step0_Z_equals_B": true,
+   "step0_Z_minus_B_max": 0.0,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 1.3161242008209229,
+   "update1_grad_norm": {
+    "query_gen": 0.0,
+    "memory_in": 0.0,
+    "pos_enc": 0.0,
+    "trunk": 0.0,
+    "head": 0.9096119999885559,
+    "head_last_linear": 0.9096119999885559,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.012674275785684586,
+    "memory_in": 0.006432396825402975,
+    "pos_enc": 0.002676816191524267,
+    "trunk": 0.01154418010264635,
+    "head": 0.8956246972084045,
+    "head_last_linear": 0.895622968673706,
+    "all_before_last_linear": 0.018587417900562286
+   },
+   "loss_first_last": [
+    3.591609239578247,
+    3.269084930419922
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 3.018719232,
+   "latency_ms_per_batch": 3.268706798553467,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 247.1513671875
+  },
+  "E7": {
+   "n_params": 2512384,
+   "n_params_groups": {
+    "query_gen": 256,
+    "memory_in": 198400,
+    "pos_enc": 7936,
+    "trunk": 2107904,
+    "head": 197888,
+    "head_last_linear": 197376,
+    "all_before_last_linear": 2315008
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.3813469409942627,
+   "valid_outputs_invariant_to_invalid_query_perturbation_max_abs": 0.0,
+   "n_invalid_queries": 6552,
+   "update1_grad_norm": {
+    "query_gen": 0.21887832880020142,
+    "memory_in": 1.1880388259887695,
+    "pos_enc": 0.571108877658844,
+    "trunk": 3.2309396266937256,
+    "head": 2.0152783393859863,
+    "head_last_linear": 2.0024750232696533,
+    "all_before_last_linear": 3.5037012100219727
+   },
+   "update2_grad_norm": {
+    "query_gen": 0.1366119533777237,
+    "memory_in": 0.7317776679992676,
+    "pos_enc": 0.3834013342857361,
+    "trunk": 2.0585825443267822,
+    "head": 1.3175309896469116,
+    "head_last_linear": 1.3069384098052979,
+    "all_before_last_linear": 2.228614091873169
+   },
+   "loss_first_last": [
+    4.623470306396484,
+    3.2689225673675537
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 4.07568384,
+   "latency_ms_per_batch": 2.6549935340881348,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 211.79736328125
+  },
+  "R00": {
+   "n_params": 10160832,
+   "n_params_groups": {
+    "adapter": 297408,
+    "body": 9863424,
+    "head_last_linear": 1180416,
+    "all_before_last_linear": 8980416
+   },
+   "shape": [
+    32,
+    576,
+    768
+   ],
+   "finite": true,
+   "output_independent_of_teacher": true,
+   "memory_swap_rel_change_valid": 0.0,
+   "update1_grad_norm": {
+    "adapter": 0.0,
+    "body": 0.36850181221961975,
+    "head_last_linear": 0.36850181221961975,
+    "all_before_last_linear": 0.0
+   },
+   "update2_grad_norm": {
+    "adapter": 0.0014466345310211182,
+    "body": 0.3615511357784271,
+    "head_last_linear": 0.3597465455532074,
+    "all_before_last_linear": 0.03610726073384285
+   },
+   "loss_first_last": [
+    3.460703134536743,
+    2.657909870147705
+   ],
+   "loss_decreased": true,
+   "encoder_grad_present": false,
+   "flops_per_roi_G": 10.215773184,
+   "latency_ms_per_batch": 2.5936365127563477,
+   "latency_batch_rois": 32,
+   "inference_peak_extra_mem_MB": 590.02294921875
+  }
+ }
+}
