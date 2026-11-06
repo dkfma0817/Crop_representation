@@ -1,15 +1,26 @@
 # Crop_representation
 
 작은 ROI의 full-image feature를 GT crop을 다시 인코딩한 것 같은(crop-like) representation으로 바꿀 수 있는지 보는 실험 기록입니다.
-평가는 PACO attribute(test-primary, M2)로 합니다.
+평가는 PACO attribute로 합니다. 실험마다 split(val / test-primary)과 지표(M0 / M2)가 다르므로 결론 열에 함께 적었습니다.
 
 ## 실험 목록
 
 | 폴더 | 날짜 | 내용 | 결론 |
 |---|---|---|---|
 | [`experiments/raev2_crop_recon/`](experiments/raev2_crop_recon/) | 2026-11-04 | frozen RAEv2 pixel decoder를 통한 pixel supervision으로 CoordMLP 학습. A = feature loss만, B = pixel loss만, C = feature + pixel | 복원 지표는 좋아졌지만 PACO 이득은 없음. C−A는 R2 +0.62로 seed 편차(0.49) 수준이고 R0는 +0.11. GT crop 상한과의 격차(Obj 5–16 약 −20)는 그대로 |
+| [`experiments/readout_queue/`](experiments/readout_queue/) | 2026-11-04 | frozen DINOv2 공유 feature 위 reader 변형: E08 반복 읽기, E09 query 적응 샘플링, E11 local/context gate, E12 scale 일관성 (+ D0 binding 진단) | 네 reader 모두 Multi-layer + R2(val M2 46.23)보다 유의한 개선 없음 (PACO val) |
+| [`experiments/msd/`](experiments/msd/) | 2026-11-05 | COCO에서 multi-depth(L4/L8/L12) crop distillation decoder 사전학습(H0–H3) → frozen PACO R2 probe | multi-depth 감독은 유의한 개선(H1−H0 +1.36, H3−H2 +1.01). 그래도 모두 Full Multi-layer + R2보다 1.3–2.7 낮음 (PACO val M0) |
+| [`experiments/sdec/`](experiments/sdec/) | 2026-11-05 | 공간 ROI decoder 구조 비교: A = 계층적(coarse-to-fine) vs flat, B = two-way vs one-way | 둘 다 PACO 개선 없음(A1−A0 +0.32, B1−B0 +0.34, CI가 0 포함). Full Multi-layer + R2보다 1.5–1.7 낮음 (PACO val M0) |
+| [`experiments/ivc/`](experiments/ivc/) | 2026-11-05 | 학습 없이 Bilinear / Bicubic ROI feature와 C0 crop feature의 차이, 그리고 성능 차이와의 연결 분석 (+ test-primary 1회) | C0−Bicubic R2 +2.73(유의), Bicubic−Bilinear는 차이 없음. 평균 표현과 ROI 내부 공간 구조 모두 크게 다르지만 ROI 단위 연결은 약함 (PACO val M0) |
+| [`experiments/xdec/`](experiments/xdec/) | 2026-11-05 | frozen F336에서 C0 crop feature를 만드는 decoder 구조 7종(E1–E7) + R00 비교 | 어느 decoder도 Bicubic(42.71)을 넘지 못함(최고 E6 42.70). feature 복원은 좋아졌지만(token cos 0.35 → 0.57) PACO 순서는 오히려 반대 (PACO val M0) |
+| [`experiments/svamp/`](experiments/svamp/) | 2026-11-05 | 학습 없이 Bicubic feature의 공간 분산 증폭(V1–V3) vs C0 공간 패턴 oracle(O2) | 분산만 키우면 효과 없음(−0.08 ~ −0.35). 같은 분산에 C0 패턴을 넣으면 +3.41로 C0 Full 수준 → 필요한 것은 분산 크기가 아니라 패턴 방향 (PACO val M0) |
+| [`experiments/raediag/`](experiments/raediag/) | 2026-11-05 | 학습 없이 RAEv2 복원 진단(GT crop / full 복원 후 crop / 보간 ROI latent decode)과 R00 구조 확인 | GT crop latent는 잘 복원되지만 보간 ROI latent는 full 복원보다도 나쁨. ROI 안이 평평한 latent가 원인이라는 설명과 가장 일관됨 |
+| [`experiments/densecmp/`](experiments/densecmp/) | 2026-11-06 | dense CLIP 계열 region representation 비교: EVA-CLIP / CLIPSelf / DeCLIP (입력 1024) + EVA-CLIP GT crop oracle | CLIPSelf가 EVA-CLIP보다 +13.39, GT crop oracle과 차이 없음(−0.05). DeCLIP은 +10.87 (PACO test-primary M2) |
+| [`experiments/e6dir/`](experiments/e6dir/) | 2026-11-06 | xdec E6에 centered direction loss 추가 | 위치별 패턴 cos는 0.387 → 0.404로 조금 개선. PACO는 개선 없음(−0.23, Bicubic 미만) (PACO val M0) |
+| [`experiments/e6ml/`](experiments/e6ml/) | 2026-11-06 | E6 decoder의 K/V memory에 중간층 L4/L8 추가 | 매칭 대조군 대비 +0.72(유의)지만 E6-original 대비 +0.13(차이 없음). Full Multi-layer + R2보다 −2.18 (PACO val M0) |
 
-보고서는 각 실험 폴더의 `README.md`, 사전 등록 프로토콜은 [`configs/raev2_crop_recon/protocol.md`](configs/raev2_crop_recon/protocol.md)에 있습니다.
+보고서는 각 실험 폴더의 `REPORT.md`(raev2_crop_recon은 `README.md`), 사전 등록 프로토콜은 `configs/<실험>/protocol.md`에 있습니다.
+ROI별 원자료(csv / parquet), checkpoint, probe 결과 같은 대용량 파일은 git에서 제외된 서버의 `output/<날짜>/<실행>/`에 남아 있습니다.
 
 ## 폴더 구조
 
@@ -24,14 +35,20 @@ Crop_representation/
 │   ├── engine/                 # train.py (A/B/C 학습, make_init), calib.py (β, λ 보정)
 │   ├── eval/                   # sanity, verify_pair, refs, recon, probe(PACO reader), paco(M2 AP), s0_table, hval_teacher_fullpad
 │   ├── viz/                    # analysis, large, plot_loss
-│   └── utils/                  # rcp.py (rae_crop_pilot RGB 지표), yaml_config.py (YAML 로더, _base_ 상속)
+│   ├── utils/                  # rcp.py (rae_crop_pilot RGB 지표), yaml_config.py (YAML 로더, _base_ 상속)
+│   ├── readout/                # readout_queue (E08–E12 reader, D0 binding)
+│   ├── msd/                    # msd (H0–H3) + sdec (sdec.py, sdirect.py, sreport.py)
+│   └── ivc/ xdec/ svamp/ raediag/ densecmp/ e6dir/ e6ml/   # 실험별 패키지 (폴더 이름 = 실험 이름)
 ├── configs/
 │   ├── paths.yaml              # 모든 경로 (데이터셋, cache/, third_party/, 이전 프로젝트 데이터·코드)
-│   └── raev2_crop_recon/
-│       ├── protocol.md         # 사전 등록 프로토콜
-│       └── train/              # base.yaml (공통 레시피) + A / B / C / C_L1 / overfit_{feat,pix}.yaml
+│   ├── raev2_crop_recon/
+│   │   ├── protocol.md         # 사전 등록 프로토콜
+│   │   └── train/              # base.yaml (공통 레시피) + A / B / C / C_L1 / overfit_{feat,pix}.yaml
+│   └── <실험>/                 # protocol.md + probe_*.yaml (일부는 architecture_audit.md, sample_rois.json)
 ├── scripts/raev2_crop_recon/   # 실행 스크립트 (run_extract_local.sh = 이 서버용 캐시 추출, run_main.sh RUN GPU = 학습 + probe)
+├── scripts/<실험>/             # queue / run_all, QAT pause·resume 스크립트 (실행 당시 output/ 폴더에 있던 것을 그대로 복사)
 ├── experiments/raev2_crop_recon/  # 보고서 README.md, results/, figures/
+├── experiments/<실험>/         # 보고서 REPORT.md, tables.md, 요약 csv/json, figures/
 ├── env/                        # requirements.txt, setup_env.sh
 ├── cache/                      # (git 제외) 모델 가중치, ROI 목록, feature 캐시, runs, probe
 ├── third_party/RAEv2/          # (git 제외) 공식 RAEv2 코드

@@ -3,7 +3,7 @@
 새 decoder는 학습하지 않았다. xdec의 Bicubic tensor B를 학습 없이 변환하고, 조건마다 R2 reader만 새로 학습했다. 결과는 R2 primary 기준이다.
 - **평가 범위:** PACO **Val**만 평가했다. Test는 실행하지 않았다.
 - **Seed:** reader seed는 0 하나다. CI는 평가 이미지의 변동을 나타내고, 학습 seed 변동은 반영하지 않는다.
-- **관련 파일:** 사전 프로토콜은 [`protocol.md`](protocol.md), 자동 생성 표 전체는 [`tables.md`](tables.md)에 있다. 원자료는 `paco_results.csv`, `bootstrap_results.csv`, `feature_statistics.csv`, `transform_checks.json`이다.
+- **관련 파일:** 사전 프로토콜은 [`protocol.md`](../../configs/svamp/protocol.md), 자동 생성 표 전체는 [`tables.md`](tables.md)에 있다. 원자료는 `paco_results.csv`, `bootstrap_results.csv`, `feature_statistics.csv`, `transform_checks.json`이다.
 
 ## 결론 먼저
 

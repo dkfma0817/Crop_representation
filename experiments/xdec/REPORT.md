@@ -3,7 +3,7 @@
 Frozen F336 final-layer feature에서 C0 crop feature를 만드는 decoder 구조 7개를 같은 loss, 데이터, recipe, reader로 비교했다.
 - **평가 범위:** PACO **Val만** 평가했다. Test는 평가하지 않았다.
 - **Seed:** 학습 seed는 0 하나다. CI는 평가 표본(이미지) 불확실성이고 학습 seed 분산은 아니다.
-- **관련 문서:** 사전 프로토콜은 [`protocol.md`](protocol.md), 기존 구조 감사는 [`architecture_audit.md`](architecture_audit.md)에 있다. 자동 생성 표 전체는 [`tables.md`](tables.md), 수치 원본은 [`results/analysis.json`](results/analysis.json)에 있다.
+- **관련 문서:** 사전 프로토콜은 [`protocol.md`](../../configs/xdec/protocol.md), 기존 구조 감사는 [`architecture_audit.md`](../../configs/xdec/architecture_audit.md)에 있다. 자동 생성 표 전체는 [`tables.md`](tables.md), 수치 원본은 [`results/analysis.json`](analysis.json)에 있다.
 
 ## 결론 먼저
 

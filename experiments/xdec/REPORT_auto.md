@@ -1,6 +1,6 @@
 # Decoder Architecture Pilot (E1–E7) 결과 보고서
 
-> 자동 생성 초안(규칙 기반 판정). 수치 원본은 [`tables.md`](tables.md), [`results/analysis.json`](results/analysis.json)에 있다. 프로토콜은 [`protocol.md`](protocol.md), 구조 감사는 [`architecture_audit.md`](architecture_audit.md)에 있다. PACO **Val만** 평가했고 Test는 평가하지 않았다. 학습 seed는 0 하나이므로 CI는 평가 표본의 불확실성만 나타낸다.
+> 자동 생성 초안(규칙 기반 판정). 수치 원본은 [`tables.md`](tables.md), [`results/analysis.json`](analysis.json)에 있다. 프로토콜은 [`protocol.md`](../../configs/xdec/protocol.md), 구조 감사는 [`architecture_audit.md`](../../configs/xdec/architecture_audit.md)에 있다. PACO **Val만** 평가했고 Test는 평가하지 않았다. 학습 seed는 0 하나이므로 CI는 평가 표본의 불확실성만 나타낸다.
 
 ## 실행 상태
 
