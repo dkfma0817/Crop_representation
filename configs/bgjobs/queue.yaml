@@ -1,0 +1,164 @@
+gpus:
+  0:
+  - dinov3_attribute_distill
+  - dinov3_attribute_distill_r2
+  - dinov3_attribute_distill_r3
+  - dinov3_attribute_distill_r4
+  - dinov3_attribute_distill_r5
+  - dinov3_attribute_distill_r6
+  - dinov3_attribute_distill_r7
+  - dinov3_attribute_distill_r8
+  - dinov3_attribute_distill_r9
+  - dinov3_attribute_distill_r10
+  0b: []
+  0bb: []
+  1:
+  - dinov3_discriminative_region
+  - dinov3_attribute_distill_supervised
+  - dinov3_attribute_distill_supervised_r2
+  - dinov3_discriminative_region_r3
+  - dinov3_discriminative_region_r4
+  - dinov3_discriminative_region_r5
+  - dinov3_discriminative_region_r6
+  - dinov3_discriminative_region_r7
+  - dinov3_discriminative_region_r8
+  1b:
+  - dinov3_discriminative_region_r2
+  - dinov3_discriminative_region_r3
+  1bb: []
+spill:
+  1:
+  - dinov3_attribute_distill_supervised
+  0b:
+  - dinov3_attribute_distill_r2
+  - dinov3_discriminative_region_r3
+  0bb:
+  - dinov3_discriminative_region_r3
+  1bb:
+  - dinov3_discriminative_region_r3
+  0:
+  - dinov3_attribute_distill_supervised_r2
+  - dinov3_discriminative_region_r3
+jobs:
+  dinov3_attribute_distill:
+    set:
+    - loss.lambda_kd=1.0
+  dinov3_attribute_distill_supervised:
+    set:
+    - loss.lambda_kd=0.0
+  dinov3_discriminative_region:
+    set:
+    - loss.lambda_kd=1.0
+    - loss.lambda_rank=auto
+  dinov3_attribute_distill_r2:
+    set:
+    - loss.lambda_kd=1.0
+    after: dinov3_attribute_distill
+    delete_after_checkpoints: true
+  dinov3_attribute_distill_supervised_r2:
+    set:
+    - loss.lambda_kd=0.0
+    after: dinov3_attribute_distill_supervised
+    delete_after_checkpoints: true
+  dinov3_discriminative_region_r2:
+    set:
+    - loss.lambda_kd=1.0
+    - loss.lambda_rank=auto
+    after: dinov3_discriminative_region
+    delete_after_checkpoints: true
+  dinov3_attribute_distill_r3:
+    set:
+    - loss.lambda_kd=1.0
+    after: dinov3_attribute_distill_r2
+  dinov3_discriminative_region_r3:
+    parallel_eval: true
+    set:
+    - loss.lambda_kd=1.0
+    - loss.lambda_rank=auto
+    after: dinov3_discriminative_region_r2
+  dinov3_attribute_distill_r4:
+    set:
+    - loss.lambda_kd=1.0
+    after: dinov3_attribute_distill_r3
+  dinov3_discriminative_region_r4:
+    set:
+    - loss.lambda_kd=1.0
+    - loss.lambda_rank=auto
+    after: dinov3_discriminative_region_r3
+  dinov3_attribute_distill_r5:
+    set: &id002
+    - loss.lambda_kd=1.0
+    after: dinov3_attribute_distill_r4
+    repeat: false
+  dinov3_discriminative_region_r5:
+    set: &id001
+    - loss.lambda_kd=1.0
+    - loss.lambda_rank=auto
+    after: dinov3_discriminative_region_r4
+    repeat: false
+  dinov3_discriminative_region_r6:
+    set: *id001
+    after: dinov3_discriminative_region_r5
+    repeat: false
+  dinov3_attribute_distill_r6:
+    set: *id002
+    after: dinov3_attribute_distill_r5
+    repeat: false
+  dinov3_discriminative_region_r7:
+    set: *id001
+    after: dinov3_discriminative_region_r6
+    repeat: false
+  dinov3_attribute_distill_r7:
+    set: *id002
+    after: dinov3_attribute_distill_r6
+    repeat: false
+  dinov3_attribute_distill_r8:
+    set: *id002
+    after: dinov3_attribute_distill_r7
+    repeat: false
+  dinov3_discriminative_region_r8:
+    set: *id001
+    after: dinov3_discriminative_region_r7
+    repeat: true
+  dinov3_attribute_distill_r9:
+    set: *id002
+    after: dinov3_attribute_distill_r8
+    repeat: false
+  dinov3_attribute_distill_r10:
+    set: *id002
+    after: dinov3_attribute_distill_r9
+    repeat: true
+cpu_affinity:
+  0:
+  - 0
+  - 2
+  - 4
+  - 6
+  - 8
+  - 10
+  - 12
+  - 14
+  - 16
+  - 18
+  - 20
+  - 22
+  1:
+  - 24
+  - 26
+  - 28
+  - 30
+  - 32
+  - 34
+  - 36
+  - 38
+  - 40
+  - 42
+  - 44
+  - 46
+cpu_background_affinity:
+- 1
+- 3
+- 5
+- 7
+- 9
+- 11

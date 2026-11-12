@@ -1,0 +1,85 @@
+# dinov3_crop_aware_pretrain (src/crop_aware_pretrain). Every value below is recorded in <run>/config_effective.yaml at start.
+name: dinov3_crop_aware_pretrain
+run_dir: output/2026-11-09/dinov3_crop_aware_pretrain
+seed: 0
+backbone: dinov3                 # src.viz.c0_pca.BACKBONES: timm vit_base_patch16_dinov3.lvd1689m @384 (the G1 / C0 / probe encoder)
+
+model:
+  trainable_last_blocks: 4       # blocks[-N:] train; earlier blocks, patch_embed, cls/reg tokens stay at the pretrained weights
+  train_norm: true               # final LayerNorm of the encoder (same as G1, which trained the whole encoder)
+
+data:                            # scope: COCO train2017 OBJECT ROIs only (no PACO parts; see ROI sources hook in data.py)
+  rois_per_image: 4
+  min_side: 8                    # src.data.make_rois.MIN_SIDE (px on the original image)
+  area_bins_px2: [1024, 9216]    # box area on the original image: small / medium / large (COCO thresholds)
+  bin_probs: [0.6, 0.25, 0.15]    # draw probability per bin (renormalised over the non-empty bins of an image); chosen so small boxes are drawn at about their raw share (26%)
+  workers: 24                    # per rank; raised from 8 because the GPU waited on image loading (mean utilization 35%). Does not change the data order
+
+train:
+  max_steps: 100000              # optimizer steps
+  global_batch_images: 16        # images per optimizer step (= 64 ROIs at 4 ROIs/image, = G1)
+  micro_batch_images: 8          # images per forward pass on one GPU; accumulation = global / (world * micro)
+  enc_lr: 5.0e-5                 # top of the layer-wise decay (= G1)
+  llrd: 0.75
+  weight_decay: 0.05
+  warmup_steps: 600
+  grad_clip: 1.0
+  ema_m0: 0.999                  # EMA m(t): 0.999 -> 1 cosine over max_steps (= G1)
+
+loss:
+  lambda_crop: 1.0
+  lambda_preserve: 0.5           # = G1 (L_preserve is exactly 0 at init, so it cannot be set from a gradient ratio)
+  crop:
+    pool: 1.0                    # 1 - cos(area-weighted pooled ROI tokens, pooled crop-teacher tokens)
+    spatial: 0.5                 # coarse K x K grid over the ROI: both sides pooled to the same image region
+    spatial_k: 3
+    spatial_min_cells: 1.0       # a coarse cell must span >= this many token cells on BOTH grids, else the ROI skips the spatial term
+  preserve:                      # 1 - cos vs the frozen pretrained encoder on the same full image; weights normalised by their sum
+    cls: 1.0
+    mean_patch: 1.0
+    token_outside: 1.0           # per-token, only cells outside every sampled ROI of the image
+
+ckpt:
+  save_every: 1000
+  keep_last: 3
+
+log:
+  every: 50
+  diag_every: 0                  # 0: no COCO dev diagnostic inside training (it stalled training about 2 min each time); evals.py runs it per exported EMA, in its own process
+  grad_check_every: 1000         # per-loss encoder gradient norms
+  heartbeat_every: 5
+
+eval:                            # PACO val R2 probe = src.g1x.probe (frozen encoder, identical protocol as probe_frozen_full)
+  steps: [0, 5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
+  baseline_full: output/2026-11-06/g1_cross_distill/probe_frozen_full   # existing Frozen Full probe (cross-check of step 0)
+  baseline_c0: output/2026-11-06/ivc_v3/probe_c0                        # existing C0 crop oracle probe (same protocol)
+  baseline_c0_official: output/2026-11-09/g1_upscaled_teacher_s0/eval   # C0 crop oracle on official Val (selection.json, eval_val/C0_r2)
+  exclude: output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json
+  workers: 8
+  bootstrap: 1000
+  max_attempts: 2
+  stop_rule:                     # applied once when the eval at gate_step exists (uses PACO val only)
+    gate_step: 20000
+    hold_at_gate: false          # false (user request 2026-11-09): training keeps running past the gate while PACO evals catch up; the halt applies when the decision arrives
+    metric: m2_overall
+    min_best_gain: 0.5           # stop if the best delta over evals <= gate_step is below this (val M2 points, vs step 0)
+    worse_tolerance: 0.5         # stop if the last three evals are all worse than step 0 by more than this
+
+supervisor:
+  watch_gpus: [0]                # candidate physical GPU indices; which of them are used is decided from live state
+  max_gpus: 2
+  poll_s: 10
+  yield_to_external: false       # user request 2026-11-09: a running job is NOT stopped because another job appears on its GPU; only ctl pause / reserve or a forced kill stop it
+  external_grace_s: 60           # a running job yields only to an external job that stays this long (user request: short jobs of other queues must not stop training)
+  trust_idle_at_start: false     # true: skip the idle_stable_s wait on the first tick only (for a start explicitly requested on GPUs known to be free)
+  idle_stable_s: 20              # a GPU must look idle this long before training (re)starts on it (shortened by user request: GPUs must not stay idle)
+  scale_up_stable_s: 60          # 1 -> 2 GPUs only after the second GPU stayed idle this long
+  min_run_before_rescale_s: 120  # never restart for a scale-up earlier than this after a launch
+  mem_idle_mib: 2000             # external memory (used minus our own processes) above this = busy
+  util_idle_pct: 10              # utilization above this on a GPU without our processes = busy
+  stop_timeout_s: 900
+  rank_grace_s: 120              # one rank exited and the other did not within this -> stop the rest of OUR job
+  hang_timeout_s: 1800           # no heartbeat for this long while running -> stop our job, counted as a failure
+  max_consecutive_failures: 3
+  failure_backoff_s: 300
+  progress_reset_steps: 100      # a crash after at least this many new steps resets the failure counter

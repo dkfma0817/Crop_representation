@@ -1,0 +1,13 @@
+# G1-bq (2026-11-08): Bilinear-query G1-cross, ENCODER ONLY (decoder dropped) -> R2 (D=1024) + head; = configs/g1clip/probe_g1cross_enc.yaml
+name: g1bq_probe_enc
+kind: enc_any
+ckpt: output/2026-11-08/g1bq/G1bq/ema_last.pt
+mode: full
+precision: fp32
+seed: 0
+data_seed: 0
+epochs: 10
+paco_dev_images: 1000
+lr: 3.0e-4
+head_lr: 1.0e-3
+wd: 0.05

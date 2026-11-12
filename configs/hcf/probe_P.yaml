@@ -1,0 +1,15 @@
+name: probe_P
+cond: P
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+- name: r2fused
+  kind: r2
+  layers:
+  - Q
+- name: r2coarse
+  kind: r2
+  layers:
+  - 12
+ckpt: output/2026-11-08/hcf_pilot/P/checkpoints/ema_last.pt

@@ -1,0 +1,13 @@
+# decoder study 2026-11-07: frozen path -> R2 (D=1024) + head; g1clip probe protocol, fixed epoch 6 of 10
+name: decstudy_b0
+kind: bilinear
+ckpt: output/2026-11-07/g1clip/G1cross/ema_last.pt
+mode: dec
+precision: fp32
+seed: 0
+data_seed: 0
+epochs: 10
+paco_dev_images: 1000
+lr: 3.0e-4
+head_lr: 1.0e-3
+wd: 0.05

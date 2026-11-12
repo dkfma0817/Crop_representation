@@ -1,0 +1,12 @@
+# G1 on CLIP ViT-L/14@336 (2026-11-07): frozen G1 checkpoint (final EMA) -> R2 (D=1024) + attribute head; = maskemb probe protocol
+name: g1clip_probe_g1cross_dec
+ckpt: output/2026-11-07/g1clip/G1cross/ema_last.pt
+mode: dec
+precision: fp32
+seed: 0
+data_seed: 0
+epochs: 10
+paco_dev_images: 1000
+lr: 3.0e-4
+head_lr: 1.0e-3
+wd: 0.05

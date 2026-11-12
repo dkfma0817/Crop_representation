@@ -1,0 +1,11 @@
+# G1-pool / G1-cross pilot (2026-11-06): frozen R0 + R2 probe (src.g1x.probe = src.ivc.train_bb protocol), original DINOv3, full-image tokens, R2 full-canvas geometry
+name: g1x_probe_frozen_full
+backbone: dinov3
+mode: full
+
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+  - {name: r0, kind: r0}
+  - {name: r2, kind: r2, layers: [12]}

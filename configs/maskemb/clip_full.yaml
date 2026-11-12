@@ -1,0 +1,12 @@
+# MaskEmbed vs OpenAI CLIP ViT-L/14@336 PACO pilot (2026-11-07): frozen encoder, R2 (D=1024) + attribute head only
+name: maskemb_clip_full
+encoder: clip
+mode: full
+precision: auto        # fixed once by src.maskemb.prec_check (same for all three jobs)
+seed: 0
+data_seed: 0
+epochs: 10
+paco_dev_images: 1000
+lr: 3.0e-4
+head_lr: 1.0e-3
+wd: 0.05

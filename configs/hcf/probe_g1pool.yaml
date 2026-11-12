@@ -1,0 +1,11 @@
+name: probe_g1pool
+cond: g1pool
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+- name: r2
+  kind: r2
+  layers:
+  - 12
+ckpt: output/2026-11-06/g1_cross_distill/G1pool/ema_last.pt

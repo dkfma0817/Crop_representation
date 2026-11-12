@@ -1,0 +1,51 @@
+# Background jobs (src/bgjobs): base config shared by every job. Experiment-specific keys live in configs/bgjobs/queue.yaml.
+run_dir: output/2026-11-09/bgjobs/UNSET           # set per job by the supervisor
+seed: 0
+backbone: dinov3                                  # timm vit_base_patch16_dinov3.lvd1689m @384 (src.viz.c0_pca.BACKBONES)
+model:
+  trainable_last_blocks: 4                        # = dinov3_crop_aware_pretrain
+  train_norm: true
+data:
+  teacher_probe: output/2026-11-06/ivc_v3/probe_c0   # C0 crop R2 reader (trained on PACO train); epoch = max PACO-dev M0 (no Val information)
+  teacher_cache: output/2026-11-09/bgjobs/shared/teacher_logits
+  workers: 16
+train:
+  max_steps: 100000
+  accum: 1                                        # shards per optimizer step are 4 (~128 ROIs); accum splits them over 1, 2 or 4 forward passes
+  enc_lr: 5.0e-5
+  llrd: 0.75
+  weight_decay: 0.05
+  head_lr: 1.0e-3                                 # learning-only R2 head (= probe recipe: reader 3e-4, heads 1e-3)
+  reader_lr: 3.0e-4
+  warmup_steps: 600
+  grad_clip: 1.0
+  ema_m0: 0.999
+loss:
+  lambda_gt: 1.0
+  lambda_kd: 1.0
+  lambda_preserve: 0.5
+  lambda_rank: 0.0                                # 'auto' = median ||g_enc L_gt|| / ||g_enc L_rank|| over 8 steps at init, 2 s.f.
+ckpt:
+  save_every: 1000                                # resume checkpoint
+  keep_last: 3
+  analysis_every: 5000                            # EMA encoder kept for analysis
+log:
+  every: 50
+  grad_check_every: 2000
+  heartbeat_every: 5
+eval:
+  steps: [5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
+  exclude: output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json
+  workers: 8
+  bootstrap: 1000
+  m2_report: false                                # official AP only
+  diag: false
+  baseline_c0_official: output/2026-11-09/g1_upscaled_teacher_s0/eval
+  baseline_step0_official: output/2026-11-09/dinov3_crop_aware_pretrain/evals/step_00000000/official   # Original DINOv3 Full, same protocol
+  max_attempts: 2
+  stop_rule:                                      # official Val Overall = (Object + Part) / 2, vs Original DINOv3
+    enforce: false                                # false (user 2026-11-09, overnight: GPUs must not sit idle): the decision is recorded in stop_decision.json but training continues to max_steps
+    gate_step: 20000
+    min_best_gain: 0.5                            # STOPPED_NO_GAIN if the best gain up to gate_step is below this
+    patience_evals: 3                             # after the gate: stop if this many consecutive evals fail to beat the best by min_improve
+    min_improve: 0.3

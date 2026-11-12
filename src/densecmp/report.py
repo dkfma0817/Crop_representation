@@ -33,6 +33,21 @@ CONTRASTS = [("clipself1024", "eva1024"), ("declip1024", "eva1024"), ("declip102
              ("evac0", "eva1024"), ("evac0", "clipself1024"), ("evac0", "declip1024"),
              ("clipself560", "eva560"), ("declip560", "eva560"), ("declip560", "clipself560"),
              ("evac0", "eva560"), ("evac0", "clipself560"), ("evac0", "declip560")]
+# Full-224 comparison (2026-11-06 evening): 224 probes in <run>/probes/<enc>_full224, 1024 probes + oracle symlinked from
+# output/2026-11-06/densecmp/probes (same code / protocol; only --side differs). All test-scored once (test_eval).
+MODELS_224 = [
+    ("eva224", "eva_full224", "EVA-CLIP Full 224", "res224"),
+    ("clipself224", "clipself_full224", "CLIPSelf Full 224", "res224"),
+    ("declip224", "declip_full224", "DeCLIP Full 224", "res224"),
+    ("eva1024", "eva_full1024", "EVA-CLIP Full 1024", "res1024"),
+    ("clipself1024", "clipself_full1024", "CLIPSelf Full 1024", "res1024"),
+    ("declip1024", "declip_full1024", "DeCLIP Full 1024", "res1024"),
+    ("evac0", "eva_c0224", "EVA-CLIP GT crop 224 (oracle)", "oracle"),
+]
+CONTRASTS_224 = [("clipself224", "eva224"), ("declip224", "eva224"), ("declip224", "clipself224"),
+                 ("eva224", "eva1024"), ("clipself224", "clipself1024"), ("declip224", "declip1024"),
+                 ("evac0", "eva224"), ("evac0", "clipself224"), ("evac0", "declip224"),
+                 ("clipself1024", "eva1024"), ("declip1024", "eva1024")]
 COLS = [("Overall", "all", "overall"), ("Obj 5-16", "D5-16", "object"), ("Part 1-4", "D1-4", "part"), ("Color", "all", "color"),
         ("Material", "all", "material"), ("Pattern", "all", "pattern_marking"), ("Object", "all", "object"), ("Part", "all", "part"),
         ("Obj 17+", "D17+", "object"), ("Part 5-16", "D5-16", "part"), ("Part 17+", "D17+", "part")]
@@ -57,6 +72,7 @@ def jl(p):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", required=True)
+    ap.add_argument("--set", default="1024", choices=["1024", "res224"])
     a = ap.parse_args()
     P = os.path.join(a.run, "probes")
     data = RC.load_data(EXCL, splits=("train", "val", "test"))
@@ -66,7 +82,8 @@ def main():
     prim = ~dte.in_decoder_pool.values.astype(bool)
     v17 = ~dte.path.str.contains("train2017").values
     nin, ninv = dte.n_in.values, dva.n_in.values
-    have = [m for m in MODELS if os.path.isfile(os.path.join(P, m[1], "scores_test.npy"))]
+    models, contrasts = (MODELS, CONTRASTS) if a.set == "1024" else (MODELS_224, CONTRASTS_224)
+    have = [m for m in models if os.path.isfile(os.path.join(P, m[1], "scores_test.npy"))]
     print("models with test scores:", [m[0] for m in have])
     subsets = {"test": dict(all=Boot(dte, Yte, Ytr_by, mask=prim), **{nm: Boot(dte, Yte, Ytr_by, mask=prim & (nin >= lo) & (nin <= hi)) for nm, lo, hi in DBINS}),
                "test_val2017": dict(all=Boot(dte, Yte, Ytr_by, mask=prim & v17),
@@ -97,6 +114,20 @@ def main():
         return None if r is None or g not in r else r[g]
 
     L, rows = [], []
+    if a.set == "res224":
+        L += ["## Summary — PACO test-primary, R2, M2 (dev-selected epoch, test scored once)", "",
+              "| Method | Full 1024 Test M2 | Full 224 Test M2 | Δ (224 − 1024) [95% CI] | Obj D5–16 (224) | Part D1–4 (224) |", "|---|---|---|---|---|---|"]
+        for e, lab in (("eva", "EVA-CLIP"), ("clipself", "CLIPSelf"), ("declip", "DeCLIP")):
+            if f"{e}224" not in RES or f"{e}1024" not in RES:
+                continue
+            g = lambda k, b, c: float(val(k, "test", "m2", b, c)[0])  # noqa: E731
+            dd = summarize(val(f"{e}224", "test", "m2", "all", "overall"), val(f"{e}1024", "test", "m2", "all", "overall"))
+            L.append(f"| {lab} | {f2(g(f'{e}1024', 'all', 'overall'))} | {f2(g(f'{e}224', 'all', 'overall'))} | {fci(dd)} | "
+                     f"{f2(g(f'{e}224', 'D5-16', 'object'))} | {f2(g(f'{e}224', 'D1-4', 'part'))} |")
+        if "evac0" in RES:
+            g = lambda b, c: float(val("evac0", "test", "m2", b, c)[0])  # noqa: E731
+            L.append(f"| GT Crop 224 (EVA-CLIP, reused) | – | {f2(g('all', 'overall'))} (crop input) | – | {f2(g('D5-16', 'object'))} | {f2(g('D1-4', 'part'))} |")
+        L.append("")
     nu = {sp: {b: (len(bb.U), len(bb.Uo)) for b, bb in s.items()} for sp, s in subsets.items()}
     for sp, title in (("test", "PACO test-primary"), ("test_val2017", "PACO test-primary, COCO val2017 images only (exposure sensitivity)"),
                       ("val", "PACO val (dev-selected epoch)")):
@@ -114,7 +145,7 @@ def main():
                 L.append(f"| {lab} | {g_[0]}x{g_[1]} | {META[key]['epoch']} | " + " | ".join(cells) + " |")
             L += ["", f"Paired image bootstrap ({m.upper()}, B=1000, seed 0; * = 95% CI excludes 0)", "",
                   "| Contrast | " + " | ".join(c[0] for c in COLS) + " |", "|---|" + "---|" * len(COLS)]
-            for x, y in CONTRASTS:
+            for x, y in contrasts:
                 if x not in RES or y not in RES:
                     continue
                 cells = []

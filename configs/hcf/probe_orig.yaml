@@ -1,0 +1,16 @@
+name: probe_orig
+cond: orig
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+- name: r2
+  kind: r2
+  layers:
+  - 12
+- name: r2ml
+  kind: r2
+  layers:
+  - 4
+  - 8
+  - 12
