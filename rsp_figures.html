@@ -1,0 +1,364 @@
+<meta charset="utf-8">
+<title>RSP 구조도 두 안</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 구조도 두 장을 위아래로. 각 그림에 설계 A/B 전환 버튼. rsp_architecture.html과 같은 색 체계. */
+:root{
+  --bg:#f5f6fa; --panel:#ffffff; --ink:#1d2b40; --muted:#69778e; --line:#dfe5ef;
+  --frozen:#e4e8ef; --frozen-ink:#55627a;
+  --train:#4565d2; --train-soft:#e7edfc;
+  --z:#cf3b2e; --z-soft:#fcebe8;
+  --target:#ad6238; --target-soft:#f8ede5;
+  --img:#eef1f6; --grid:#cdd5e1;
+  --q1:#cddaf3; --q2:#f3dfc8; --q3:#d2eadb; --q4:#e7d6f0;
+  --font:system-ui,-apple-system,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151d; --panel:#18202b; --ink:#e3e8f1; --muted:#9aa6ba; --line:#2b3546;
+  --frozen:#29313e; --frozen-ink:#b7c1d2;
+  --train:#86a0f2; --train-soft:#1e2944;
+  --z:#f27f73; --z-soft:#3b201d;
+  --target:#e39a70; --target-soft:#3a2a20;
+  --img:#212a36; --grid:#3a4557; --q1:#2b3b58; --q2:#4a3a27; --q3:#264337; --q4:#3d2e4a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151d; --panel:#18202b; --ink:#e3e8f1; --muted:#9aa6ba; --line:#2b3546;
+  --frozen:#29313e; --frozen-ink:#b7c1d2;
+  --train:#86a0f2; --train-soft:#1e2944;
+  --z:#f27f73; --z-soft:#3b201d;
+  --target:#e39a70; --target-soft:#3a2a20;
+  --img:#212a36; --grid:#3a4557; --q1:#2b3b58; --q2:#4a3a27; --q3:#264337; --q4:#3d2e4a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.7 var(--font)}
+main{max-width:1080px;margin:0 auto;padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.eyebrow{font-size:11px;font-weight:750;letter-spacing:.14em;color:var(--train);text-transform:uppercase}
+h1{font-size:clamp(26px,3.6vw,36px);line-height:1.25;letter-spacing:-.02em;margin:8px 0 10px;text-wrap:balance}
+h2{font-size:20px;line-height:1.4;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0}
+.lead{color:var(--muted);max-width:70ch;font-size:15px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--muted);max-width:74ch}
+.tag{font-size:11px;font-weight:750;letter-spacing:.1em;color:var(--target);text-transform:uppercase}
+.fig{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.fig svg{display:block;width:100%;height:auto;min-width:760px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.sw{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+.sw.fr{background:var(--frozen);border-color:var(--frozen-ink)}
+.sw.tr{background:var(--train-soft);border-color:var(--train)}
+.sw.z{background:var(--z-soft);border-color:var(--z);border-radius:50%}
+.sw.tg{background:var(--target-soft);border-color:var(--target)}
+.segment{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border:1px solid var(--line);border-radius:10px;background:var(--bg);align-self:flex-start}
+.segment button{font:inherit;font-size:13px;font-weight:650;border:0;border-radius:7px;padding:7px 13px;background:transparent;color:var(--muted);cursor:pointer}
+.segment button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.segment button:focus-visible{outline:3px solid var(--train);outline-offset:2px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;color:var(--muted);font-weight:650;white-space:nowrap}
+footer{font-size:12px;color:var(--muted)}
+/* SVG */
+.s-frozen{fill:var(--frozen);stroke:var(--frozen-ink);stroke-width:1.5}
+.s-train{fill:var(--train-soft);stroke:var(--train);stroke-width:2}
+.s-z{fill:var(--z-soft);stroke:var(--z);stroke-width:2}
+.s-l1{fill:var(--z-soft);stroke:var(--z);stroke-width:3}
+.s-q{fill:var(--panel);stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 3}
+.s-img{fill:var(--img);stroke:var(--frozen-ink);stroke-width:1.2}
+.s-grid{stroke:var(--grid);stroke-width:1;fill:none}
+.s-grid2{stroke:var(--frozen-ink);stroke-width:2;fill:none}
+.s-fine{stroke:var(--target);stroke-width:.7;fill:none;opacity:.8}
+.s-roi{fill:none;stroke:var(--target);stroke-width:2.5}
+.s-crop{fill:none;stroke:var(--target);stroke-width:3;stroke-dasharray:6 3}
+.s-obj{fill:var(--frozen-ink);opacity:.55}
+.s-objline{fill:none;stroke:var(--frozen-ink);stroke-width:3;opacity:.55}
+.q1{fill:var(--q1)}.q2{fill:var(--q2)}.q3{fill:var(--q3)}.q4{fill:var(--q4)}
+.s-frame{fill:none;stroke:var(--frozen-ink);stroke-width:1.2}
+.s-arrow{fill:none;stroke:var(--muted);stroke-width:2}
+.s-arrow-z{fill:none;stroke:var(--z);stroke-width:2}
+.s-dash{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 5}
+.s-dash-t{fill:none;stroke:var(--target);stroke-width:2;stroke-dasharray:6 5}
+.m-ink{fill:var(--muted)}.m-z{fill:var(--z)}.m-t{fill:var(--target)}
+.t{fill:var(--ink);font-family:var(--font);font-size:13px}
+.t.b{font-weight:700}.t.lg{font-size:16px}.t.sm{font-size:11px}.t.mu{fill:var(--muted)}
+.t.zc{fill:var(--z)}.t.tc{fill:var(--target)}.t.trc{fill:var(--train)}.t.fc{fill:var(--frozen-ink)}
+.t.mid{text-anchor:middle}
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Crop representation · 2026-11-11</div>
+    <h1>RSP 구조도 두 안</h1>
+    <p class="lead">두 안은 teacher가 target을 만드는 방식이 다르다. 1안은 crop을 잘라 384로 키워 다시 인코딩하고(C0 방식), 2안은 같은 이미지에서 crop 영역만 촘촘한 token으로 넣는다. 각 그림의 버튼으로 predictor 안의 설계 A와 B를 바꿔 볼 수 있다.</p>
+  </header>
+
+  <!-- 1안 -->
+  <section id="fig-c0" data-fig>
+    <div class="sec-head">
+      <span class="tag">1안</span>
+      <h2>Crop 재인코딩 teacher</h2>
+      <p>GT box를 원본 해상도에서 잘라 384로 letterbox한 뒤 고정 encoder로 인코딩한다. target은 crop grid 24×24다.</p>
+    </div>
+    <div class="segment" role="group" aria-label="1안 설계 선택">
+      <button type="button" data-design="B" aria-pressed="true">설계 B · crop grid query (추천)</button>
+      <button type="button" data-design="A" aria-pressed="false">설계 A · sub-token이 곧 query (원안)</button>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 1000 620" role="img" aria-label="1안: crop 재인코딩 teacher 구조도">
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-ink"/></marker>
+          <marker id="a1z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-z"/></marker>
+          <marker id="a1t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-t"/></marker>
+        </defs>
+        <rect x="300" y="36" width="370" height="180" rx="18" class="s-train"/>
+        <text x="322" y="68" class="t b lg">Predictor</text>
+        <text x="322" y="90" class="t sm mu">ViT-Tiny · 12 block · d = 192 · 학습 (비교: ViT-Base)</text>
+        <g data-design="B">
+          <rect x="318" y="110" width="118" height="38" rx="6" class="s-frozen"/>
+          <text x="377" y="134" class="t sm mid fc">context F 577</text>
+          <rect x="442" y="110" width="64" height="38" rx="6" class="s-train"/>
+          <text x="474" y="134" class="t sm mid trc">sub-token</text>
+          <rect x="512" y="110" width="22" height="38" rx="6" class="s-z"/>
+          <text x="523" y="134" class="t sm mid zc">z</text>
+          <rect x="540" y="110" width="112" height="38" rx="6" class="s-q"/>
+          <text x="596" y="134" class="t sm mid">query 24×24</text>
+          <text x="322" y="174" class="t sm mu">query = mask token + crop 안 위치 (u, v) + z</text>
+          <text x="322" y="194" class="t sm mu">출력은 query 576개 위치에서만 읽는다</text>
+        </g>
+        <g data-design="A" hidden>
+          <rect x="318" y="110" width="118" height="38" rx="6" class="s-frozen"/>
+          <text x="377" y="134" class="t sm mid fc">context F 577</text>
+          <rect x="442" y="110" width="22" height="38" rx="6" class="s-z"/>
+          <text x="453" y="134" class="t sm mid zc">z</text>
+          <rect x="470" y="110" width="182" height="38" rx="6" class="s-train"/>
+          <text x="561" y="134" class="t sm mid trc">sub-token (= query) s·k × s·k</text>
+          <text x="322" y="174" class="t sm mu">sub-token 위치에서 바로 출력 (8px grid)</text>
+          <text x="322" y="194" class="t sm mu">출력 개수는 ROI 크기에 따라 16 ~ 576+</text>
+        </g>
+        <path d="M670 128 H752" class="s-dash" marker-end="url(#a1)"/>
+        <text x="711" y="116" class="t b mid">Ŝ</text>
+        <rect x="760" y="98" width="180" height="60" rx="6" class="s-l1"/>
+        <text x="850" y="126" class="t b lg mid">L1</text>
+        <text x="850" y="146" class="t sm mid mu">loss mask 안에서만</text>
+        <path d="M850 302 V166" class="s-dash-t" marker-end="url(#a1t)"/>
+        <text x="862" y="220" class="t b tc">T · 24×24×768</text>
+        <g data-design="B"><text x="862" y="240" class="t sm mu">그대로 사용</text></g>
+        <g data-design="A" hidden><text x="862" y="240" class="t sm mu">sub-token 중심에서</text><text x="862" y="256" class="t sm mu">bilinear 샘플 → T̃</text></g>
+        <path d="M775 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="850" y="360" class="t mid fc">frozen encoder</text>
+        <text x="850" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M850 440 V408" class="s-arrow" marker-end="url(#a1)"/>
+        <rect x="790" y="444" width="120" height="120" rx="4" class="s-img"/>
+        <g class="s-grid">
+          <path d="M805 444V564M820 444V564M835 444V564M850 444V564M865 444V564M880 444V564M895 444V564"/>
+          <path d="M790 459H910M790 474H910M790 489H910M790 504H910M790 519H910M790 534H910M790 549H910"/>
+        </g>
+        <rect x="822" y="478" width="52" height="66" rx="4" class="s-obj"/>
+        <path d="M874 492 q22 0 22 18 q0 18 -22 18" class="s-objline"/>
+        <rect x="790" y="444" width="120" height="120" rx="4" class="s-roi"/>
+        <text x="850" y="586" class="t b mid">GT crop</text>
+        <text x="850" y="604" class="t sm mid mu">원본 해상도에서 자르고 384 letterbox</text>
+        <rect x="40" y="444" width="160" height="120" rx="4" class="s-img"/>
+        <g class="s-grid">
+          <path d="M60 444V564M80 444V564M100 444V564M120 444V564M140 444V564M160 444V564M180 444V564"/>
+          <path d="M40 464H200M40 484H200M40 504H200M40 524H200M40 544H200"/>
+        </g>
+        <rect x="126" y="470" width="20" height="26" rx="2" class="s-obj"/>
+        <path d="M146 476 q9 0 9 7 q0 7 -9 7" class="s-objline" style="stroke-width:2"/>
+        <rect x="120" y="464" width="40" height="40" class="s-roi"/>
+        <text x="120" y="586" class="t b mid">Full image</text>
+        <text x="120" y="604" class="t sm mid mu">384 canvas · patch 16px → 24×24</text>
+        <path d="M120 440 V408" class="s-arrow" marker-end="url(#a1)"/>
+        <path d="M45 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="120" y="360" class="t mid fc">frozen encoder</text>
+        <text x="120" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M120 302 V129 H292" class="s-arrow" marker-end="url(#a1)"/>
+        <text x="132" y="222" class="t b">F · 24×24×768</text>
+        <text x="132" y="242" class="t sm mu">이미지당 1번, ROI끼리 공유</text>
+        <path d="M162 484 H262" class="s-dash-t" marker-end="url(#a1t)"/>
+        <text x="212" y="474" class="t sm mid tc">ROI</text>
+        <rect x="270" y="444" width="120" height="120" class="s-img"/>
+        <g class="s-grid"><path d="M300 444V564M360 444V564M270 474H390M270 534H390"/></g>
+        <g class="s-grid2"><path d="M330 444V564M270 504H390"/></g>
+        <rect x="270" y="444" width="120" height="120" class="s-roi"/>
+        <text x="330" y="586" class="t b mid">ROI 재분할</text>
+        <text x="330" y="604" class="t sm mid mu">16px cell 1개 → 8px sub-patch 4개</text>
+        <path d="M330 440 V398" class="s-arrow" marker-end="url(#a1)"/>
+        <rect x="252" y="330" width="156" height="62" rx="10" class="s-train"/>
+        <text x="330" y="356" class="t b mid trc">Sub-token embed</text>
+        <text x="330" y="376" class="t sm mid mu">Conv 8×8 + 부모 F + 위치</text>
+        <path d="M330 326 V224" class="s-arrow" marker-end="url(#a1)"/>
+        <circle cx="560" cy="362" r="28" class="s-z"/>
+        <text x="560" y="368" class="t b lg mid zc">z</text>
+        <path d="M560 332 V224" class="s-arrow-z" marker-end="url(#a1z)"/>
+        <text x="572" y="284" class="t sm zc">MLP · 학습</text>
+        <text x="600" y="352" class="t sm zc">box 위치 · 크기</text>
+        <text x="600" y="370" class="t sm zc">zoom · aspect</text>
+        <text x="600" y="388" class="t sm mu">ROI box에서 계산</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw fr"></i>고정 (DINOv3 원본 가중치, teacher와 student 공유)</span>
+      <span><i class="sw tr"></i>학습 (predictor, sub-token embed, z MLP, 입출력 투영 · ViT-Tiny 기준 약 6M)</span>
+      <span><i class="sw z"></i>조건 z</span>
+      <span><i class="sw tg"></i>ROI · target</span>
+    </div>
+  </section>
+
+  <!-- 2안 -->
+  <section id="fig-dense" data-fig>
+    <div class="sec-head">
+      <span class="tag">2안</span>
+      <h2>Dense teacher</h2>
+      <p>crop을 키우지 않는다. 같은 이미지를 고정 encoder에 넣되 crop 영역만 <code>p_T</code> px의 촘촘한 token으로 넣고, 출력에서 crop 영역 token을 target으로 꺼낸다. 학습 crop은 이미지 어디서나 뽑는 random crop이다.</p>
+    </div>
+    <div class="segment" role="group" aria-label="2안 설계 선택">
+      <button type="button" data-design="B" aria-pressed="true">설계 B · teacher 위치 query</button>
+      <button type="button" data-design="A" aria-pressed="false">설계 A · sub-token이 곧 query</button>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 1000 620" role="img" aria-label="2안: dense teacher 구조도">
+        <defs>
+          <marker id="b1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-ink"/></marker>
+          <marker id="b1z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-z"/></marker>
+          <marker id="b1t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-t"/></marker>
+        </defs>
+        <rect x="300" y="36" width="370" height="180" rx="18" class="s-train"/>
+        <text x="322" y="68" class="t b lg">Predictor</text>
+        <text x="322" y="90" class="t sm mu">ViT-Tiny · 12 block · d = 192 · 학습 (비교: ViT-Base)</text>
+        <g data-design="B">
+          <rect x="318" y="110" width="118" height="38" rx="6" class="s-frozen"/>
+          <text x="377" y="134" class="t sm mid fc">context F 577</text>
+          <rect x="442" y="110" width="64" height="38" rx="6" class="s-train"/>
+          <text x="474" y="134" class="t sm mid trc">sub-token</text>
+          <rect x="512" y="110" width="22" height="38" rx="6" class="s-z"/>
+          <text x="523" y="134" class="t sm mid zc">z</text>
+          <rect x="540" y="110" width="112" height="38" rx="6" class="s-q"/>
+          <text x="596" y="134" class="t sm mid">query @ T 위치</text>
+          <text x="322" y="174" class="t sm mu">query = mask token + teacher token 위치 + z</text>
+          <text x="322" y="194" class="t sm mu">출력은 crop 안 teacher token 위치에서만 읽는다</text>
+        </g>
+        <g data-design="A" hidden>
+          <rect x="318" y="110" width="118" height="38" rx="6" class="s-frozen"/>
+          <text x="377" y="134" class="t sm mid fc">context F 577</text>
+          <rect x="442" y="110" width="22" height="38" rx="6" class="s-z"/>
+          <text x="453" y="134" class="t sm mid zc">z</text>
+          <rect x="470" y="110" width="182" height="38" rx="6" class="s-train"/>
+          <text x="561" y="134" class="t sm mid trc">sub-token (= query)</text>
+          <text x="322" y="174" class="t sm mu">sub-token 위치에서 바로 출력 (8px)</text>
+          <text x="322" y="194" class="t sm mu">teacher patch가 8px일 때 teacher token과 1:1</text>
+        </g>
+        <path d="M670 128 H752" class="s-dash" marker-end="url(#b1)"/>
+        <text x="711" y="116" class="t b mid">Ŝ</text>
+        <rect x="760" y="98" width="180" height="60" rx="6" class="s-l1"/>
+        <text x="850" y="126" class="t b lg mid">L1</text>
+        <text x="850" y="146" class="t sm mid mu">crop 안 token끼리만</text>
+        <path d="M850 302 V166" class="s-dash-t" marker-end="url(#b1t)"/>
+        <text x="862" y="214" class="t b tc">T_crop</text>
+        <text x="862" y="234" class="t sm mu">crop 안 token만 꺼냄</text>
+        <g data-design="B"><text x="862" y="252" class="t sm mu">query와 같은 위치</text></g>
+        <g data-design="A" hidden><text x="862" y="252" class="t sm mu">patch 8px면 1:1</text></g>
+        <path d="M775 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="850" y="360" class="t mid fc">frozen encoder</text>
+        <text x="850" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M850 440 V408" class="s-arrow" marker-end="url(#b1)"/>
+        <rect x="770" y="444" width="80" height="60" class="q1"/>
+        <rect x="850" y="444" width="80" height="60" class="q2"/>
+        <rect x="770" y="504" width="80" height="60" class="q3"/>
+        <rect x="850" y="504" width="80" height="60" class="q4"/>
+        <g class="s-grid">
+          <path d="M790 444V564M810 444V564M830 444V464M830 524V564M850 444V464M850 524V564M870 444V464M870 524V564M890 444V564M910 444V564"/>
+          <path d="M770 464H930M770 484H830M890 484H930M770 504H830M890 504H930M770 524H930M770 544H930"/>
+        </g>
+        <g class="s-fine">
+          <path d="M835 464V524M840 464V524M845 464V524M850 464V524M855 464V524M860 464V524M865 464V524M870 464V524M875 464V524M880 464V524M885 464V524"/>
+          <path d="M830 469H890M830 474H890M830 479H890M830 484H890M830 489H890M830 494H890M830 499H890M830 504H890M830 509H890M830 514H890M830 519H890"/>
+        </g>
+        <rect x="770" y="444" width="160" height="120" rx="4" class="s-frame"/>
+        <rect x="830" y="464" width="60" height="60" class="s-roi"/>
+        <text x="850" y="586" class="t b mid">Dense teacher 입력</text>
+        <text x="850" y="604" class="t sm mid mu">crop 밖 16px · crop 안 p_T px token</text>
+        <rect x="40" y="444" width="80" height="60" class="q1"/>
+        <rect x="120" y="444" width="80" height="60" class="q2"/>
+        <rect x="40" y="504" width="80" height="60" class="q3"/>
+        <rect x="120" y="504" width="80" height="60" class="q4"/>
+        <g class="s-grid">
+          <path d="M60 444V564M80 444V564M100 444V564M120 444V564M140 444V564M160 444V564M180 444V564"/>
+          <path d="M40 464H200M40 484H200M40 504H200M40 524H200M40 544H200"/>
+        </g>
+        <rect x="40" y="444" width="160" height="120" rx="4" class="s-frame"/>
+        <rect x="100" y="464" width="60" height="60" class="s-crop"/>
+        <text x="120" y="586" class="t b mid">Full image</text>
+        <text x="120" y="604" class="t sm mid mu">384 canvas · patch 16px → 24×24</text>
+        <path d="M120 440 V408" class="s-arrow" marker-end="url(#b1)"/>
+        <path d="M45 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="120" y="360" class="t mid fc">frozen encoder</text>
+        <text x="120" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M120 302 V129 H292" class="s-arrow" marker-end="url(#b1)"/>
+        <text x="132" y="222" class="t b">F · 24×24×768</text>
+        <text x="132" y="242" class="t sm mu">이미지당 1번, crop끼리 공유</text>
+        <path d="M162 494 H262" class="s-dash-t" marker-end="url(#b1t)"/>
+        <text x="212" y="484" class="t sm mid tc">crop box</text>
+        <rect x="270" y="444" width="40" height="80" class="q1"/>
+        <rect x="310" y="444" width="80" height="80" class="q2"/>
+        <rect x="270" y="524" width="40" height="40" class="q3"/>
+        <rect x="310" y="524" width="80" height="40" class="q4"/>
+        <g class="s-grid"><path d="M290 444V564M330 444V564M370 444V564M270 464H390M270 504H390M270 544H390"/></g>
+        <g class="s-grid2"><path d="M310 444V564M350 444V564M270 484H390M270 524H390"/></g>
+        <rect x="270" y="444" width="120" height="120" class="s-roi"/>
+        <text x="330" y="586" class="t b mid">crop box 재분할</text>
+        <text x="330" y="604" class="t sm mid mu">cell 3×3 → 8px sub-patch 6×6</text>
+        <path d="M330 440 V398" class="s-arrow" marker-end="url(#b1)"/>
+        <rect x="252" y="330" width="156" height="62" rx="10" class="s-train"/>
+        <text x="330" y="356" class="t b mid trc">Sub-token embed</text>
+        <text x="330" y="376" class="t sm mid mu">Conv 8×8 + 부모 F + 위치</text>
+        <path d="M330 326 V224" class="s-arrow" marker-end="url(#b1)"/>
+        <circle cx="560" cy="362" r="28" class="s-z"/>
+        <text x="560" y="368" class="t b lg mid zc">z</text>
+        <path d="M560 332 V224" class="s-arrow-z" marker-end="url(#b1z)"/>
+        <text x="572" y="284" class="t sm zc">MLP · 학습</text>
+        <text x="600" y="352" class="t sm zc">crop box 위치 · 크기</text>
+        <text x="600" y="370" class="t sm zc">teacher 배율 16 / p_T</text>
+        <text x="600" y="388" class="t sm mu">crop box에서 계산</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw fr"></i>고정 (DINOv3 원본 가중치, teacher와 student 공유)</span>
+      <span><i class="sw tr"></i>학습 (predictor, sub-token embed, z MLP, 입출력 투영 · ViT-Tiny 기준 약 6M)</span>
+      <span><i class="sw z"></i>조건 z</span>
+      <span><i class="sw tg"></i>crop box · target</span>
+    </div>
+  </section>
+
+  <!-- 비교 -->
+  <section id="compare">
+    <div class="sec-head"><h2>두 안의 차이</h2></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>1안 · Crop 재인코딩</th><th>2안 · Dense teacher</th></tr></thead>
+        <tbody>
+          <tr><th>teacher 입력</th><td>crop만 잘라 384로 확대</td><td>full image, crop 영역만 <code>p_T</code> px token</td></tr>
+          <tr><th>학습 crop</th><td>GT box (물체)</td><td>random crop (이미지 어디서나)</td></tr>
+          <tr><th>target grid</th><td>crop grid 24×24</td><td>crop 안 teacher token</td></tr>
+          <tr><th>정렬</th><td>원본 좌표로 변환, letterbox · coverage 가중치 필요</td><td>같은 좌표, 1:1</td></tr>
+          <tr><th>teacher가 보는 맥락</th><td>crop만</td><td>crop 주변 이미지까지</td></tr>
+          <tr><th>z</th><td>box, zoom, aspect</td><td>box, teacher 배율</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>상세 설명: discussion/2026-11-11/rsp_architecture.html · 정리 문서: discussion/2026-11-11/2026-11-11_roi_subpatch_arch.md</footer>
+</main>
+
+<script>
+document.querySelectorAll('[data-fig]').forEach(function(sec){
+  var btns = sec.querySelectorAll('.segment button');
+  function show(d){
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.design === d)); });
+    sec.querySelectorAll('svg [data-design]').forEach(function(g){
+      if (g.getAttribute('data-design') === d) g.removeAttribute('hidden'); else g.setAttribute('hidden', '');
+    });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.design); }); });
+});
+</script>

@@ -1,0 +1,563 @@
+<meta charset="utf-8">
+<title>ROI Sub-patch Predictor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 한 열 문서. 구조도 → dense teacher → masking과 위치 → token 예산 → attention mask → z → 사전 확인 → 대조군. HCF architecture 페이지와 같은 계열의 색. */
+:root{
+  --bg:#f5f6fa; --panel:#ffffff; --ink:#1d2b40; --muted:#69778e; --line:#dfe5ef;
+  --frozen:#e4e8ef; --frozen-ink:#55627a;
+  --train:#4565d2; --train-soft:#e7edfc;
+  --z:#cf3b2e; --z-soft:#fcebe8;
+  --target:#ad6238; --target-soft:#f8ede5;
+  --img:#eef1f6; --grid:#cdd5e1;
+  --q1:#cddaf3; --q2:#f3dfc8; --q3:#d2eadb; --q4:#e7d6f0;
+  --font:system-ui,-apple-system,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151d; --panel:#18202b; --ink:#e3e8f1; --muted:#9aa6ba; --line:#2b3546;
+  --frozen:#29313e; --frozen-ink:#b7c1d2;
+  --train:#86a0f2; --train-soft:#1e2944;
+  --z:#f27f73; --z-soft:#3b201d;
+  --target:#e39a70; --target-soft:#3a2a20;
+  --img:#212a36; --grid:#3a4557; --q1:#2b3b58; --q2:#4a3a27; --q3:#264337; --q4:#3d2e4a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151d; --panel:#18202b; --ink:#e3e8f1; --muted:#9aa6ba; --line:#2b3546;
+  --frozen:#29313e; --frozen-ink:#b7c1d2;
+  --train:#86a0f2; --train-soft:#1e2944;
+  --z:#f27f73; --z-soft:#3b201d;
+  --target:#e39a70; --target-soft:#3a2a20;
+  --img:#212a36; --grid:#3a4557; --q1:#2b3b58; --q2:#4a3a27; --q3:#264337; --q4:#3d2e4a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.7 var(--font)}
+main{max-width:1080px;margin:0 auto;padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.eyebrow{font-size:11px;font-weight:750;letter-spacing:.14em;color:var(--train);text-transform:uppercase}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.25;letter-spacing:-.02em;margin:8px 0 10px;text-wrap:balance}
+h2{font-size:20px;line-height:1.4;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h3{font-size:15px;margin:0}
+p{margin:0}
+.lead{color:var(--muted);max-width:70ch;font-size:15px}
+nav{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;margin-top:14px}
+a{color:var(--train);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible{outline:3px solid var(--train);outline-offset:2px;border-radius:4px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--muted);max-width:74ch}
+.fig{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.fig svg{display:block;width:100%;height:auto}
+.fig.wide svg{min-width:760px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.sw{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+.sw.fr{background:var(--frozen);border-color:var(--frozen-ink)}
+.sw.tr{background:var(--train-soft);border-color:var(--train)}
+.sw.z{background:var(--z-soft);border-color:var(--z);border-radius:50%}
+.sw.tg{background:var(--target-soft);border-color:var(--target)}
+.note{font-size:13px;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;color:var(--muted);font-weight:650;white-space:nowrap}
+td.hl{background:var(--train-soft)}
+td code,p code,li code{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+pre{margin:0;font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.pill.yes{background:var(--train-soft);color:var(--train)}
+.pill.no{background:var(--frozen);color:var(--frozen-ink)}
+.pill.z{background:var(--z-soft);color:var(--z)}
+.pill.warn{background:var(--target-soft);color:var(--target)}
+.callout{border-left:3px solid var(--z);background:var(--z-soft);padding:14px 16px;border-radius:0 10px 10px 0;display:flex;flex-direction:column;gap:6px}
+.callout strong{color:var(--z)}
+.callout.t{border-left-color:var(--target);background:var(--target-soft)}
+.callout.t strong{color:var(--target)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .tag{font-size:11px;font-weight:750;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.card p{font-size:13px}
+.card.opt{border-style:dashed}
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start}
+.split > *{min-width:0}
+@media (max-width:760px){.split{grid-template-columns:minmax(0,1fr)}}
+.stack{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ref{display:flex;flex-wrap:wrap;gap:8px}
+.ref span{font-size:12px;border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--bg)}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+footer{font-size:12px;color:var(--muted)}
+/* SVG */
+.s-frozen{fill:var(--frozen);stroke:var(--frozen-ink);stroke-width:1.5}
+.s-train{fill:var(--train-soft);stroke:var(--train);stroke-width:2}
+.s-z{fill:var(--z-soft);stroke:var(--z);stroke-width:2}
+.s-l1{fill:var(--z-soft);stroke:var(--z);stroke-width:3}
+.s-tg{fill:var(--target-soft);stroke:var(--target);stroke-width:1.5}
+.s-q{fill:var(--panel);stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 3}
+.s-img{fill:var(--img);stroke:var(--frozen-ink);stroke-width:1.2}
+.s-grid{stroke:var(--grid);stroke-width:1;fill:none}
+.s-grid2{stroke:var(--frozen-ink);stroke-width:2;fill:none}
+.s-gridtr{stroke:var(--train);stroke-width:1;fill:none;opacity:.7}
+.s-fine{stroke:var(--target);stroke-width:.7;fill:none;opacity:.8}
+.s-roi{fill:none;stroke:var(--target);stroke-width:2.5}
+.s-crop{fill:none;stroke:var(--target);stroke-width:3;stroke-dasharray:6 3}
+.q1{fill:var(--q1)}.q2{fill:var(--q2)}.q3{fill:var(--q3)}.q4{fill:var(--q4)}
+.s-frame{fill:none;stroke:var(--frozen-ink);stroke-width:1.2}
+.s-arrow{fill:none;stroke:var(--muted);stroke-width:2}
+.s-arrow-z{fill:none;stroke:var(--z);stroke-width:2}
+.s-dash{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 5}
+.s-dash-t{fill:none;stroke:var(--target);stroke-width:2;stroke-dasharray:6 5}
+.m-ink{fill:var(--muted)}.m-z{fill:var(--z)}.m-t{fill:var(--target)}
+.t{fill:var(--ink);font-family:var(--font);font-size:13px}
+.t.b{font-weight:700}.t.lg{font-size:16px}.t.sm{font-size:11px}.t.mu{fill:var(--muted)}
+.t.zc{fill:var(--z)}.t.tc{fill:var(--target)}.t.trc{fill:var(--train)}.t.fc{fill:var(--frozen-ink)}
+.t.mono{font-family:var(--mono)}
+.t.mid{text-anchor:middle}
+.ok{fill:var(--train-soft);stroke:var(--train);stroke-width:1.2}
+.blk{fill:var(--panel);stroke:var(--line);stroke-width:1.2}
+.diag{fill:var(--train-soft);stroke:var(--train);stroke-width:1.2}
+.dot-c{fill:var(--frozen-ink)}
+.dot-e{fill:var(--train)}
+.dot-t{fill:var(--target);opacity:.55}
+.dot-s{fill:var(--target);stroke:var(--panel);stroke-width:1.5}
+.ring-s{fill:none;stroke:var(--target);stroke-width:1.5}
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Crop representation · 2026-11-11 아이디어</div>
+    <h1>ROI Sub-patch Predictor</h1>
+    <p class="lead">Encoder는 모두 고정하고 predictor만 학습한다. Teacher는 같은 이미지를 보되 crop 영역만 아주 작은 token으로 잘라 넣는다. Student에게 그 촘촘한 token은 전부 가려져 있다. Student는 MAE·I-JEPA처럼 위치만 가진 mask token으로 그중 K개를 맞히고, 그 위치끼리 L1을 건다.</p>
+    <nav aria-label="목차">
+      <a href="#overview">전체 구조</a><a href="#teacher">Dense teacher</a><a href="#position">Masking과 위치</a><a href="#budget">Token 예산</a><a href="#attn">Attention mask</a><a href="#z">z 조건</a><a href="#precheck">사전 확인</a><a href="#controls">대조군</a>
+    </nav>
+  </header>
+
+  <!-- 1. Overview -->
+  <section id="overview">
+    <div class="sec-head">
+      <h2>전체 구조</h2>
+      <p>왼쪽이 context, 가운데가 student의 근거와 조건 z, 오른쪽이 target이다. 회색은 고정, 파란색은 학습한다.</p>
+      <p>네 색은 이미지의 네 구역이고, 점선 box는 그 경계에 걸친 random crop이다. 같은 box가 가운데에서는 고정 크기 근거 64개가 되고, 오른쪽에서는 teacher 입력 안에서 촘촘한 token으로 잘린다. 학습은 이미지 어디서나 뽑는 random crop으로 하고, PACO 평가 때만 GT box를 쓴다.</p>
+    </div>
+    <div class="fig wide">
+      <svg viewBox="0 0 1000 620" role="img" aria-label="RSP 전체 구조도">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-ink"/></marker>
+          <marker id="ahz" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-z"/></marker>
+          <marker id="aht" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="m-t"/></marker>
+        </defs>
+
+        <!-- Predictor -->
+        <rect x="300" y="36" width="370" height="180" rx="18" class="s-train"/>
+        <text x="322" y="68" class="t b lg">Predictor</text>
+        <text x="322" y="90" class="t sm mu">ViT-Tiny · 12 block · d = 192 · 학습 (비교: ViT-Base)</text>
+        <rect x="318" y="110" width="118" height="38" rx="6" class="s-frozen"/>
+        <text x="377" y="134" class="t sm mid fc">context F 577</text>
+        <rect x="442" y="110" width="64" height="38" rx="6" class="s-train"/>
+        <text x="474" y="134" class="t sm mid trc">근거 64</text>
+        <rect x="512" y="110" width="22" height="38" rx="6" class="s-z"/>
+        <text x="523" y="134" class="t sm mid zc">z</text>
+        <rect x="540" y="110" width="112" height="38" rx="6" class="s-q"/>
+        <text x="596" y="134" class="t sm mid">query K</text>
+        <text x="322" y="174" class="t sm mu">query = 공유 mask token + 크기 emb + z · 위치는 RoPE</text>
+        <text x="322" y="194" class="t sm mu">query끼리는 서로 안 봄 · 학습 K = 256, 추론 576</text>
+
+        <path d="M670 128 H752" class="s-dash" marker-end="url(#ah)"/>
+        <text x="711" y="116" class="t b mid">Ŝ</text>
+
+        <rect x="760" y="98" width="180" height="60" rx="6" class="s-l1"/>
+        <text x="850" y="126" class="t b lg mid">L1</text>
+        <text x="850" y="146" class="t sm mid mu">뽑은 K개 위치에서만</text>
+
+        <!-- right: dense teacher -->
+        <path d="M850 302 V166" class="s-dash-t" marker-end="url(#aht)"/>
+        <text x="862" y="214" class="t b tc">T_crop</text>
+        <text x="862" y="234" class="t sm mu">같은 K개 위치를 꺼냄</text>
+        <text x="862" y="252" class="t sm mu">gradient 없음</text>
+        <path d="M775 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="850" y="360" class="t mid fc">frozen encoder</text>
+        <text x="850" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M850 440 V408" class="s-arrow" marker-end="url(#ah)"/>
+        <rect x="770" y="444" width="80" height="60" class="q1"/>
+        <rect x="850" y="444" width="80" height="60" class="q2"/>
+        <rect x="770" y="504" width="80" height="60" class="q3"/>
+        <rect x="850" y="504" width="80" height="60" class="q4"/>
+        <g class="s-grid">
+          <path d="M790 444V564M810 444V564M830 444V464M830 524V564M850 444V464M850 524V564M870 444V464M870 524V564M890 444V564M910 444V564"/>
+          <path d="M770 464H930M770 484H830M890 484H930M770 504H830M890 504H930M770 524H930M770 544H930"/>
+        </g>
+        <g class="s-fine">
+          <path d="M835 464V524M840 464V524M845 464V524M850 464V524M855 464V524M860 464V524M865 464V524M870 464V524M875 464V524M880 464V524M885 464V524"/>
+          <path d="M830 469H890M830 474H890M830 479H890M830 484H890M830 489H890M830 494H890M830 499H890M830 504H890M830 509H890M830 514H890M830 519H890"/>
+        </g>
+        <rect x="770" y="444" width="160" height="120" rx="4" class="s-frame"/>
+        <rect x="830" y="464" width="60" height="60" class="s-roi"/>
+        <text x="850" y="586" class="t b mid">Dense teacher 입력</text>
+        <text x="850" y="604" class="t sm mid mu">crop 밖 16px · crop 안 p_T px token</text>
+
+        <!-- left: context -->
+        <rect x="40" y="444" width="80" height="60" class="q1"/>
+        <rect x="120" y="444" width="80" height="60" class="q2"/>
+        <rect x="40" y="504" width="80" height="60" class="q3"/>
+        <rect x="120" y="504" width="80" height="60" class="q4"/>
+        <g class="s-grid">
+          <path d="M60 444V564M80 444V564M100 444V564M120 444V564M140 444V564M160 444V564M180 444V564"/>
+          <path d="M40 464H200M40 484H200M40 504H200M40 524H200M40 544H200"/>
+        </g>
+        <rect x="40" y="444" width="160" height="120" rx="4" class="s-frame"/>
+        <rect x="100" y="464" width="60" height="60" class="s-crop"/>
+        <text x="120" y="586" class="t b mid">Full image</text>
+        <text x="120" y="604" class="t sm mid mu">384 canvas · patch 16px → 24×24</text>
+        <path d="M120 440 V408" class="s-arrow" marker-end="url(#ah)"/>
+        <path d="M45 402 V352 a75 48 0 0 1 150 0 V402 Z" class="s-frozen"/>
+        <text x="120" y="360" class="t mid fc">frozen encoder</text>
+        <text x="120" y="380" class="t sm mid mu">DINOv3-B/16 · 고정</text>
+        <path d="M120 302 V129 H292" class="s-arrow" marker-end="url(#ah)"/>
+        <text x="132" y="222" class="t b">F · 24×24×768</text>
+        <text x="132" y="242" class="t sm mu">이미지당 1번, crop끼리 공유</text>
+
+        <!-- middle: crop evidence -->
+        <path d="M162 494 H262" class="s-dash-t" marker-end="url(#aht)"/>
+        <text x="212" y="484" class="t sm mid tc">crop box</text>
+        <rect x="270" y="444" width="40" height="80" class="q1"/>
+        <rect x="310" y="444" width="80" height="80" class="q2"/>
+        <rect x="270" y="524" width="40" height="40" class="q3"/>
+        <rect x="310" y="524" width="80" height="40" class="q4"/>
+        <g class="s-gridtr">
+          <path d="M285 444V564M300 444V564M315 444V564M330 444V564M345 444V564M360 444V564M375 444V564"/>
+          <path d="M270 459H390M270 474H390M270 489H390M270 504H390M270 519H390M270 534H390M270 549H390"/>
+        </g>
+        <rect x="270" y="444" width="120" height="120" class="s-roi"/>
+        <text x="330" y="586" class="t b mid">crop 근거</text>
+        <text x="330" y="604" class="t sm mid mu">64×64로 resize → 8px → 8×8 = 64</text>
+        <path d="M330 440 V398" class="s-arrow" marker-end="url(#ah)"/>
+        <rect x="252" y="330" width="156" height="62" rx="10" class="s-train"/>
+        <text x="330" y="356" class="t b mid trc">근거 embed</text>
+        <text x="330" y="376" class="t sm mid mu">Conv 8×8 + 크기 emb</text>
+        <path d="M330 326 V224" class="s-arrow" marker-end="url(#ah)"/>
+
+        <!-- z -->
+        <circle cx="560" cy="362" r="28" class="s-z"/>
+        <text x="560" y="368" class="t b lg mid zc">z</text>
+        <path d="M560 332 V224" class="s-arrow-z" marker-end="url(#ahz)"/>
+        <text x="572" y="284" class="t sm zc">MLP · 학습</text>
+        <text x="600" y="352" class="t sm zc">crop box (cx, cy, w, h)</text>
+        <text x="600" y="370" class="t sm zc">p_T 섞을 때 log(16 / p_T)</text>
+        <text x="600" y="388" class="t sm mu">위치는 z가 아니라 RoPE로</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw fr"></i>고정 (DINOv3 원본 가중치, teacher와 student 공유)</span>
+      <span><i class="sw tr"></i>학습 (predictor, 근거 embed, z MLP, mask token, 입출력 투영 · ViT-Tiny 기준 약 6M)</span>
+      <span><i class="sw z"></i>조건 z</span>
+      <span><i class="sw tg"></i>crop box · target</span>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>V-JEPA 2-AC</th><th>RSP</th></tr></thead>
+        <tbody>
+          <tr><td>이전 frame → frozen encoder → context</td><td>full image → frozen DINOv3 → <code>F</code> (576 token + CLS)</td></tr>
+          <tr><td>조건 <code>z</code>: robot action, pose</td><td>조건 <code>z</code>: crop box, (섞을 때) teacher 배율</td></tr>
+          <tr><td>(없음)</td><td>crop 근거 64개: 관측을 하나 더 넣는다. z가 아니라 context 쪽 입력</td></tr>
+          <tr><td>미래 frame → frozen encoder → target</td><td>같은 이미지, crop 영역만 촘촘한 token → frozen DINOv3 → <code>T_crop</code></td></tr>
+          <tr><td>predictor 출력과 target의 L1</td><td>뽑은 K개 위치에서 <code>Ŝ</code>와 <code>T_crop</code>의 L1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. Dense teacher -->
+  <section id="teacher">
+    <div class="sec-head">
+      <h2>Dense teacher</h2>
+      <p>crop을 잘라 384로 키우지 않는다. 같은 이미지를 고정 encoder에 한 번 넣되, crop 영역에만 더 작은 <code>p_T</code> px token을 넣는다. 출력에서 crop 영역 token을 꺼내 target <code>T_crop</code>으로 쓴다.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="tag">좋아지는 점</span>
+        <h3>정렬이 정확하다</h3>
+        <p>teacher token과 student query가 같은 이미지 좌표를 쓴다. resample, 면적 평균, letterbox, coverage 가중치가 모두 필요 없다.</p>
+      </div>
+      <div class="card">
+        <span class="tag">좋아지는 점</span>
+        <h3>맥락을 같이 본다</h3>
+        <p>C0는 crop만 보지만, dense teacher는 crop 주변 이미지도 함께 본다. 맥락 없이 crop만 보는 것보다 좋은 target일 가능성이 있다.</p>
+      </div>
+      <div class="card">
+        <span class="tag">여러 crop · masked teacher</span>
+        <h3>forward 한 번에 crop 여러 개</h3>
+        <p>16px token 576개는 서로만 본다. 그러면 이 부분은 student의 <code>F</code>와 똑같다. 각 촘촘한 영역은 16px token과 자기 영역만 본다. 그래서 한 forward로 crop 여러 개의 target을 얻고, 각 target은 같이 뽑힌 다른 crop과 무관하다.</p>
+      </div>
+      <div class="card">
+        <span class="tag">구현</span>
+        <h3>Patch embed와 위치</h3>
+        <p>16×16 patch embed kernel을 <code>p_T</code>로 줄인다 (FlexiViT PI-resize). RoPE에는 원본 기준 연속 좌표를 넣는다. timm DINOv3 RoPE는 [-1, 1] 연속 좌표를 쓴다.</p>
+      </div>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>teacher patch <code>p_T</code></th><th>배율</th><th>crop 48px (cell 3×3)</th><th>crop 192px (cell 12×12)</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td>8px</td><td class="num">2×</td><td class="num">6×6 = 36</td><td class="num">24×24 = 576</td><td>근거와 같은 크기. 가린 것을 맞히는 문제가 아니라 다시 인코딩하는 문제가 된다</td></tr>
+          <tr><td>4px</td><td class="num">4×</td><td class="num">12×12 = 144</td><td class="num">48×48 = 2,304</td><td></td></tr>
+          <tr><td>2px</td><td class="num">8×</td><td class="num">24×24 = 576</td><td class="num">96×96 = 9,216</td><td></td></tr>
+          <tr><td>1px</td><td class="num">16×</td><td class="num">48×48 = 2,304</td><td class="num">192×192 = 36,864</td><td><span class="pill warn">분포 밖 위험</span></td></tr>
+          <tr><td>C0 (crop을 384로)</td><td class="num">384 / crop</td><td class="num">24×24 = 576</td><td class="num">24×24 = 576</td><td>기존 기준. 맥락 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout t">
+      <p><strong>1px token에서 걱정되는 점</strong></p>
+      <ul class="plain">
+        <li>token 하나가 pixel 하나, 즉 색 3개 값뿐이다. crop을 16배로 키워 평평한 색 블록으로 만든 뒤 16px로 자른 것과 같고, DINOv3가 본 적 없는 입력이다.</li>
+        <li>배율이 crop 크기와 상관없이 16배로 고정된다. crop 크기에 따라 teacher token의 의미가 달라진다.</li>
+        <li>teacher는 gradient 없이 forward만 하지만 crop 전체를 돌려야 한다. crop 하나의 촘촘한 token을 최대 48×48로 제한하고, crop 크기는 <code>48 · p_T</code> px 이하로 뽑는다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Masking & position -->
+  <section id="position">
+    <div class="sec-head">
+      <h2>Masking과 위치</h2>
+      <p>MAE와 I-JEPA의 mask token은 모두 같은 learnable 벡터 하나다. 무엇을 예측할지는 붙어 있는 위치 정보가 정한다. 우리도 같다. crop 영역을 <code>p_T</code> 해상도로 본 token 전체가 가려져 있고, student는 위치만 가진 mask token으로 그중 K개를 맞힌다.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>MAE</th><th>I-JEPA</th><th>RSP</th></tr></thead>
+        <tbody>
+          <tr><th>보이는 것</th><td>남긴 patch</td><td>context block</td><td class="hl">16px 전체 <code>F</code> + crop 근거 64</td></tr>
+          <tr><th>가린 것</th><td>random patch 75%</td><td>target block</td><td class="hl">crop 영역의 촘촘한 token 전체</td></tr>
+          <tr><th>맞히는 위치</th><td>가린 patch 전부</td><td>target block</td><td class="hl">가린 token 중 K개 (매 step random)</td></tr>
+          <tr><th>mask token</th><td>공유 벡터 + 위치</td><td>공유 벡터 + 위치</td><td class="hl">공유 벡터 + 위치 + 크기 + z</td></tr>
+          <tr><th>target</th><td>pixel</td><td>target encoder feature</td><td class="hl">dense teacher feature</td></tr>
+          <tr><th>위치 표현</th><td>고정 grid sin-cos</td><td>고정 grid sin-cos</td><td class="hl">연속 좌표 RoPE</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="split">
+      <div class="fig">
+        <svg viewBox="0 0 560 330" role="img" aria-label="crop 하나 위의 세 종류 token 위치: context 3×3, 근거 8×8, teacher 12×12 중 K개 샘플">
+          <defs>
+            <pattern id="pt-t" x="30" y="40" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.8" class="dot-t"/></pattern>
+            <pattern id="pt-e" x="30" y="40" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="3.2" class="dot-e"/></pattern>
+          </defs>
+          <text x="150" y="26" class="t sm mid mu">crop 하나 (cell 3×3 = 48px, p_T = 4px)</text>
+          <rect x="30" y="40" width="240" height="240" class="s-img"/>
+          <g class="s-grid"><path d="M110 40V280M190 40V280M30 120H270M30 200H270"/></g>
+          <rect x="30" y="40" width="240" height="240" fill="url(#pt-t)"/>
+          <rect x="30" y="40" width="240" height="240" fill="url(#pt-e)"/>
+          <g class="dot-c">
+            <circle cx="70" cy="80" r="7"/><circle cx="150" cy="80" r="7"/><circle cx="230" cy="80" r="7"/>
+            <circle cx="70" cy="160" r="7"/><circle cx="150" cy="160" r="7"/><circle cx="230" cy="160" r="7"/>
+            <circle cx="70" cy="240" r="7"/><circle cx="150" cy="240" r="7"/><circle cx="230" cy="240" r="7"/>
+          </g>
+          <g>
+            <circle cx="100" cy="50" r="4.5" class="dot-s"/><circle cx="200" cy="70" r="4.5" class="dot-s"/><circle cx="60" cy="90" r="4.5" class="dot-s"/>
+            <circle cx="240" cy="90" r="4.5" class="dot-s"/><circle cx="140" cy="110" r="4.5" class="dot-s"/><circle cx="40" cy="130" r="4.5" class="dot-s"/>
+            <circle cx="180" cy="130" r="4.5" class="dot-s"/><circle cx="260" cy="150" r="4.5" class="dot-s"/><circle cx="100" cy="170" r="4.5" class="dot-s"/>
+            <circle cx="220" cy="170" r="4.5" class="dot-s"/><circle cx="160" cy="190" r="4.5" class="dot-s"/><circle cx="60" cy="210" r="4.5" class="dot-s"/>
+            <circle cx="240" cy="210" r="4.5" class="dot-s"/><circle cx="120" cy="230" r="4.5" class="dot-s"/><circle cx="200" cy="230" r="4.5" class="dot-s"/>
+            <circle cx="40" cy="250" r="4.5" class="dot-s"/><circle cx="160" cy="250" r="4.5" class="dot-s"/><circle cx="80" cy="270" r="4.5" class="dot-s"/>
+            <circle cx="220" cy="270" r="4.5" class="dot-s"/><circle cx="140" cy="150" r="4.5" class="dot-s"/>
+          </g>
+          <rect x="30" y="40" width="240" height="240" class="s-roi"/>
+          <circle cx="310" cy="70" r="7" class="dot-c"/>
+          <text x="326" y="74" class="t sm">context F · 16px · 보임</text>
+          <circle cx="310" cy="104" r="3.2" class="dot-e"/>
+          <text x="326" y="108" class="t sm">근거 · 8×8 = 64 · 보임</text>
+          <circle cx="310" cy="138" r="1.8" class="dot-t"/>
+          <text x="326" y="142" class="t sm">teacher token · 12×12 = 144 · 가려짐</text>
+          <circle cx="310" cy="172" r="4.5" class="dot-s"/>
+          <text x="326" y="176" class="t sm tc">이번 step의 query K개 · L1</text>
+          <text x="300" y="222" class="t sm mu">모든 점은 원본 이미지 좌표를</text>
+          <text x="300" y="240" class="t sm mu">[-1, 1]로 정규화한 같은 RoPE를 받는다.</text>
+          <text x="300" y="264" class="t sm mu">점마다 덮는 영역 크기도 다르므로</text>
+          <text x="300" y="282" class="t sm mu">크기 embedding을 더한다.</text>
+        </svg>
+      </div>
+      <div class="stack">
+        <div class="cards">
+          <div class="card">
+            <span class="tag">1 · 좌표 통일</span>
+            <p>모든 token은 자기가 덮는 영역의 중심을 원본 이미지 좌표로 계산하고 [-1, 1]로 정규화한다. teacher token도 같은 함수로 계산한다. 그래야 query i와 teacher token i가 같은 점을 가리킨다.</p>
+          </div>
+          <div class="card">
+            <span class="tag">2 · RoPE</span>
+            <p>2D 연속 좌표 RoPE를 attention마다 적용한다. query는 context와 근거만 보므로 "나와 가까운 context가 어디인지"가 가장 중요하고, RoPE가 그 상대 위치를 직접 표현한다.</p>
+          </div>
+          <div class="card">
+            <span class="tag">3 · 크기</span>
+            <p>context 16px, 근거는 crop에 따라 다르고, query는 <code>p_T</code> px다. <code>log(한 변 px / 16)</code>을 MLP에 넣어 모든 token에 더한다.</p>
+          </div>
+        </div>
+<pre>query_i = m (공유 learnable) + E_size(log(p_T / 16)) + z_emb
+q, k    = RoPE2D(q, k; x, y)    # 모든 token이 같은 좌표계
+loss    = mean_{i ∈ K} | norm(Ŝ_i) − norm(T_crop,i) |</pre>
+      </div>
+    </div>
+    <p class="note"><code>p_T = 8px</code>이면 teacher token 위치가 근거 token 위치와 같아진다. 이때는 가린 것을 맞히는 문제가 아니라 보이는 pixel을 teacher처럼 다시 인코딩하는 문제가 된다. MAE·I-JEPA와 같은 의미의 masking이 되려면 <code>p_T</code>가 근거 크기보다 작아야 한다.</p>
+  </section>
+
+  <!-- 4. Budget -->
+  <section id="budget">
+    <div class="sec-head">
+      <h2>Token 예산</h2>
+      <p>crop 영역은 z의 숫자 몇 개로 알려 주고, 예측할 위치는 독립 query로 필요한 만큼만 묻는다. 그래서 student sequence 길이는 crop 크기와 <code>p_T</code>에 상관없이 일정하다.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>구성</th><th>개수</th><th>level</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td>context <code>F</code></td><td class="num">577</td><td>L0</td><td>이미지당 1번 계산, crop끼리 공유</td></tr>
+          <tr><td>crop 근거</td><td class="num">64</td><td>L1</td><td>crop pixel을 64×64로 resize → 8px. 위치는 원본 좌표라 정렬 문제 없음</td></tr>
+          <tr><td>z-token</td><td class="num">1</td><td>L1</td><td>crop box</td></tr>
+          <tr><td>query</td><td class="num">학습 256 · 추론 576</td><td>L2</td><td>학습은 가린 token 중 random K개, 추론은 R2용 24×24 위치</td></tr>
+          <tr><th>합계</th><td class="num">약 900</td><td></td><td>crop 크기, <code>p_T</code>와 무관</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">query가 서로를 보지 않으므로 같은 위치의 출력은 함께 물은 다른 위치와 무관하다. 이웃 출력이 고르지 않으면 가까운 query끼리만 보는 local window를 나중에 추가한다.</p>
+  </section>
+
+  <!-- 5. Attention mask -->
+  <section id="attn">
+    <div class="sec-head">
+      <h2>Attention mask</h2>
+      <p>student의 mask는 target을 숨기지 않고, 정보가 흐르는 방향을 정한다. target은 predictor 입력에 들어가지 않으므로 누설될 길이 없다. 각 token은 자기 level과 그보다 아래 level만 보고, query는 다른 query를 보지 않는다.</p>
+    </div>
+    <div class="split">
+      <div class="cards">
+        <div class="card">
+          <span class="tag">1 · Level</span>
+          <h3>위 level은 아래만 본다</h3>
+          <p>context는 crop과 무관하게 이미지당 한 번, 근거는 query와 무관하게 crop당 한 번 계산된다. mask token이 근거 쪽으로 섞여 들어가지 않는다. V-JEPA 2-AC의 시간 축 block-causal mask를 level 축으로 옮긴 것이다.</p>
+        </div>
+        <div class="card">
+          <span class="tag">2 · Query 독립</span>
+          <h3>query는 자기 자신만</h3>
+          <p>query끼리는 서로 보지 않는다. 그래서 학습 때 K개만 뽑아도 되고, 추론 때 아무 위치나 원하는 수만큼 물을 수 있다.</p>
+        </div>
+        <div class="card">
+          <span class="tag">3 · Crop 분리</span>
+          <h3>crop끼리는 서로 보지 않는다</h3>
+          <p>이미지당 crop 여러 개를 한 sequence에 묶으면 context만 공유한다. 근거와 query 수가 고정이라 padding은 거의 필요 없다.</p>
+        </div>
+        <div class="card opt">
+          <span class="tag">선택 · Context drop</span>
+          <h3>crop 안 context 가리기</h3>
+          <p>학습 때만 crop 안 <code>F</code> token을 확률 p로 지운다. 근거 pixel을 쓰도록 강제하는 ablation이다. 기본은 끈다.</p>
+        </div>
+      </div>
+      <div class="fig">
+        <svg viewBox="0 0 480 500" role="img" aria-label="level attention mask: context는 context만, 근거와 z는 context와 L1, query는 아래 level 전부와 자기 자신만 본다">
+          <text x="285" y="28" class="t sm mid mu">보이는 쪽 (열)</text>
+          <text x="20" y="255" class="t sm mid mu" transform="rotate(-90 20 255)">보는 쪽 (행)</text>
+          <text x="175" y="68" class="t sm mid">context</text>
+          <text x="280" y="68" class="t sm mid trc">근거</text>
+          <text x="335" y="68" class="t sm mid zc">z</text>
+          <text x="405" y="68" class="t sm mid">query</text>
+          <text x="102" y="149" class="t sm" text-anchor="end">context · L0</text>
+          <text x="102" y="254" class="t sm trc" text-anchor="end">근거 · L1</text>
+          <text x="102" y="309" class="t sm zc" text-anchor="end">z · L1</text>
+          <text x="102" y="379" class="t sm" text-anchor="end">query · L2</text>
+          <rect x="110" y="80" width="130" height="130" class="ok"/>
+          <rect x="240" y="80" width="80" height="130" class="blk"/>
+          <rect x="320" y="80" width="30" height="130" class="blk"/>
+          <rect x="350" y="80" width="110" height="130" class="blk"/>
+          <rect x="110" y="210" width="130" height="80" class="ok"/>
+          <rect x="240" y="210" width="80" height="80" class="ok"/>
+          <rect x="320" y="210" width="30" height="80" class="ok"/>
+          <rect x="350" y="210" width="110" height="80" class="blk"/>
+          <rect x="110" y="290" width="130" height="30" class="ok"/>
+          <rect x="240" y="290" width="80" height="30" class="ok"/>
+          <rect x="320" y="290" width="30" height="30" class="ok"/>
+          <rect x="350" y="290" width="110" height="30" class="blk"/>
+          <rect x="110" y="320" width="130" height="110" class="ok"/>
+          <rect x="240" y="320" width="80" height="110" class="ok"/>
+          <rect x="320" y="320" width="30" height="110" class="ok"/>
+          <rect x="350" y="320" width="110" height="110" class="blk"/>
+          <polygon points="350,320 362,320 460,418 460,430 448,430 350,332" class="diag"/>
+          <text x="175" y="151" class="t lg mid trc">✓</text><text x="280" y="151" class="t lg mid mu">✕</text><text x="335" y="151" class="t sm mid mu">✕</text><text x="405" y="151" class="t lg mid mu">✕</text>
+          <text x="175" y="256" class="t lg mid trc">✓</text><text x="280" y="256" class="t lg mid trc">✓</text><text x="335" y="256" class="t sm mid trc">✓</text><text x="405" y="256" class="t lg mid mu">✕</text>
+          <text x="175" y="310" class="t sm mid trc">✓</text><text x="280" y="310" class="t sm mid trc">✓</text><text x="335" y="310" class="t sm mid trc">✓</text><text x="405" y="310" class="t sm mid mu">✕</text>
+          <text x="175" y="381" class="t lg mid trc">✓</text><text x="280" y="381" class="t lg mid trc">✓</text><text x="335" y="381" class="t sm mid trc">✓</text>
+          <text x="432" y="350" class="t sm mid mu">대각선만</text>
+          <text x="285" y="458" class="t sm mid mono">allow(i→j) = valid(j) ∧ lv(j) ≤ lv(i)</text>
+          <text x="285" y="476" class="t sm mid mono">∧ (lv(j) &lt; 2 ∨ i = j)</text>
+          <text x="285" y="494" class="t sm mid mono">∧ (crop(j) = crop(i) ∨ lv(j) = 0)</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. z -->
+  <section id="z">
+    <div class="sec-head">
+      <h2>z에는 무엇을 넣나</h2>
+      <p>V-JEPA 2-AC에서 z는 "무엇을 예측할지"를 정하는 저차원 신호다. 위치는 RoPE가 맡으므로, z에는 crop 전체에 공통인 값만 넣는다.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>후보</th><th>의미</th><th>넣을까</th></tr></thead>
+        <tbody>
+          <tr><td>crop box <code>(cx, cy, w, h)</code></td><td>이미지 기준 정규화 좌표. 어느 영역을 예측하는지</td><td><span class="pill yes">기본</span></td></tr>
+          <tr><td>teacher 배율 <code>log(16 / p_T)</code></td><td><code>p_T</code>를 하나로 고정하면 상수라 필요 없다</td><td><span class="pill yes">p_T를 섞을 때</span></td></tr>
+          <tr><td>query 위치</td><td>query마다 다른 값이라 z가 아니라 RoPE와 크기 embedding으로 넣는다</td><td><span class="pill z">RoPE로</span></td></tr>
+          <tr><td>crop pixel</td><td>예측의 근거가 되는 관측. 근거 token으로 넣는다</td><td><span class="pill z">근거로</span></td></tr>
+          <tr><td>category, part 이름</td><td>encoder 학습에 label을 쓰지 않는 원칙에 어긋나고, PACO 평가로 정보가 샌다</td><td><span class="pill no">안 넣음</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">넣는 방법: <code>z → MLP(2층) → d</code>로 만들고 (1) crop block에 z-token 1개로 넣고 (2) 모든 query에 더한다.</p>
+  </section>
+
+  <!-- 7. Pre-check -->
+  <section id="precheck">
+    <div class="sec-head">
+      <h2>사전 확인: 어떤 teacher가 좋은 target인가</h2>
+      <p>RSP를 학습하기 전에 teacher 품질을 학습 없이 먼저 비교한다.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><th>조건</th><td>dense teacher <code>p_T</code> = 8, 4, 2, 1px · C0 (crop을 384로) · Frozen (full image bilinear)</td></tr>
+          <tr><th>teacher 방식</th><td>crop 하나씩 attention 제한 없이 forward vs 여러 crop을 한 번에, masked teacher</td></tr>
+          <tr><th>입력</th><td>PACO val의 GT box. box와 겹치는 cell을 <code>p_T</code>로 자른다</td></tr>
+          <tr><th>읽기</th><td>crop token을 24×24로 pooling한 뒤 같은 reader (mean + linear, 여유가 있으면 R2)</td></tr>
+          <tr><th>선택 규칙</th><td>가장 좋은 teacher를 RSP target으로 쓴다. 모든 dense 조건이 C0보다 낮으면 C0 방식을 유지한다</td></tr>
+          <tr><th>예상</th><td>1px은 C0보다 낮을 것 같다. 추론에서 나온 예상이므로 실험으로 확인한다</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. Controls -->
+  <section id="controls">
+    <div class="sec-head">
+      <h2>대조군</h2>
+      <p>같은 COCO stream, random crop 규칙, step 수, R2 reader 레시피를 쓴다.</p>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>ID</th><th>바꾸는 것</th><th>분리하는 효과</th></tr></thead>
+        <tbody>
+          <tr><td><b>RSP</b></td><td>기본 설정</td><td>—</td></tr>
+          <tr><td>RSP-noPix</td><td>근거 64 제거 (context + z + query만)</td><td>새 pixel 입력. 사실상 F만 쓰는 feature upsampler</td></tr>
+          <tr><td>RSP-ev16</td><td>근거를 16px patch로 (64×64 → 4×4 = 16)</td><td>근거를 잘게 자르는 것 자체</td></tr>
+          <tr><td>RSP-noCtx</td><td>context <code>F</code> 제거</td><td>작은 crop encoder로 충분한지</td></tr>
+          <tr><td>RSP-B</td><td>predictor ViT-Base</td><td>predictor 크기</td></tr>
+          <tr><td>Dense teacher 직접</td><td>추론 때 teacher를 그대로 사용 (이미지당 ViT-B 1회)</td><td>predictor가 이보다 싸면서 가까운지</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ref" aria-label="공식 PACO Test 기준점">
+      <span>Crop C0 <b class="num">47.38</b> / <span class="num">42.44</span></span>
+      <span>P fused <b class="num">42.91</b> / <span class="num">41.77</span></span>
+      <span>Self-distilled <b class="num">41.66</b> / <span class="num">41.08</span></span>
+      <span>Frozen <b class="num">38.77</b> / <span class="num">38.69</span></span>
+    </div>
+    <p class="note">공식 PACO Test, Object AP / Part AP. 목표는 P와 C0 사이 Object 격차 약 4.5 AP를 줄이는 것이다. 위치를 조건으로 받는 feature upsampler(FeatUp, JAFAR, LoftUp)와 문제가 겹치므로, target이 dense teacher라는 차이를 관련 연구 확인 후 분명히 한다.</p>
+  </section>
+
+  <footer>정리 문서: discussion/2026-11-11/2026-11-11_roi_subpatch_arch.md</footer>
+</main>
