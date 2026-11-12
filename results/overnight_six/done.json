@@ -1,0 +1,14 @@
+{
+ "status": "done",
+ "completed_utc": "2026-11-10T00:22:48Z",
+ "complete": [
+  "E1a",
+  "E1b",
+  "E2",
+  "E2L",
+  "F1",
+  "S1"
+ ],
+ "failed": [],
+ "protocol": "PACO official Val/Test GT-box + GT-category oracle attribute AP; epoch by official Val"
+}

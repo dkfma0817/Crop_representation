@@ -1,0 +1,15 @@
+{
+ "res768_tokens": 2304,
+ "n_images": 100,
+ "cached_vs_live_cos": 0.9999999934434891,
+ "pooled_768_vs_384_cos": 0.9435109648108483,
+ "cells_pool_vs_pooled_cos": 1.0000000081279061,
+ "matched_cell_cos": 0.6786332804854814,
+ "shifted_cell_cos": 0.6371621250525697,
+ "letterbox_token_valid_fraction": 0.6427083329111337,
+ "min_cached_vs_live_cos": 0.9999997615814209,
+ "t_object_nan_rows": 0,
+ "t_nested_present_nan": 0,
+ "t_nested_absent_all_nan": true,
+ "eligible_fraction": 0.8086052289444158
+}

@@ -1,0 +1,182 @@
+{
+  "metrics": {
+    "Frozen": {
+      "overall": 54.21275647340684,
+      "object": 52.26648105269605,
+      "part": 56.15903189411763,
+      "obj_pattern": 51.94376671859008,
+      "part_pattern": 52.787384581990544,
+      "obj_color": 42.73626953307456,
+      "part_color": 50.3959938402827,
+      "obj_material": 52.40305117103578,
+      "part_material": 57.03089820792318,
+      "epoch": 5,
+      "miou": 49.36714903957094
+    },
+    "B0": {
+      "overall": 55.45040831830657,
+      "object": 54.5113059809411,
+      "part": 56.38951065567205,
+      "obj_pattern": 59.64440217848024,
+      "part_pattern": 55.242752761845495,
+      "obj_color": 45.1827265666075,
+      "part_color": 52.67099345640912,
+      "obj_material": 51.22541940598752,
+      "part_material": 56.587176011751694,
+      "epoch": 7,
+      "miou": 44.82881613025872
+    },
+    "B1": {
+      "overall": 55.77897498426597,
+      "object": 54.32714554450116,
+      "part": 57.23080442403079,
+      "obj_pattern": 58.18619866992606,
+      "part_pattern": 56.376011872059145,
+      "obj_color": 46.5247811374518,
+      "part_color": 53.480162835946146,
+      "obj_material": 50.875263889448235,
+      "part_material": 56.48311046002822,
+      "epoch": 7,
+      "miou": 45.45311350980425
+    },
+    "B2": {},
+    "G1cross": {
+      "overall": 55.99272196340438,
+      "object": 54.66999642342844,
+      "part": 57.31544750338031,
+      "obj_pattern": 58.13023373834892,
+      "part_pattern": 55.79608301887363,
+      "obj_color": 47.288495123886136,
+      "part_color": 54.53192861109651,
+      "obj_material": 52.589276897422806,
+      "part_material": 56.316384115109116,
+      "epoch": 7,
+      "miou": 45.703055567008036
+    },
+    "C0": {
+      "overall": 56.39509450332234,
+      "object": 55.69895268500918,
+      "part": 57.0912363216355,
+      "obj_pattern": 61.97797720451972,
+      "part_pattern": 61.07221420518249,
+      "obj_color": 48.14762122979513,
+      "part_color": 55.067589952454064,
+      "obj_material": 51.797228321113195,
+      "part_material": 54.029310320912224,
+      "epoch": 5
+    }
+  },
+  "delta_pp": {
+    "Frozen": {
+      "Frozen": {
+        "overall": 0.0,
+        "object": 0.0,
+        "part": 0.0,
+        "obj_pattern": 0.0,
+        "part_pattern": 0.0,
+        "miou": 0.0
+      },
+      "B0": {
+        "overall": 1.2376518448997302,
+        "object": 2.244824928245052,
+        "part": 0.2304787615544157,
+        "obj_pattern": 7.700635459890158,
+        "part_pattern": 2.4553681798549505,
+        "miou": -4.538332909312217
+      },
+      "B1": {
+        "overall": 1.5662185108591302,
+        "object": 2.060664491805106,
+        "part": 1.0717725299131544,
+        "obj_pattern": 6.242431951335973,
+        "part_pattern": 3.588627290068601,
+        "miou": -3.914035529766693
+      },
+      "B2": {},
+      "G1cross": {
+        "overall": 1.7799654899975366,
+        "object": 2.4035153707323857,
+        "part": 1.1564156092626803,
+        "obj_pattern": 6.186467019758837,
+        "part_pattern": 3.008698436883087,
+        "miou": -3.6640934725629037
+      },
+      "C0": {
+        "overall": 2.182338029915499,
+        "object": 3.4324716323131312,
+        "part": 0.9322044275178669,
+        "obj_pattern": 10.034210485929634,
+        "part_pattern": 8.284829623191946
+      }
+    },
+    "B0": {
+      "Frozen": {
+        "overall": -1.2376518448997302,
+        "object": -2.244824928245052,
+        "part": -0.2304787615544157,
+        "obj_pattern": -7.700635459890158,
+        "part_pattern": -2.4553681798549505,
+        "miou": 4.538332909312217
+      },
+      "B0": {
+        "overall": 0.0,
+        "object": 0.0,
+        "part": 0.0,
+        "obj_pattern": 0.0,
+        "part_pattern": 0.0,
+        "miou": 0.0
+      },
+      "B1": {
+        "overall": 0.3285666659594,
+        "object": -0.18416043643994584,
+        "part": 0.8412937683587387,
+        "obj_pattern": -1.4582035085541847,
+        "part_pattern": 1.1332591102136504,
+        "miou": 0.6242973795455242
+      },
+      "B2": {},
+      "G1cross": {
+        "overall": 0.5423136450978063,
+        "object": 0.15869044248733388,
+        "part": 0.9259368477082646,
+        "obj_pattern": -1.5141684401313213,
+        "part_pattern": 0.5533302570281364,
+        "miou": 0.8742394367493134
+      },
+      "C0": {
+        "overall": 0.9446861850157688,
+        "object": 1.1876467040680794,
+        "part": 0.7017256659634512,
+        "obj_pattern": 2.333575026039476,
+        "part_pattern": 5.829461443336996
+      }
+    }
+  },
+  "official_validation_only": true,
+  "B2_gate": {
+    "run_B2": false,
+    "delta": {
+      "obj": -0.18416043643994584,
+      "part": 0.8412937683587387,
+      "obj_pattern_marking": -1.4582035085541847,
+      "part_pattern_marking": 1.1332591102136504
+    },
+    "overall_ci": [
+      -0.4846185466626221,
+      1.5243871296534346
+    ],
+    "pattern_ci": {
+      "obj_pattern_marking": [
+        -3.8204553316864254,
+        3.6681895596273657
+      ],
+      "part_pattern_marking": [
+        -0.16379095875306326,
+        4.219243006671551
+      ]
+    },
+    "rule": "Both Pattern AP deltas and their paired-image 95% CI lower bounds >0, Overall CI lower bound >0, both ep10 Pattern deltas >0; seed0 evidence only",
+    "decoder_reconstruction_not_a_success_criterion": true,
+    "test_used": false
+  }
+}

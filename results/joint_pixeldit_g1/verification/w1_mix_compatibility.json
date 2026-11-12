@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "hybrid": {
+   "cond": "P",
+   "kind": "ema",
+   "s0": 0.1,
+   "step": 12000
+  },
+  "e2l": {
+   "cond": "P",
+   "kind": "ema",
+   "s0": 0.1,
+   "step": 12000
+  }
+ },
+ "keys_equal": true,
+ "n_keys": 241,
+ "shape_mismatch": [],
+ "initial_keys_equal": true,
+ "initial_sha256": {
+  "hybrid": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa",
+  "e2l": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa",
+  "file": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa"
+ },
+ "calib_scales_at_init": {
+  "s_d": 0.0419451929628849,
+  "inter.0.s_f2c": 0.05717206746339798,
+  "inter.0.s_c2f": 0.13265031576156616,
+  "inter.1.s_f2c": 0.1272682547569275,
+  "inter.1.s_c2f": 0.06128445640206337,
+  "inter.2.s_f2c": 0.4033347964286804,
+  "inter.2.s_c2f": 0.019059455022215843,
+  "inter.3.s_f2c": 5.295273303985596,
+  "inter.3.s_c2f": 0.0014358441112563014
+ },
+ "scales_final": {
+  "s_d": {
+   "hybrid": 0.13120609521865845,
+   "e2l": 0.10341251641511917
+  },
+  "inter.0.s_f2c": {
+   "hybrid": 0.0011302538914605975,
+   "e2l": 0.001806342275813222
+  },
+  "inter.0.s_c2f": {
+   "hybrid": 0.4904055893421173,
+   "e2l": 0.5450127124786377
+  },
+  "inter.1.s_f2c": {
+   "hybrid": 0.008026477880775928,
+   "e2l": 0.01370498538017273
+  },
+  "inter.1.s_c2f": {
+   "hybrid": 0.5549019575119019,
+   "e2l": 0.4998493492603302
+  },
+  "inter.2.s_f2c": {
+   "hybrid": 0.11494528502225876,
+   "e2l": 0.13595232367515564
+  },
+  "inter.2.s_c2f": {
+   "hybrid": 0.1740996092557907,
+   "e2l": 0.16653910279273987
+  },
+  "inter.3.s_f2c": {
+   "hybrid": 5.100275039672852,
+   "e2l": 5.005226135253906
+  },
+  "inter.3.s_c2f": {
+   "hybrid": 0.015012029558420181,
+   "e2l": 0.02552497200667858
+  }
+ },
+ "n_params": 241,
+ "buffers": [
+  "vit.rope.periods"
+ ],
+ "state_not_parameter": [],
+ "non_parameter_state_equal_to_each_other_and_initial": {},
+ "enc_is_model_vit": true,
+ "layernorm_params": 68,
+ "distance": {
+  "rel_l2_hybrid_vs_e2l": 0.04161938820809345,
+  "rel_l2_hybrid_vs_initial": 0.045711699403875955,
+  "rel_l2_e2l_vs_initial": 0.048521004414854955
+ },
+ "made": {
+  "W1a000": {
+   "alpha": 0.0,
+   "path": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/W1a000/checkpoints/ema_last.pt",
+   "alpha0_equals_hybrid": true
+  },
+  "W1a025": {
+   "alpha": 0.25,
+   "path": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/W1a025/checkpoints/ema_last.pt"
+  },
+  "W1a050": {
+   "alpha": 0.5,
+   "path": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/W1a050/checkpoints/ema_last.pt"
+  },
+  "W1a075": {
+   "alpha": 0.75,
+   "path": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/W1a075/checkpoints/ema_last.pt"
+  },
+  "W1a100": {
+   "alpha": 1.0,
+   "path": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/W1a100/checkpoints/ema_last.pt",
+   "alpha1_equals_e2l": true
+  }
+ }
+}

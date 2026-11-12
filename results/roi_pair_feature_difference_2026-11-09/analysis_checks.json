@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "B": 1000,
+  "seed": 0,
+  "no_training": true,
+  "all_roi_ids_categories_labels_match": true,
+  "all_mean_probe_scores_replayed_exactly": true,
+  "all_encoders_unchanged": true,
+  "difference_norm_cosine_identity_pass": true,
+  "zero_teacher_differences": {
+    "P384": 0,
+    "P768": 0,
+    "P768-centered": 0
+  },
+  "zero_student_differences": {
+    "P384": 0,
+    "P768": 0,
+    "P768-centered": 0
+  },
+  "bootstrap": "Same multinomial image draws across all models/groups. Pair endpoints jointly weighted; same-image diagonal once. Fixed sampled graph; no independent-pair resampling.",
+  "seconds": 108.1
+}

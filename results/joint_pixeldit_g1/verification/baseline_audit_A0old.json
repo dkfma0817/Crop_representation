@@ -1,0 +1,28 @@
+{
+ "name": "A0old",
+ "ckpt": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/P/checkpoints/ema_last.pt",
+ "probe": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r2fused",
+ "epoch": 7,
+ "reproduction_pearson_vs_probe_scores": {
+  "ep1": 0.9999967156485295,
+  "ep10": 0.9999960356247866
+ },
+ "official": {
+  "val": {
+   "new_obj": 54.98173992954059,
+   "old_obj": 54.98173992954059,
+   "new_part": 58.07346977127892,
+   "old_part": 58.07346977127892,
+   "max_abs_diff": 0.0
+  },
+  "test": {
+   "new_obj": 41.705308988654686,
+   "old_obj": 41.705308988654686,
+   "new_part": 41.51518919486291,
+   "old_part": 41.51518919486291,
+   "max_abs_diff": 0.0
+  }
+ },
+ "stored_val": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/eval_val/r384_cosine/ep7/official_results.json",
+ "stored_test": "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/eval/fast_test/A0_r2/official_results.json"
+}

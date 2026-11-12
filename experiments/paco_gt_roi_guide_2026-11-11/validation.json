@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "html_bytes": 788774,
+  "html_sha256": "f0d6259f5e4d57ae700066da9dd44fa1deb709d9403100369a9e62de18d064b7",
+  "sections": 10,
+  "unique_ids": 38,
+  "broken_links": [],
+  "sources_checked": 33,
+  "source_changes": [],
+  "examples": 6,
+  "prediction_csv_rows": 354,
+  "whole_manifest_identity_checks": {
+    "c0": {
+      "ann_id": true,
+      "image_id": true,
+      "category_id": true,
+      "sigmoid_max_error": 8.523534800186638e-08,
+      "n_rows": 31919
+    },
+    "p768": {
+      "ann_id": true,
+      "image_id": true,
+      "category_id": true,
+      "sigmoid_max_error": 8.523534800186638e-08,
+      "n_rows": 31919
+    }
+  },
+  "original_project_ap_kernel_expected": {
+    "initial": 0.7564356435643564,
+    "perfect": 1.0,
+    "reversed": 0.6,
+    "compressed": 0.7564356435643564,
+    "ties": 0.6
+  },
+  "browser_qa": "PASS (1440 desktop / 390 mobile, offline images and Korean font, ROI controls, AP, split/model controls, print restore, no JS errors)",
+  "browser_random_ap_cases_compared_to_existing_kernel": 200,
+  "browser_random_ap_max_error": 1.9984014443252818e-15,
+  "new_training": false,
+  "new_gpu_inference": false
+}

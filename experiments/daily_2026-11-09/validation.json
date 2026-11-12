@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "experiment_families": 17,
+  "source_files": 120,
+  "unique_html_ids": 42,
+  "missing_links": [],
+  "embedded_images": 2,
+  "embedded_korean_font": true,
+  "font_license_embedded": true,
+  "external_script_dependencies": 0,
+  "numeric_protocol_checks": true,
+  "embedded_data_matches_json": true,
+  "source_syntax": true,
+  "javascript_syntax": "node --check passed",
+  "browser_qa": "PASS (1440px desktop / 390px mobile, expanded layout, filters, protocols, print restore, no JS errors)",
+  "browser_qa_file": "qa/browser_qa.json",
+  "html_sha256": "80e666b48ae61218d9da32358367689a0ca6a6929383ca39a4596a74ec596201",
+  "snapshot_utc": "2026-11-09T15:46:56+00:00",
+  "bytes": 1211783
+}

@@ -1,0 +1,24 @@
+{
+ "eval_gpu0": [
+  "probe",
+  "J1"
+ ],
+ "eval_gpu1": [
+  "test",
+  "J1"
+ ],
+ "claimed": [],
+ "pending": [],
+ "failed": [],
+ "complete": [
+  "A0bb",
+  "J1",
+  "LowFlow",
+  "W1a000",
+  "W1a025",
+  "W1a050",
+  "W1a075",
+  "W1a100"
+ ],
+ "time": "2026-11-10T04:55:08Z"
+}

@@ -1,0 +1,7 @@
+{
+  "seed": 0,
+  "fit": false,
+  "matching": "For each A pair choose nearest B teacher logit margin within exact category-attribute and both endpoint size bins; deterministic nearest with replacement; calipers .05/.1/.2 logit; retain units >=5 matched A. B repetition retains same image bootstrap weights. Hierarchical equal-attribute/equal-category means; A count within unit uniform. Fixed match assignment in bootstrap; does not include uncertainty of rematching.",
+  "primary_caliper": 0.1,
+  "exploratory": true
+}

@@ -1,0 +1,30 @@
+{
+ "gpu0": [
+  "test",
+  "S1"
+ ],
+ "gpu1": [
+  "probe",
+  "F1"
+ ],
+ "claimed": [
+  "E1a",
+  "E1b",
+  "E2",
+  "E2L",
+  "F1",
+  "S1",
+  "cache"
+ ],
+ "pending": [],
+ "failed": [],
+ "complete": [
+  "E1a",
+  "E1b",
+  "E2",
+  "E2L",
+  "F1",
+  "S1"
+ ],
+ "time": "2026-11-09T23:54:37Z"
+}

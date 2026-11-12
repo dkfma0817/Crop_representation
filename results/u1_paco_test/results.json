@@ -1,0 +1,60 @@
+{
+  "split": "test",
+  "metrics": {
+    "U1": {
+      "overall": 39.89115554508886,
+      "object": 40.09860767746779,
+      "part": 39.683703412709924,
+      "obj_pattern": 45.77198961827634,
+      "part_pattern": 43.35481416641146,
+      "obj_color": 29.865753643662046,
+      "part_color": 32.80163861288158,
+      "obj_material": 33.16767828574711,
+      "part_material": 35.91211289603887,
+      "epoch": 5,
+      "obj_ref": 51.58900916218564,
+      "part_ref": 46.66624797550778
+    }
+  },
+  "selection_split": "val",
+  "test_for_selection": false,
+  "n_eval_images": 9443,
+  "inference": {
+    "status": "passed",
+    "mode": "bil",
+    "split": "test",
+    "reader_epochs": [
+      5
+    ],
+    "encoder": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/export/encoder.pt",
+    "teacher_instantiated": false,
+    "fine_decoder_instantiated": false,
+    "pixel_decoder_instantiated": false,
+    "standard_encoder": true,
+    "counts": {
+      "images": 9443,
+      "encoder_canvases": 9443,
+      "rois": 131899
+    },
+    "roi_rgb_reencoding": false,
+    "oracle_reference": false,
+    "reproduction_pearson": {},
+    "seconds": 45
+  },
+  "protected_inputs_unchanged": true,
+  "protected_inputs": {
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/selection.json": "43c4629c9248c09f1e3f11a41ccb3448c7793a373bf8c720476847508b7bdb3d",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/export/encoder.pt": "0668238c3b82f80852e43f3a4fcfc7af9284d20e9990ea19ee61890a4e4a5469",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/export/encoder_eval.pt": "b15fc358795dba3592462e4da79bc9d35ded8f3b79c8a476f0221ed7a386e01b",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/export/export_verification.json": "77e72ee1baa91b093067b8c5f5e5359c9cb76cd076db23b2bf72c6ab2f7a8dd4",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/probe/r2/ep5.pt": "1723e0f78f6e98a5e87a29867fcb370539f918b980451ab76b3ed6d7557161c5",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/probe/config.json": "5e3a057e518625a38fbbfc596c9df25f5b0f66419c7c0413f0ed7fc6ab1ec64b",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/results.json": "ac42d5ef5f81e3de8859ef0f2511ea9a0b020d40bb840756343ed83ad1c76911",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/U1/config.json": "897de7ed988291f2c1c4f82523ea01084967392d462d7f1d267a382a27b65101",
+    "/home/irteam/Crop_representation/src/fgtrain/pipeline.py": "458b4b016e4f836214331f0a0a6bd9fcbb7d10b579bccdc4dd876a105f87a15b",
+    "/home/irteam/Crop_representation/src/fgtrain/infer.py": "23d7c7c5077efb62556639866b24704040e436dbc164062ab74a83b8551de616",
+    "/home/irteam/Crop_representation/src/pacoattr/official_eval.py": "a9ce73dfcadd48f4ccce791142acb89c276a8d9d30d89085356ff8845202d13e",
+    "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/test/run_u1.py": "de48a230e945dd576694765b0c67a1d688b1ee03fad8492f690212d87f0e3ea4"
+  },
+  "official_results": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u12/test/U1/official/official_results.json"
+}

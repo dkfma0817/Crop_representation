@@ -1,0 +1,7 @@
+{
+ "method": "weight_mix",
+ "alpha": 0.0,
+ "theta0": "output/2026-11-08/hcf_material_causal/r384_pixeldit_hybrid/P/checkpoints/ema_last.pt",
+ "theta1": "results/overnight_six/E2L/checkpoints/ema_last.pt",
+ "rule": "(1 - alpha) theta_PixelDiT + alpha theta_E2L, every parameter, float64 then cast; buffers / non-parameter state copied (equal in both)"
+}

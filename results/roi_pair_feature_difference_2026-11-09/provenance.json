@@ -1,0 +1,545 @@
+{
+  "conditions": {
+    "C0": {
+      "probe_dir": "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0",
+      "full_size": 384,
+      "encoder_checkpoint": null,
+      "mean": {
+        "epoch": 10,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r0/ep10.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r0/scores_val_ep10.npy",
+        "dev_M0": 46.551861312028706,
+        "val_M2": {
+          "object/color": 32.20369821100812,
+          "object/pattern_marking": 40.729573407790035,
+          "object/material": 41.64993081427744,
+          "object/transparency": 54.240443418979154,
+          "object": 42.205911463013685,
+          "part/color": 37.092566749517644,
+          "part/pattern_marking": 47.00892548163624,
+          "part/material": 33.253448427194485,
+          "part/transparency": 44.22305101649266,
+          "part": 40.39449791871026,
+          "color": 34.64813248026288,
+          "pattern_marking": 43.86924944471314,
+          "material": 37.45168962073596,
+          "transparency": 49.23174721773591,
+          "overall": 41.300204690861975
+        }
+      },
+      "r2": {
+        "epoch": 6,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r2/ep6.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r2/scores_val_ep6.npy",
+        "dev_M0": 52.65286440653666,
+        "val_M2": {
+          "object/color": 43.28953334164015,
+          "object/pattern_marking": 54.36622472452808,
+          "object/material": 46.12867461075271,
+          "object/transparency": 52.572553776283385,
+          "object": 49.08924661330108,
+          "part/color": 47.828909289543304,
+          "part/pattern_marking": 54.12756400780374,
+          "part/material": 35.33185081069258,
+          "part/transparency": 49.19888863567196,
+          "part": 46.6218031859279,
+          "color": 45.55922131559173,
+          "pattern_marking": 54.24689436616591,
+          "material": 40.73026271072264,
+          "transparency": 50.885721205977674,
+          "overall": 47.85552489961449
+        }
+      },
+      "config": {
+        "job": {
+          "name": "ivc_v3_c0",
+          "backbone": "dinov3",
+          "mode": "c0",
+          "seed": 0,
+          "epochs": 10,
+          "paco_dev_images": 1000,
+          "readers": [
+            {
+              "name": "r0",
+              "kind": "r0"
+            },
+            {
+              "name": "r2",
+              "kind": "r2",
+              "layers": [
+                12
+              ]
+            }
+          ]
+        },
+        "args": {
+          "job": "configs/ivc_v3/probe_c0.yaml",
+          "out": "output/2026-11-06/ivc_v3/probe_c0",
+          "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+          "limit": 0,
+          "epochs": 0,
+          "max_steps": 0,
+          "workers": 12,
+          "cache": ""
+        },
+        "world": 1,
+        "n_train_rows": 200088,
+        "n_train_images": 37472,
+        "n_val_rows": 11109,
+        "n_val_images": 2051,
+        "steps_per_epoch": [
+          1560,
+          1560,
+          1558,
+          1559,
+          1560,
+          1558,
+          1559,
+          1560,
+          1560,
+          1560
+        ],
+        "total_steps": 15594,
+        "n_params": {
+          "r0": 90742,
+          "r2": 10738294
+        },
+        "n_params_reader_only": {
+          "r0": 0,
+          "r2": 10647552
+        },
+        "encoder": "DINOv3-B/16 lvd1689m @384",
+        "S": 384,
+        "P": 16,
+        "layers": [
+          12
+        ],
+        "torch": "2.7.1+cu118"
+      },
+      "feature_dimension": 768,
+      "pretrained_weight_file": "/home/irteam/Crop_representation/cache/hf_hub/models--timm--vit_base_patch16_dinov3.lvd1689m/snapshots/c6a5fb7d12bbd3cf3b0079253141c3332aaed7da/model.safetensors",
+      "pretrained_weight_sha256": "1f9ed8a2378d65e24bb710ba522ac9fa7be4e036d7aefb4384ce022833926332"
+    },
+    "P384": {
+      "probe_dir": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe",
+      "full_size": 384,
+      "encoder_checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/P/checkpoints/ema_last.pt",
+      "mean": {
+        "epoch": 10,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r0/ep10.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r0/scores_val_ep10.npy",
+        "dev_M0": 46.63179368731875,
+        "val_M2": {
+          "object/color": 32.8685412411289,
+          "object/pattern_marking": 42.81849998341222,
+          "object/material": 36.294645522036426,
+          "object/transparency": 49.29099328376347,
+          "object": 40.31817000758525,
+          "part/color": 37.56238274610389,
+          "part/pattern_marking": 43.60413983386202,
+          "part/material": 32.963860482045476,
+          "part/transparency": 49.56281904161595,
+          "part": 40.92330052590683,
+          "color": 35.215461993616394,
+          "pattern_marking": 43.21131990863712,
+          "material": 34.62925300204095,
+          "transparency": 49.42690616268971,
+          "overall": 40.620735266746046
+        }
+      },
+      "r2": {
+        "epoch": 6,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r2fused/ep6.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r2fused/scores_val_ep6.npy",
+        "dev_M0": 52.082608153730966,
+        "val_M2": {
+          "object/color": 42.60952274153177,
+          "object/pattern_marking": 47.52106992399416,
+          "object/material": 44.319737122882685,
+          "object/transparency": 50.325570874703196,
+          "object": 46.19397516577796,
+          "part/color": 50.61449488368406,
+          "part/pattern_marking": 48.21412667444412,
+          "part/material": 40.07899361117728,
+          "part/transparency": 52.07808740112667,
+          "part": 47.74642564260803,
+          "color": 46.61200881260791,
+          "pattern_marking": 47.86759829921914,
+          "material": 42.19936536702998,
+          "transparency": 51.201829137914935,
+          "overall": 46.970200404192994
+        }
+      },
+      "config": {
+        "job": {
+          "name": "r384_cosine",
+          "backbone": "dinov3",
+          "mode": "hcf_fused",
+          "encoder_ckpt": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/P/checkpoints/ema_last.pt",
+          "full_size": 384,
+          "seed": 0,
+          "epochs": 10,
+          "paco_dev_images": 1000,
+          "readers": [
+            {
+              "name": "r0",
+              "kind": "r0"
+            },
+            {
+              "name": "r2fused",
+              "kind": "r2",
+              "layers": [
+                12
+              ]
+            }
+          ]
+        },
+        "args": {
+          "job": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe.yaml",
+          "out": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe",
+          "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+          "limit": 0,
+          "epochs": 0,
+          "max_steps": 0,
+          "workers": 8,
+          "cache": ""
+        },
+        "world": 1,
+        "n_train_rows": 200088,
+        "n_train_images": 37472,
+        "n_val_rows": 11109,
+        "n_val_images": 2051,
+        "steps_per_epoch": [
+          1560,
+          1560,
+          1558,
+          1559,
+          1560,
+          1558,
+          1559,
+          1560,
+          1560,
+          1560
+        ],
+        "total_steps": 15594,
+        "n_params": {
+          "r0": 90742,
+          "r2fused": 10738294
+        },
+        "n_params_reader_only": {
+          "r0": 0,
+          "r2fused": 10647552
+        },
+        "encoder": "DINOv3-B/16 lvd1689m @384",
+        "S": 384,
+        "P": 16,
+        "layers": [
+          12
+        ],
+        "torch": "2.7.1+cu118"
+      },
+      "feature_dimension": 768
+    },
+    "P768": {
+      "probe_dir": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe",
+      "full_size": 768,
+      "encoder_checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/P/checkpoints/ema_last.pt",
+      "mean": {
+        "epoch": 9,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r0/ep9.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r0/scores_val_ep9.npy",
+        "dev_M0": 49.25666801993444,
+        "val_M2": {
+          "object/color": 33.8921452118847,
+          "object/pattern_marking": 47.78394164552632,
+          "object/material": 39.42053777352142,
+          "object/transparency": 48.806986684746626,
+          "object": 42.47590282891977,
+          "part/color": 39.020374867968805,
+          "part/pattern_marking": 43.144260040030666,
+          "part/material": 38.020060809120444,
+          "part/transparency": 53.36317208431224,
+          "part": 43.386966950358044,
+          "color": 36.45626003992676,
+          "pattern_marking": 45.464100842778485,
+          "material": 38.720299291320934,
+          "transparency": 51.08507938452943,
+          "overall": 42.93143488963891
+        }
+      },
+      "r2": {
+        "epoch": 6,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r2fused/ep6.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r2fused/scores_val_ep6.npy",
+        "dev_M0": 55.35035861457612,
+        "val_M2": {
+          "object/color": 44.9322717676496,
+          "object/pattern_marking": 53.52254356625039,
+          "object/material": 43.83497005548263,
+          "object/transparency": 52.0452824472731,
+          "object": 48.58376695916393,
+          "part/color": 50.78561648301733,
+          "part/pattern_marking": 52.9310128908916,
+          "part/material": 40.82148012212356,
+          "part/transparency": 56.81149594869924,
+          "part": 50.337401361182934,
+          "color": 47.858944125333466,
+          "pattern_marking": 53.22677822857101,
+          "material": 42.328225088803094,
+          "transparency": 54.42838919798617,
+          "overall": 49.46058416017343
+        }
+      },
+      "config": {
+        "job": {
+          "name": "r768_cosine",
+          "backbone": "dinov3",
+          "mode": "hcf_fused",
+          "encoder_ckpt": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/P/checkpoints/ema_last.pt",
+          "full_size": 768,
+          "seed": 0,
+          "epochs": 10,
+          "paco_dev_images": 1000,
+          "readers": [
+            {
+              "name": "r0",
+              "kind": "r0"
+            },
+            {
+              "name": "r2fused",
+              "kind": "r2",
+              "layers": [
+                12
+              ]
+            }
+          ]
+        },
+        "args": {
+          "job": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe.yaml",
+          "out": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe",
+          "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+          "limit": 0,
+          "epochs": 0,
+          "max_steps": 0,
+          "workers": 8,
+          "cache": ""
+        },
+        "world": 1,
+        "n_train_rows": 200088,
+        "n_train_images": 37472,
+        "n_val_rows": 11109,
+        "n_val_images": 2051,
+        "steps_per_epoch": [
+          1560,
+          1560,
+          1558,
+          1559,
+          1560,
+          1558,
+          1559,
+          1560,
+          1560,
+          1560
+        ],
+        "total_steps": 15594,
+        "n_params": {
+          "r0": 90742,
+          "r2fused": 10738294
+        },
+        "n_params_reader_only": {
+          "r0": 0,
+          "r2fused": 10647552
+        },
+        "encoder": "DINOv3-B/16 lvd1689m @384",
+        "S": 384,
+        "P": 16,
+        "layers": [
+          12
+        ],
+        "torch": "2.7.1+cu118"
+      },
+      "feature_dimension": 768
+    },
+    "P768-centered": {
+      "probe_dir": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe",
+      "full_size": 768,
+      "encoder_checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/P/checkpoints/ema_last.pt",
+      "mean": {
+        "epoch": 9,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r0/ep9.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r0/scores_val_ep9.npy",
+        "dev_M0": 49.636516076991725,
+        "val_M2": {
+          "object/color": 34.51581574014235,
+          "object/pattern_marking": 46.61026075662008,
+          "object/material": 42.67330073629312,
+          "object/transparency": 47.97862003175561,
+          "object": 42.944499316202794,
+          "part/color": 38.360450733618755,
+          "part/pattern_marking": 45.37142641217523,
+          "part/material": 38.70313353174823,
+          "part/transparency": 54.154758325693955,
+          "part": 44.14744225080904,
+          "color": 36.43813323688055,
+          "pattern_marking": 45.99084358439766,
+          "material": 40.688217134020675,
+          "transparency": 51.06668917872478,
+          "overall": 43.545970783505915
+        }
+      },
+      "r2": {
+        "epoch": 6,
+        "checkpoint": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r2fused/ep6.pt",
+        "scores": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r2fused/scores_val_ep6.npy",
+        "dev_M0": 55.35332746307103,
+        "val_M2": {
+          "object/color": 45.584194913222376,
+          "object/pattern_marking": 55.85036484315411,
+          "object/material": 46.14318472297558,
+          "object/transparency": 50.86958062202761,
+          "object": 49.61183127534492,
+          "part/color": 51.09897983220427,
+          "part/pattern_marking": 55.34099868388193,
+          "part/material": 42.170864070874295,
+          "part/transparency": 55.87572748086838,
+          "part": 51.12164251695721,
+          "color": 48.34158737271332,
+          "pattern_marking": 55.595681763518016,
+          "material": 44.15702439692494,
+          "transparency": 53.372654051447995,
+          "overall": 50.36673689615107
+        }
+      },
+      "config": {
+        "job": {
+          "name": "r768_centered",
+          "backbone": "dinov3",
+          "mode": "hcf_fused",
+          "encoder_ckpt": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/P/checkpoints/ema_last.pt",
+          "full_size": 768,
+          "seed": 0,
+          "epochs": 10,
+          "paco_dev_images": 1000,
+          "readers": [
+            {
+              "name": "r0",
+              "kind": "r0"
+            },
+            {
+              "name": "r2fused",
+              "kind": "r2",
+              "layers": [
+                12
+              ]
+            }
+          ]
+        },
+        "args": {
+          "job": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe.yaml",
+          "out": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe",
+          "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+          "limit": 0,
+          "epochs": 0,
+          "max_steps": 0,
+          "workers": 8,
+          "cache": ""
+        },
+        "world": 1,
+        "n_train_rows": 200088,
+        "n_train_images": 37472,
+        "n_val_rows": 11109,
+        "n_val_images": 2051,
+        "steps_per_epoch": [
+          1560,
+          1560,
+          1558,
+          1559,
+          1560,
+          1558,
+          1559,
+          1560,
+          1560,
+          1560
+        ],
+        "total_steps": 15594,
+        "n_params": {
+          "r0": 90742,
+          "r2fused": 10738294
+        },
+        "n_params_reader_only": {
+          "r0": 0,
+          "r2fused": 10647552
+        },
+        "encoder": "DINOv3-B/16 lvd1689m @384",
+        "S": 384,
+        "P": 16,
+        "layers": [
+          12
+        ],
+        "torch": "2.7.1+cu118"
+      },
+      "feature_dimension": 768
+    }
+  },
+  "checks": {
+    "val_rows": 11109,
+    "val_images": 2051,
+    "labels_shape": [
+      11109,
+      59
+    ],
+    "unique_ann_ids": true,
+    "explicit_pair_labels": true,
+    "same_category": true,
+    "pairs": 129328,
+    "primary_pairs": 129328,
+    "same_image_pairs": 0,
+    "unit_count": 431,
+    "no_test_predictions_loaded": true,
+    "no_training": true
+  },
+  "input_sha256": {
+    "/home/irteam/sg/crop-rep/experiments/hcf/diagnosis.html": "cade1219dadf9811ab8e8326e7055045baf6d621f2cb523fffc042156f3d75da",
+    "/home/irteam/sg/crop-rep/results/hcf_oracle_gap_2026-11-08/material_ranking_audit.json": "082dff9137fb3934b2c54e2a6b8bd47ece749ab491d432b4e3e1754237d23238",
+    "/home/irteam/sg/crop-rep/results/hcf_oracle_gap_2026-11-08/matched_mean_probe_val.json": "43c5559033ff53b3b437bd863a941b55e10e6ded5c9d37b3dcabf20e88faec31",
+    "/tmp/hcf_material_audit.py": "b500eb030a7cd06e47e6cf1b23ced6f82a92e1c9f63b470aad9039a2d4452a1b",
+    "/home/irteam/Crop_representation/cache/paco_lp/manifest_val.parquet": "2a1944236e8d49a33e6a6aa1af1dc3800443443deb4f054019958cbf5d1bbf35",
+    "/home/irteam/Crop_representation/cache/paco_lp/labels_val.npy": "2a1f70c1dfddfa4cb2d042807745977a11c5e0232bdadb64607c594940c4bd00",
+    "/home/irteam/sg/crop-rep/src/hcf/probe.py": "4f433a16ffdb542109589ac35a8b0cbd78a46061dde271fc346516ce851e88cd",
+    "/home/irteam/sg/crop-rep/src/hcf/model.py": "70976064093899f00f36fe002217d91b4ac81a271b6e44b5beaa100f45643333",
+    "/home/irteam/sg/crop-rep/src/ivc/bbdata.py": "7d5d3ac61fb021f263b786737f418b60a6eb7f63a4d06bba07e78b374e0cdb61",
+    "/home/irteam/sg/crop-rep/src/ivc/common.py": "cdc7e4d9eb300e1114c5242511699ff0760a7f91b55d47f781ae463515f380dc",
+    "/home/irteam/sg/crop-rep/src/ivc/train_bb.py": "c2a4733dfe367235aefee70e54c254f0e495ee3b518478631a1d0a409ee7a21f",
+    "/home/irteam/sg/crop-rep/src/viz/c0_pca.py": "847b3396d769b61811393a8570e8a66385bf5607dbf9483dc8deff2625f5bf70",
+    "/home/irteam/sg/crop-rep/src/readout/common.py": "36ef7faa8a2929cddc5beee51c30b9e66ae07140db57eccb332761495c855d6f",
+    "/home/irteam/sg/crop-rep/src/hcf/distill.py": "64d2286e43cecb74e782af69467ee6c504b067c489d1e8179732a7cdb6d367b3",
+    "/home/irteam/sg/crop-rep/src/hcf/causal_distill.py": "1c70d435f0fbd773ecf502e97624e1568501c3d865d9294939634ab7504aea77",
+    "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r0/ep10.pt": "391520334daa7b03c6882b25a4ec67848b604f1d4c3dc3235d3f1980bd861b62",
+    "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r0/scores_val_ep10.npy": "d7c5536167b6cddc9c0a7d4e02d28706fd1c372d5e052c4f6db022ded3fb3ea8",
+    "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r2/ep6.pt": "d50c1236e83e06db7445c70c82522a9533b3799d058a364427d96e7720c92835",
+    "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/r2/scores_val_ep6.npy": "ca9b402c99a056faa97dc2bc07f2aaf184227c43485acc03d0c40b5c133857e1",
+    "/home/irteam/Crop_representation/output/2026-11-06/ivc_v3/probe_c0/config.json": "71a392de252dd0505eef81d5b9dc3c6ed3b6ab1e61ac39ba3326766923078602",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/P/checkpoints/ema_last.pt": "2e12809d9825a07969100a36f584c9cb2fca1a5d0d4e21cc07bb595050379898",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r0/ep10.pt": "c4d2d42a64620208ef28625ba536446c8ca75f78d0272bfad8d0654eef852c35",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r0/scores_val_ep10.npy": "ef34cf4fb0a6fdc49338d8dda0a712b12c54473965ebb0ae07bdfa7dde3c1d64",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r2fused/ep6.pt": "1390b31d585f01b03282d551b0921fe3230a910f9519a450b16435717dd01610",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/r2fused/scores_val_ep6.npy": "c2fc738770036cd9c243765e67cce36bf4c6e6ab8b1463b9a08e4ffcb3b79f4f",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_cosine/probe/config.json": "c6ca29f835c747ec40b4ac77cc29018f591c9a255d3e3f44041f2c86a72fd220",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/P/checkpoints/ema_last.pt": "7cf438e2d692dfc8c90d76f85dd9bf3f02bdd1f3e24d6d293f3573a2f070ca38",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r0/ep9.pt": "8acee6b7d2bfb7b67897c6b80d9fb58be302da619ed52f93e1c270e1c71c2758",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r0/scores_val_ep9.npy": "f7ad898e7c256b6317e77b6875dd37109005c706951a655f8d6f3ffc8419aff1",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r2fused/ep6.pt": "c6d88a1acbfb7736c33022decaa7777024fba515fffb0094a8e294931322eb29",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/r2fused/scores_val_ep6.npy": "1f9058c7f5204e80f394c0539e7e2a42f3631a46a651706abfc103dead77fdb2",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_cosine/probe/config.json": "418ed7c1785469797cad561d8adf8225ca86ad6df867ed69329d2810450d2fd3",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/P/checkpoints/ema_last.pt": "4eebefb9055d131a8f62b3f13992efa00585820ebc7b48b0761ec3734328cacd",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r0/ep9.pt": "a7a36f18ea1ebb984d5a50c0fe383de50698ce8e7790fd42371b0eae8fc292b3",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r0/scores_val_ep9.npy": "a3b08c8ed3a213da4468540fab65e31786b9b125e693c8959f56c5122adde4dd",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r2fused/ep6.pt": "918fb732ed3a5e7ae913b43b6133118a634c9dfc8febcb87c079dbb7acb56b96",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/r2fused/scores_val_ep6.npy": "b91d61b77db65651b52fa85708a83fba65b2afd88e38357fec141d207c392802",
+    "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r768_centered/probe/config.json": "5be2ce39a3423dfefb4bae2e0c0b7374eb993dd44b404fea5788bbeadafc9afb"
+  },
+  "prior_pair_reuse": "Prior ranking used official Test; no Val pair IDs saved. Test IDs and scores not reused. Val common pairs regenerated using same within-category explicit-label concept; unique uniform cap4096/unit seed0; supplemental same-image census cap512/unit. All comparisons share exact pair list.",
+  "checkpoint_mismatch": "Requested P384/P768 refer to causal r384_cosine/r768_cosine, NOT original HTML hcf_pilot/P. C0 original frozen pretrained DINOv3 crop re-encoding reused.",
+  "pooling": "Exactly existing R0.pooled: coverage-weighted mean of 24x24 crop-grid features, fp32, then diagnostic L2 normalization. No diagnostic z-score. Existing probe applies own train per-level z-score before linear heads.",
+  "bootstrap": "Image vertex multinomial resampling B1000 seed0. Cross-image pair weight=m_i*m_j; same-image pair weight=m_i. All pairs sharing any ROI/image share counts. Fixed selected pair graph; conditional diagnostic, sparse graph/pair selection and seed variation not included."
+}

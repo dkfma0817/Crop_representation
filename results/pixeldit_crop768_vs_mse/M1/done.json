@@ -1,0 +1,10 @@
+{
+ "status": "done",
+ "condition": "M1",
+ "steps": 12000,
+ "time_s": 1110,
+ "started_from_step": 0,
+ "peak_gib": 11.542918682098389,
+ "head_removed_for_probe": false,
+ "ema_checksum": -27615.919335816845
+}

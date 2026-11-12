@@ -1,0 +1,9 @@
+{
+  "source_manifest.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/source_manifest.json",
+  "data_manifest.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/data_manifest.json",
+  "training_protocol.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/training_protocol.json",
+  "preflight.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/preflight.json",
+  "partial_unit_tests.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/partial_unit_tests.json",
+  "protected_inputs.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/protected_inputs.json",
+  "matched_training_verification.json": "/home/irteam/Crop_representation/output/2026-11-11/fgtrain_s0_u34/matched_training_verification.json"
+}

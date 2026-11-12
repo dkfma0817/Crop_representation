@@ -1,0 +1,4834 @@
+{
+  "audit_date": "2026-11-09",
+  "backbone": "SigLIP2 base patch16 384",
+  "scope": "오늘 신규실험과 기존결과집계 분리; 읽기전용 감사",
+  "common_notes": [
+    "DINOv3 G1초기화와달리SigLIP2는officialpretrained에서시작. P8라는명칭은Fine stride8 P architecture.",
+    "각모델별PACO R2/Mean reader는별도학습;추가encoder0이라는표현과reader학습0은다름.",
+    "모든CI는pairedimageB1000;학습seed변동미포함.",
+    "새실험을실행하거나기존코드/checkpoint/결과를수정하지않음."
+  ],
+  "experiments": [
+    {
+      "id": "siglip-structure",
+      "title": "SigLIP2 구조 병목: Fine stride4 / Native readout / ROI decoder",
+      "date_scope": "2026-11-09 신규 학습·평가",
+      "status": "완료 (done.json, 04:33 UTC)",
+      "question": "Crop 대비 Pattern/Material 격차가 fine spatial granularity, ROI 보간, reader capacity 중 어디서 오는가?",
+      "initialization": "P4는 공식 pretrained SigLIP2 coarse에서 새로 시작. Native·Decode는 기존 P8 12k EMA(83ab0015...)를 그대로 frozen. DINOv3 G1 가중치는 사용하지 않음.",
+      "variants": [
+        {
+          "name": "P4",
+          "change": "Fine patch stride 8→4; fine grid48×48→96×96 (width384, four blocks). Window16/shift8로 P8과 같은 물리적64px window/32px shift; coarse-fine interaction4×4.",
+          "learned": "encoder 전체와 새 Fine 경로; 기존 mean crop cosine + .5 global 유지",
+          "budget": "COCO12k, effective batch16, microbatch4; warmup600/cosine; EMA .999→1",
+          "inference": "24×24 ROIAlign fused grid + 기존 R2"
+        },
+        {
+          "name": "Native",
+          "change": "ROIAlign 보간 대신 ROI와 겹치는 실제 coarse/fine cell을 그대로 R2 key로 사용. Frozen Wd가 fine384→768 매핑. 기존 stride 기반 geometry로 type 유지.",
+          "learned": "encoder 추가 학습 없음; 새 동일 R2만 PACO10epoch",
+          "budget": "기존 P8 encoder 재사용",
+          "inference": "실제 overlapping token observations, variable token count"
+        },
+        {
+          "name": "Decode",
+          "change": "Frozen P8 위에 4×4 query 16개 ROI decoder. ROI absolute+relative position, 25% 주변 context key mask, cross-attention2 blocks, dim768/head8/MLP×2. Decoder output16tokens→동일 R2.",
+          "learned": "encoder frozen; decoder만 COCO12k crop mean cosine으로 학습; 이후 decoder frozen + 새 R2 PACO10epoch",
+          "budget": "decoder12k; AdamW3e-4,warmup600,EMA; new parameters11,258,112",
+          "inference": "full image encode once; no crop RGB re-encoding"
+        }
+      ],
+      "protocol": "공식 PACO TEST GT-box+GT-category oracle attribute AP; 모든 reader10epoch, official VAL (Object+Part)/2 최대 epoch 고정 후 TEST. B1000 paired image CI, seed0. Project M2와 혼합 금지.",
+      "results": [
+        {
+          "Model": "P8",
+          "Object AP": 41.0643063204946,
+          "Part AP": 40.01806299338671,
+          "Obj Color": 34.788040701467715,
+          "Obj Pattern": 46.220354116721474,
+          "Obj Material": 32.72219643605451,
+          "Obj Transparency": 50.526634027734666,
+          "Part Color": 39.48553144303682,
+          "Part Pattern": 42.15095349055641,
+          "Part Material": 34.36132895808117,
+          "Part Transparency": 44.07443808187242,
+          "Overall AP": 40.54118465694066,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "P4",
+          "Object AP": 41.16826135265008,
+          "Part AP": 39.96171871720624,
+          "Obj Color": 34.94839112032797,
+          "Obj Pattern": 47.35197518226517,
+          "Obj Material": 32.2148300297691,
+          "Obj Transparency": 50.15784907823808,
+          "Part Color": 40.133667831761215,
+          "Part Pattern": 41.268858626681705,
+          "Part Material": 34.6700365421679,
+          "Part Transparency": 43.77431186821415,
+          "Overall AP": 40.56499003492816,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "Native",
+          "Object AP": 40.55476235438451,
+          "Part AP": 39.885959378314936,
+          "Obj Color": 34.45289741997095,
+          "Obj Pattern": 46.9716166091144,
+          "Obj Material": 31.58887880710503,
+          "Obj Transparency": 49.20565658134766,
+          "Part Color": 38.82347131045589,
+          "Part Pattern": 43.22701145646992,
+          "Part Material": 34.35598103475294,
+          "Part Transparency": 43.137373711580985,
+          "Overall AP": 40.22036086634972,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "Decode",
+          "Object AP": 38.429467469653616,
+          "Part AP": 37.34060106967228,
+          "Obj Color": 32.38799340491286,
+          "Obj Pattern": 43.310875420834414,
+          "Obj Material": 31.19290540851724,
+          "Obj Transparency": 46.82609564434997,
+          "Part Color": 37.01465868022477,
+          "Part Pattern": 39.26091321865925,
+          "Part Material": 32.01599426405156,
+          "Part Transparency": 41.07083811575353,
+          "Overall AP": 37.88503426966295,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "M",
+          "Object AP": 40.074675203440805,
+          "Part AP": 39.11788571540846,
+          "Obj Color": 34.41251354226783,
+          "Obj Pattern": 45.617833019858224,
+          "Obj Material": 30.813016759844672,
+          "Obj Transparency": 49.4553374917925,
+          "Part Color": 38.66929775354985,
+          "Part Pattern": 41.9016938558316,
+          "Part Material": 32.949772050374584,
+          "Part Transparency": 42.95077920187782,
+          "Overall AP": 39.596280459424634,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "B0",
+          "Object AP": 38.66676025574922,
+          "Part AP": 37.97719095206095,
+          "Obj Color": 31.4437355646456,
+          "Obj Pattern": 43.40096054779941,
+          "Obj Material": 33.56677373726138,
+          "Obj Transparency": 46.25557117329048,
+          "Part Color": 35.022276522325605,
+          "Part Pattern": 40.32801307875889,
+          "Part Material": 34.74512005323072,
+          "Part Transparency": 41.81335415392859,
+          "Overall AP": 38.32197560390509,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "C0",
+          "Object AP": 46.049885346189,
+          "Part AP": 41.68720633123715,
+          "Obj Color": 38.42191252649902,
+          "Obj Pattern": 54.894687610794016,
+          "Obj Material": 36.5818775402919,
+          "Obj Transparency": 54.30106370717107,
+          "Part Color": 42.117671282647024,
+          "Part Pattern": 49.599980465498405,
+          "Part Material": 31.930477040798998,
+          "Part Transparency": 43.100696536004186,
+          "Overall AP": 43.868545838713075,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        }
+      ],
+      "contrasts": [
+        {
+          "comparison": "P4 − P8",
+          "metric": "Object AP",
+          "delta": 0.1039550321554898,
+          "ci95_low": -0.6122598634915114,
+          "ci95_high": 0.8165767061869592,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Part AP",
+          "delta": -0.056344276180468,
+          "ci95_low": -0.6003257490953621,
+          "ci95_high": 0.454382992061076,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Obj Color",
+          "delta": 0.1603504188602542,
+          "ci95_low": -0.4266371317536969,
+          "ci95_high": 0.7930702997336752,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Obj Pattern",
+          "delta": 1.1316210655436976,
+          "ci95_low": -1.4252626234529298,
+          "ci95_high": 2.7351212383164625,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Obj Material",
+          "delta": -0.5073664062854135,
+          "ci95_low": -1.289378020710545,
+          "ci95_high": 1.1417919755921857,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Obj Transparency",
+          "delta": -0.368784949496586,
+          "ci95_low": -1.6306721873421377,
+          "ci95_high": 0.9001503741396937,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Part Color",
+          "delta": 0.6481363887243958,
+          "ci95_low": 0.0339855918310592,
+          "ci95_high": 1.065076597679435,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Part Pattern",
+          "delta": -0.8820948638747055,
+          "ci95_low": -2.24303685035837,
+          "ci95_high": 0.3960000773623644,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Part Material",
+          "delta": 0.3087075840867328,
+          "ci95_low": -0.7496409271169969,
+          "ci95_high": 1.2857047508976809,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − P8",
+          "metric": "Part Transparency",
+          "delta": -0.3001262136582738,
+          "ci95_low": -1.2526533122241157,
+          "ci95_high": 0.8927362883970957,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Object AP",
+          "delta": -0.5095439661100869,
+          "ci95_low": -1.3745099332650832,
+          "ci95_high": 0.7747201694576722,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Part AP",
+          "delta": -0.1321036150717702,
+          "ci95_low": -0.923974573340827,
+          "ci95_high": 0.5781068684285827,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Obj Color",
+          "delta": -0.3351432814967623,
+          "ci95_low": -1.2527694969296974,
+          "ci95_high": 0.437028367203008,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Obj Pattern",
+          "delta": 0.7512624923929252,
+          "ci95_low": -1.988143626525069,
+          "ci95_high": 3.07351553439289,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Obj Material",
+          "delta": -1.1333176289494808,
+          "ci95_low": -2.697833321648808,
+          "ci95_high": 0.9396461277213766,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Obj Transparency",
+          "delta": -1.3209774463870048,
+          "ci95_low": -3.1614770514909427,
+          "ci95_high": 2.1076695966484955,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Part Color",
+          "delta": -0.6620601325809261,
+          "ci95_low": -1.4695551945695744,
+          "ci95_high": 0.2057757526667372,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Part Pattern",
+          "delta": 1.0760579659135132,
+          "ci95_low": -1.065044883387147,
+          "ci95_high": 2.6496754487265437,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Part Material",
+          "delta": -0.0053479233282232,
+          "ci95_low": -1.6190706868049678,
+          "ci95_high": 1.550575317774447,
+          "B": 1000
+        },
+        {
+          "comparison": "Native − P8",
+          "metric": "Part Transparency",
+          "delta": -0.937064370291438,
+          "ci95_low": -2.6563078388696173,
+          "ci95_high": 0.8649428612618876,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Object AP",
+          "delta": -2.1252948847308915,
+          "ci95_low": -3.202703778557402,
+          "ci95_high": -1.0582530546618696,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Part AP",
+          "delta": -2.545358308642662,
+          "ci95_low": -3.559810137777579,
+          "ci95_high": -1.7610812339448034,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Obj Color",
+          "delta": -2.06490401505809,
+          "ci95_low": -2.915148091702649,
+          "ci95_high": -1.1136758610336182,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Obj Pattern",
+          "delta": -3.660741188279985,
+          "ci95_low": -6.730368995441808,
+          "ci95_high": -0.9090490213135736,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Obj Material",
+          "delta": -0.3959733985877918,
+          "ci95_low": -2.545284776998466,
+          "ci95_high": 1.020249775099664,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Obj Transparency",
+          "delta": -2.379560936997692,
+          "ci95_low": -4.6233041865313975,
+          "ci95_high": 0.7510824543335862,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Part Color",
+          "delta": -1.808812630231124,
+          "ci95_low": -3.036601642748251,
+          "ci95_high": -1.0820201469906308,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Part Pattern",
+          "delta": -3.9660982378106766,
+          "ci95_low": -5.699797921579727,
+          "ci95_high": -1.5142183616995366,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Part Material",
+          "delta": -2.339986770701387,
+          "ci95_low": -4.443490623494651,
+          "ci95_high": -1.1828430058716106,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − Native",
+          "metric": "Part Transparency",
+          "delta": -2.066535595827453,
+          "ci95_low": -4.32610203979363,
+          "ci95_high": -0.1690495876676307,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Object AP",
+          "delta": -2.6348388508409784,
+          "ci95_low": -3.5836587921451417,
+          "ci95_high": -1.2395886839191426,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Part AP",
+          "delta": -2.677461923714432,
+          "ci95_low": -3.744303936647449,
+          "ci95_high": -1.9204908130499945,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Obj Color",
+          "delta": -2.4000472965548525,
+          "ci95_low": -3.313338022491662,
+          "ci95_high": -1.5900079598218997,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Obj Pattern",
+          "delta": -2.90947869588706,
+          "ci95_low": -6.128189901112367,
+          "ci95_high": -0.5398620830218985,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Obj Material",
+          "delta": -1.5292910275372726,
+          "ci95_low": -3.869613539951953,
+          "ci95_high": 0.9674371340431772,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Obj Transparency",
+          "delta": -3.700538383384696,
+          "ci95_low": -5.192687684827003,
+          "ci95_high": 0.2354391534012022,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Part Color",
+          "delta": -2.47087276281205,
+          "ci95_low": -3.6447030137954153,
+          "ci95_high": -1.703395458259981,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Part Pattern",
+          "delta": -2.8900402718971634,
+          "ci95_low": -5.035380212400416,
+          "ci95_high": -0.4959395273084811,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Part Material",
+          "delta": -2.34533469402961,
+          "ci95_low": -4.452458134878372,
+          "ci95_high": -1.2432085997479476,
+          "B": 1000
+        },
+        {
+          "comparison": "Decode − P8",
+          "metric": "Part Transparency",
+          "delta": -3.003599966118891,
+          "ci95_low": -5.197402034325688,
+          "ci95_high": -1.0142565808995248,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Object AP",
+          "delta": 2.738793882996468,
+          "ci95_low": 1.3461412180213863,
+          "ci95_high": 3.643097146808229,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Part AP",
+          "delta": 2.621117647533964,
+          "ci95_low": 1.807365840916127,
+          "ci95_high": 3.7044331214327006,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Obj Color",
+          "delta": 2.5603977154151067,
+          "ci95_low": 1.7149926156435833,
+          "ci95_high": 3.5377136058181016,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Obj Pattern",
+          "delta": 4.0410997614307576,
+          "ci95_low": 0.806288820074542,
+          "ci95_high": 6.561972227474618,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Obj Material",
+          "delta": 1.0219246212518591,
+          "ci95_low": -0.7709642392686777,
+          "ci95_high": 3.8920817229098015,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Obj Transparency",
+          "delta": 3.3317534338881103,
+          "ci95_low": -0.6288662625094847,
+          "ci95_high": 4.7569693860298505,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Part Color",
+          "delta": 3.1190091515364458,
+          "ci95_low": 2.2707270449936825,
+          "ci95_high": 4.238599947645184,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Part Pattern",
+          "delta": 2.007945408022458,
+          "ci95_low": -0.329857756498516,
+          "ci95_high": 4.161045209007337,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Part Material",
+          "delta": 2.654042278116343,
+          "ci95_low": 1.4492014292922928,
+          "ci95_high": 4.647979386797422,
+          "B": 1000
+        },
+        {
+          "comparison": "P4 − Decode",
+          "metric": "Part Transparency",
+          "delta": 2.703473752460617,
+          "ci95_low": 0.6313020923194088,
+          "ci95_high": 5.148836041286657,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Object AP",
+          "delta": 4.985579025694406,
+          "ci95_low": 3.870183885103482,
+          "ci95_high": 6.725736984838281,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part AP",
+          "delta": 1.6691433378504428,
+          "ci95_low": 0.1231189821626858,
+          "ci95_high": 2.7040960600179984,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Color",
+          "delta": 3.6338718250313065,
+          "ci95_low": 2.604231314225568,
+          "ci95_high": 4.776018519456471,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Pattern",
+          "delta": 8.674333494072542,
+          "ci95_low": 4.847410552651336,
+          "ci95_high": 12.19977703071775,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Material",
+          "delta": 3.8596811042373886,
+          "ci95_low": 2.064440589301728,
+          "ci95_high": 7.049522585475008,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Transparency",
+          "delta": 3.774429679436402,
+          "ci95_low": 1.2755956273312823,
+          "ci95_high": 7.983086554378399,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Color",
+          "delta": 2.632139839610204,
+          "ci95_low": 1.5112712467708422,
+          "ci95_high": 3.951460912224468,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Pattern",
+          "delta": 7.449026974941994,
+          "ci95_low": 3.5497466869700944,
+          "ci95_high": 9.296254441360094,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Material",
+          "delta": -2.4308519172821725,
+          "ci95_low": -5.152204343226002,
+          "ci95_high": -0.0584559927092559,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Transparency",
+          "delta": -0.9737415458682364,
+          "ci95_low": -4.221645108180562,
+          "ci95_high": 2.026336339891945,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Object AP",
+          "delta": 4.881623993538916,
+          "ci95_low": 3.853891627946345,
+          "ci95_high": 6.7163111686348165,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Part AP",
+          "delta": 1.7254876140309108,
+          "ci95_low": 0.1452518747341463,
+          "ci95_high": 2.917147535116559,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Obj Color",
+          "delta": 3.473521406171052,
+          "ci95_low": 2.406201698285124,
+          "ci95_high": 4.565648993052639,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Obj Pattern",
+          "delta": 7.542712428528844,
+          "ci95_low": 4.51850843308013,
+          "ci95_high": 11.686923219075704,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Obj Material",
+          "delta": 4.367047510522802,
+          "ci95_low": 1.9399886754528983,
+          "ci95_high": 7.19277284499411,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Obj Transparency",
+          "delta": 4.143214628932988,
+          "ci95_low": 1.8577395635327891,
+          "ci95_high": 8.207970667271022,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Part Color",
+          "delta": 1.984003450885808,
+          "ci95_low": 0.8917027430486228,
+          "ci95_high": 3.3700025741787925,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Part Pattern",
+          "delta": 8.3311218388167,
+          "ci95_low": 4.404368130294455,
+          "ci95_high": 10.455478086651311,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Part Material",
+          "delta": -2.7395595013689054,
+          "ci95_low": -5.518571204925958,
+          "ci95_high": -0.3170525069848467,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P4",
+          "metric": "Part Transparency",
+          "delta": -0.6736153322099625,
+          "ci95_low": -3.907124732275065,
+          "ci95_high": 2.253765042402993,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Object AP",
+          "delta": 5.495122991804493,
+          "ci95_low": 4.083263794648537,
+          "ci95_high": 7.009733789922656,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Part AP",
+          "delta": 1.801246952922213,
+          "ci95_low": 0.1742402254898166,
+          "ci95_high": 2.888189609635654,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Obj Color",
+          "delta": 3.9690151065280688,
+          "ci95_low": 2.9936823087832103,
+          "ci95_high": 5.19105767424576,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Obj Pattern",
+          "delta": 7.923071001679617,
+          "ci95_low": 4.382017865000846,
+          "ci95_high": 11.61021797580661,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Obj Material",
+          "delta": 4.9929987331868695,
+          "ci95_low": 2.9664466154597195,
+          "ci95_high": 7.622298590179254,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Obj Transparency",
+          "delta": 5.095407125823407,
+          "ci95_low": 1.7448138642147777,
+          "ci95_high": 8.80569655567582,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Part Color",
+          "delta": 3.29419997219113,
+          "ci95_low": 2.0188201713922966,
+          "ci95_high": 4.526545844861694,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Part Pattern",
+          "delta": 6.3729690090284805,
+          "ci95_low": 2.7155683044840107,
+          "ci95_high": 8.684252675042684,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Part Material",
+          "delta": -2.4255039939539493,
+          "ci95_low": -5.369321509224869,
+          "ci95_high": 0.1583451640450283,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Native",
+          "metric": "Part Transparency",
+          "delta": -0.0366771755767985,
+          "ci95_low": -3.555167714724876,
+          "ci95_high": 2.870162425405239,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Object AP",
+          "delta": 7.620417876535384,
+          "ci95_low": 6.247342041523455,
+          "ci95_high": 9.1698699859559,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Part AP",
+          "delta": 4.346605261564875,
+          "ci95_low": 2.795437399493683,
+          "ci95_high": 5.644842087312869,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Obj Color",
+          "delta": 6.033919121586159,
+          "ci95_low": 5.089809248632456,
+          "ci95_high": 7.196563975269597,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Obj Pattern",
+          "delta": 11.583812189959602,
+          "ci95_low": 8.079199824799117,
+          "ci95_high": 15.39897669904702,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Obj Material",
+          "delta": 5.388972131774661,
+          "ci95_low": 3.4429867410606896,
+          "ci95_high": 8.773180195604313,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Obj Transparency",
+          "delta": 7.474968062821098,
+          "ci95_low": 3.3825296818516444,
+          "ci95_high": 10.75627354687633,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Part Color",
+          "delta": 5.103012602422254,
+          "ci95_low": 4.199612734705523,
+          "ci95_high": 6.6735803084469225,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Part Pattern",
+          "delta": 10.339067246839155,
+          "ci95_low": 5.99724235815215,
+          "ci95_high": 12.25651932775522,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Part Material",
+          "delta": -0.0855172232525625,
+          "ci95_low": -2.295593115330343,
+          "ci95_high": 2.706954753927349,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − Decode",
+          "metric": "Part Transparency",
+          "delta": 2.0298584202506547,
+          "ci95_low": -1.089322764061314,
+          "ci95_high": 5.297863024877505,
+          "B": 1000
+        }
+      ],
+      "outcome": [
+        "P4−P8 Object +0.10 [−0.61,+0.82], Pattern +1.13 [−1.43,+2.74], Material −0.51 [−1.29,+1.14]: fine granularity 이득 확인 못함.",
+        "Native−P8 Object −0.51 [−1.37,+0.77]: 보간 제거 단독 이득 확인 못함.",
+        "Decode−Native Object −2.13 [−3.20,−1.06], Part −2.55 [−3.56,−1.76], Obj Pattern −3.66 [−6.73,−0.91]: 이 decoder는 성능을 낮춤.",
+        "P4/Native 모두 Crop Pattern 격차가 남음. P4 연산량280.52 vs P8 152.78 GFLOPs, 저장 feature15.19 vs5.06MiB(fp32)."
+      ],
+      "caveats": [
+        "P4는 계산량·token 수가 함께 증가해 순수 공간해상도 인과 비교가 아님.",
+        "Decode는16-token bottleneck/추가capacity/geometry/context가 함께 달라짐.",
+        "효율 timing은 대표Val1image/4ROI 표본값; 학습seed 변동CI 아님."
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/REPORT.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/results/paco_ap.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/results/contrasts.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/P4/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/Decode/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/provenance.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_struct384_s0/done.json"
+      ],
+      "control": "P8 official-pretrained→12k baseline; P4 vsP8; Native vsP8; Decode vsNative (andP8).",
+      "architecture_change": "P4: Fine patch stride 8→4; fine grid48×48→96×96 (width384, four blocks). Window16/shift8로 P8과 같은 물리적64px window/32px shift; coarse-fine interaction4×4.；Native: ROIAlign 보간 대신 ROI와 겹치는 실제 coarse/fine cell을 그대로 R2 key로 사용. Frozen Wd가 fine384→768 매핑. 기존 stride 기반 geometry로 type 유지.；Decode: Frozen P8 위에 4×4 query 16개 ROI decoder. ROI absolute+relative position, 25% 주변 context key mask, cross-attention2 blocks, dim768/head8/MLP×2. Decoder output16tokens→동일 R2.",
+      "training_change": "P4: encoder 전체와 새 Fine 경로; 기존 mean crop cosine + .5 global 유지；Native: encoder 추가 학습 없음; 새 동일 R2만 PACO10epoch；Decode: encoder frozen; decoder만 COCO12k crop mean cosine으로 학습; 이후 decoder frozen + 새 R2 PACO10epoch",
+      "budget": "P4: COCO12k, effective batch16, microbatch4; warmup600/cosine; EMA .999→1；Native: 기존 P8 encoder 재사용；Decode: decoder12k; AdamW3e-4,warmup600,EMA; new parameters11,258,112",
+      "findings": [
+        "P4−P8 Object +0.10 [−0.61,+0.82], Pattern +1.13 [−1.43,+2.74], Material −0.51 [−1.29,+1.14]: fine granularity 이득 확인 못함.",
+        "Native−P8 Object −0.51 [−1.37,+0.77]: 보간 제거 단독 이득 확인 못함.",
+        "Decode−Native Object −2.13 [−3.20,−1.06], Part −2.55 [−3.56,−1.76], Obj Pattern −3.66 [−6.73,−0.91]: 이 decoder는 성능을 낮춤.",
+        "P4/Native 모두 Crop Pattern 격차가 남음. P4 연산량280.52 vs P8 152.78 GFLOPs, 저장 feature15.19 vs5.06MiB(fp32)."
+      ],
+      "limitations": [
+        "P4는 계산량·token 수가 함께 증가해 순수 공간해상도 인과 비교가 아님.",
+        "Decode는16-token bottleneck/추가capacity/geometry/context가 함께 달라짐.",
+        "효율 timing은 대표Val1image/4ROI 표본값; 학습seed 변동CI 아님."
+      ],
+      "result_split": "Official Test (Val selected)",
+      "key_results": [
+        {
+          "Model": "P8",
+          "Object AP": 41.0643063204946,
+          "Part AP": 40.01806299338671,
+          "Obj Color": 34.788040701467715,
+          "Obj Pattern": 46.220354116721474,
+          "Obj Material": 32.72219643605451,
+          "Obj Transparency": 50.526634027734666,
+          "Part Color": 39.48553144303682,
+          "Part Pattern": 42.15095349055641,
+          "Part Material": 34.36132895808117,
+          "Part Transparency": 44.07443808187242,
+          "Overall AP": 40.54118465694066,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "P4",
+          "Object AP": 41.16826135265008,
+          "Part AP": 39.96171871720624,
+          "Obj Color": 34.94839112032797,
+          "Obj Pattern": 47.35197518226517,
+          "Obj Material": 32.2148300297691,
+          "Obj Transparency": 50.15784907823808,
+          "Part Color": 40.133667831761215,
+          "Part Pattern": 41.268858626681705,
+          "Part Material": 34.6700365421679,
+          "Part Transparency": 43.77431186821415,
+          "Overall AP": 40.56499003492816,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "Native",
+          "Object AP": 40.55476235438451,
+          "Part AP": 39.885959378314936,
+          "Obj Color": 34.45289741997095,
+          "Obj Pattern": 46.9716166091144,
+          "Obj Material": 31.58887880710503,
+          "Obj Transparency": 49.20565658134766,
+          "Part Color": 38.82347131045589,
+          "Part Pattern": 43.22701145646992,
+          "Part Material": 34.35598103475294,
+          "Part Transparency": 43.137373711580985,
+          "Overall AP": 40.22036086634972,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "Decode",
+          "Object AP": 38.429467469653616,
+          "Part AP": 37.34060106967228,
+          "Obj Color": 32.38799340491286,
+          "Obj Pattern": 43.310875420834414,
+          "Obj Material": 31.19290540851724,
+          "Obj Transparency": 46.82609564434997,
+          "Part Color": 37.01465868022477,
+          "Part Pattern": 39.26091321865925,
+          "Part Material": 32.01599426405156,
+          "Part Transparency": 41.07083811575353,
+          "Overall AP": 37.88503426966295,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        },
+        {
+          "Model": "C0",
+          "Object AP": 46.049885346189,
+          "Part AP": 41.68720633123715,
+          "Obj Color": 38.42191252649902,
+          "Obj Pattern": 54.894687610794016,
+          "Obj Material": 36.5818775402919,
+          "Obj Transparency": 54.30106370717107,
+          "Part Color": 42.117671282647024,
+          "Part Pattern": 49.599980465498405,
+          "Part Material": 31.930477040798998,
+          "Part Transparency": 43.100696536004186,
+          "Overall AP": 43.868545838713075,
+          "overall_definition": "derived (Object AP + Part AP)/2"
+        }
+      ]
+    },
+    {
+      "id": "siglip-extra-phase2",
+      "title": "SigLIP2 E1/E2: 추가 학습량을 4k 더 주면 살아나는가?",
+      "date_scope": "오늘은 두 번째 추가4k; 첫4k/P8 기준선은 전날 결과 재사용",
+      "status": "완료 (done.json, 04:55 UTC)",
+      "question": "첫4k에서 뚜렷하지 않았던 contrastive / local-spatial 감독의 이득이 학습량 부족 때문인가?",
+      "initialization": "E1/E2/Continue 각각 자신의 이전 P12k+4k EMA에서 다시4k. 모두 같은P12k root지만 입력 checkpoint는 branch마다 다름. 처음부터20k 연속 학습한 실험이 아님.",
+      "variants": [
+        {
+          "name": "E1",
+          "change": "ROI-level contrastive loss .1 추가; frozen crop teacher의 자기 ROI가 positive, teacher cosine<threshold0.848854이고 same-image IoU>.9 중복을 제외한 batch ROI가 negative. Temperature .07.",
+          "learned": "기존 P encoder 전체; L_crop+.5L_global+.1L_contrastive",
+          "budget": "이전16k EMA→fresh AdamW/warmup600+cosine4k; extra weight warmup400; COCOstream[4000:8000], batch16"
+        },
+        {
+          "name": "E2",
+          "change": "ROI를2×2 quadrant로 나눠 frozen crop teacher quadrant mean과 student quadrant mean cosine을 맞춤(.1). Full384에서 양변≥32px ROI만 적용.",
+          "learned": "기존 P encoder 전체; L_crop+.5L_global+.1L_spatial",
+          "budget": "E1과동일4k recipe"
+        },
+        {
+          "name": "Continue",
+          "change": "새 loss 없이 기존 crop/global loss로 같은4k 추가",
+          "learned": "기존 P encoder 전체",
+          "budget": "이전Continue16k EMA→같은4k; 누적 P12k+4k+4k"
+        }
+      ],
+      "protocol": "공식 PACO TEST; fresh R2/Mean10epoch; officialVAL (Object+Part)/2 epoch선택, Test 고정평가; B1000,seed0.",
+      "results": [
+        {
+          "Model": "P",
+          "Object AP": 41.0643063204946,
+          "Part AP": 40.01806299338671,
+          "Obj Color": 34.788040701467715,
+          "Obj Pattern": 46.220354116721474,
+          "Obj Material": 32.72219643605451,
+          "Obj Transparency": 50.526634027734666,
+          "Part Color": 39.48553144303682,
+          "Part Pattern": 42.15095349055641,
+          "Part Material": 34.36132895808117,
+          "Part Transparency": 44.07443808187242
+        },
+        {
+          "Model": "E1",
+          "Object AP": 40.32151443144972,
+          "Part AP": 39.56181147334291,
+          "Obj Color": 35.05038114507931,
+          "Obj Pattern": 46.15945064424026,
+          "Obj Material": 31.01494221149215,
+          "Obj Transparency": 49.06128372498716,
+          "Part Color": 39.63141664164335,
+          "Part Pattern": 41.95231776296703,
+          "Part Material": 33.36179962601855,
+          "Part Transparency": 43.30171186274271
+        },
+        {
+          "Model": "E1_4k",
+          "Object AP": 40.499803025708346,
+          "Part AP": 39.58975996863572,
+          "Obj Color": 34.75015636611197,
+          "Obj Pattern": 45.94695700506704,
+          "Obj Material": 32.06413533619208,
+          "Obj Transparency": 49.23796339546232,
+          "Part Color": 39.537657340555455,
+          "Part Pattern": 41.98802739506165,
+          "Part Material": 33.693014288393584,
+          "Part Transparency": 43.140340850532176
+        },
+        {
+          "Model": "E2",
+          "Object AP": 40.80488091337297,
+          "Part AP": 39.79296116752749,
+          "Obj Color": 35.28822410615168,
+          "Obj Pattern": 45.98607754662926,
+          "Obj Material": 32.73815840799519,
+          "Obj Transparency": 49.20706359271575,
+          "Part Color": 40.117079209430905,
+          "Part Pattern": 41.71511999202726,
+          "Part Material": 34.1725606730748,
+          "Part Transparency": 43.167084795576976
+        },
+        {
+          "Model": "E2_4k",
+          "Object AP": 40.00606214684098,
+          "Part AP": 39.39227684447264,
+          "Obj Color": 34.83280730828944,
+          "Obj Pattern": 44.31778758756699,
+          "Obj Material": 31.175760115704765,
+          "Obj Transparency": 49.69789357580273,
+          "Part Color": 39.55189901588205,
+          "Part Pattern": 40.89160890586735,
+          "Part Material": 33.79794732848514,
+          "Part Transparency": 43.32765212765602
+        },
+        {
+          "Model": "Continue",
+          "Object AP": 40.02118394383905,
+          "Part AP": 39.32677937339856,
+          "Obj Color": 34.66740360403694,
+          "Obj Pattern": 45.738401140749,
+          "Obj Material": 31.701374211947208,
+          "Obj Transparency": 47.97755681862304,
+          "Part Color": 39.6573091881387,
+          "Part Pattern": 41.29342056559343,
+          "Part Material": 34.14760353850172,
+          "Part Transparency": 42.20878420136038
+        },
+        {
+          "Model": "Continue_4k",
+          "Object AP": 40.8516096550624,
+          "Part AP": 39.45542703086521,
+          "Obj Color": 34.49954281350021,
+          "Obj Pattern": 46.11895679753808,
+          "Obj Material": 32.33237099404801,
+          "Obj Transparency": 50.45556801516332,
+          "Part Color": 39.72023638971133,
+          "Part Pattern": 41.38656135898527,
+          "Part Material": 33.50413726593688,
+          "Part Transparency": 43.210773108827375
+        },
+        {
+          "Model": "C0",
+          "Object AP": 46.049885346189,
+          "Part AP": 41.68720633123715,
+          "Obj Color": 38.42191252649902,
+          "Obj Pattern": 54.894687610794016,
+          "Obj Material": 36.5818775402919,
+          "Obj Transparency": 54.30106370717107,
+          "Part Color": 42.117671282647024,
+          "Part Pattern": 49.599980465498405,
+          "Part Material": 31.930477040798998,
+          "Part Transparency": 43.100696536004186
+        }
+      ],
+      "mean_results": [
+        {
+          "Model": "P",
+          "Object AP": 36.25888220899303,
+          "Part AP": 35.18824102229173,
+          "Obj Color": 28.88392623399272,
+          "Obj Pattern": 39.77413486284114,
+          "Obj Material": 29.3597521126682,
+          "Obj Transparency": 47.01771562647004,
+          "Part Color": 32.09183150038582,
+          "Part Pattern": 38.3696482272713,
+          "Part Material": 29.08598343092644,
+          "Part Transparency": 41.20550093058336
+        },
+        {
+          "Model": "E1",
+          "Object AP": 36.08322582820226,
+          "Part AP": 35.21818043835109,
+          "Obj Color": 28.932335951097947,
+          "Obj Pattern": 39.837308642061416,
+          "Obj Material": 29.099551291640918,
+          "Obj Transparency": 46.463707428008746,
+          "Part Color": 32.09231092773382,
+          "Part Pattern": 38.17078575170784,
+          "Part Material": 29.43989584564413,
+          "Part Transparency": 41.169729228318566
+        },
+        {
+          "Model": "E1_4k",
+          "Object AP": 36.24719918094301,
+          "Part AP": 34.995968770811814,
+          "Obj Color": 28.94756316435884,
+          "Obj Pattern": 40.21262480813292,
+          "Obj Material": 29.262657770253675,
+          "Obj Transparency": 46.56595098102661,
+          "Part Color": 32.24939432458504,
+          "Part Pattern": 38.03173509768558,
+          "Part Material": 29.145189707445507,
+          "Part Transparency": 40.557555953531136
+        },
+        {
+          "Model": "E2",
+          "Object AP": 36.05284174569678,
+          "Part AP": 34.841648560574534,
+          "Obj Color": 28.922838705536883,
+          "Obj Pattern": 39.33810652718179,
+          "Obj Material": 29.172547615666364,
+          "Obj Transparency": 46.77787413440209,
+          "Part Color": 32.031135043176825,
+          "Part Pattern": 37.47638529475393,
+          "Part Material": 29.387600793210595,
+          "Part Transparency": 40.471473111156776
+        },
+        {
+          "Model": "E2_4k",
+          "Object AP": 36.13371549714519,
+          "Part AP": 35.235613404824115,
+          "Obj Color": 28.957164913226123,
+          "Obj Pattern": 39.48891643440261,
+          "Obj Material": 29.168899715476872,
+          "Obj Transparency": 46.91988092547516,
+          "Part Color": 32.09469432851056,
+          "Part Pattern": 38.27093251477085,
+          "Part Material": 29.333908672948084,
+          "Part Transparency": 41.24291810306698
+        },
+        {
+          "Model": "Continue",
+          "Object AP": 36.04303225166108,
+          "Part AP": 35.05389433720911,
+          "Obj Color": 28.924860539260816,
+          "Obj Pattern": 39.82645523263336,
+          "Obj Material": 29.2936577952535,
+          "Obj Transparency": 46.127155439496654,
+          "Part Color": 32.0682948909955,
+          "Part Pattern": 37.964848600578826,
+          "Part Material": 29.2355850123707,
+          "Part Transparency": 40.94684884489141
+        },
+        {
+          "Model": "Continue_4k",
+          "Object AP": 35.72311004377904,
+          "Part AP": 35.06216026371477,
+          "Obj Color": 28.73213933656103,
+          "Obj Pattern": 39.09132595429082,
+          "Obj Material": 29.111328847903224,
+          "Obj Transparency": 45.95764603636108,
+          "Part Color": 31.895463054373632,
+          "Part Pattern": 38.32557419722718,
+          "Part Material": 28.91666971057733,
+          "Part Transparency": 41.11093409268093
+        },
+        {
+          "Model": "C0",
+          "Object AP": 41.53456568170047,
+          "Part AP": 36.52105416891715,
+          "Obj Color": 30.808777524804984,
+          "Obj Pattern": 49.69309367167269,
+          "Obj Material": 34.96261867985375,
+          "Obj Transparency": 50.67377285047046,
+          "Part Color": 33.27821234767902,
+          "Part Pattern": 44.30674928183615,
+          "Part Material": 28.940885152298883,
+          "Part Transparency": 39.55836989385458
+        }
+      ],
+      "contrasts": [
+        {
+          "comparison": "E1 − P",
+          "metric": "Object AP",
+          "delta": -0.7427918890448737,
+          "ci95_low": -1.657097725975277,
+          "ci95_high": 0.3732519465704549,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Part AP",
+          "delta": -0.4562515200438,
+          "ci95_low": -1.2374960775134456,
+          "ci95_high": 0.2505819468590136,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Obj Color",
+          "delta": 0.2623404436115919,
+          "ci95_low": -0.5553229084857367,
+          "ci95_high": 1.073929941321197,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Obj Pattern",
+          "delta": -0.0609034724812147,
+          "ci95_low": -2.867225761700575,
+          "ci95_high": 2.1825921185158714,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Obj Material",
+          "delta": -1.7072542245623588,
+          "ci95_low": -3.1076596583508587,
+          "ci95_high": 0.5411321385669208,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Obj Transparency",
+          "delta": -1.4653503027475026,
+          "ci95_low": -3.4544920286180543,
+          "ci95_high": 1.3295588985667566,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Part Color",
+          "delta": 0.1458851986065283,
+          "ci95_low": -0.6245515217437763,
+          "ci95_high": 1.0175147571754184,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Part Pattern",
+          "delta": -0.1986357275893837,
+          "ci95_low": -2.388610421218121,
+          "ci95_high": 1.5983856257996376,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Part Material",
+          "delta": -0.9995293320626146,
+          "ci95_low": -2.171537124436042,
+          "ci95_high": 0.3853583042148067,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − P",
+          "metric": "Part Transparency",
+          "delta": -0.7727262191297157,
+          "ci95_low": -2.4662928585685813,
+          "ci95_high": 0.9591036516354404,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Object AP",
+          "delta": -0.2594254071216255,
+          "ci95_low": -1.0168351976547298,
+          "ci95_high": 0.6306496786329273,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Part AP",
+          "delta": -0.2251018258592196,
+          "ci95_low": -0.7149789405773775,
+          "ci95_high": 0.3834947349974418,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Obj Color",
+          "delta": 0.5001834046839662,
+          "ci95_low": -0.1764759287671383,
+          "ci95_high": 1.010557614819779,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Obj Pattern",
+          "delta": -0.2342765700922129,
+          "ci95_low": -2.6414428415557243,
+          "ci95_high": 1.3094893898326885,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Obj Material",
+          "delta": 0.0159619719406833,
+          "ci95_low": -1.6456037811515172,
+          "ci95_high": 1.6414568747345046,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Obj Transparency",
+          "delta": -1.3195704350189177,
+          "ci95_low": -2.42593818951386,
+          "ci95_high": 1.0982967810674928,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Part Color",
+          "delta": 0.6315477663940854,
+          "ci95_low": -0.068370228046127,
+          "ci95_high": 1.1967422242013772,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Part Pattern",
+          "delta": -0.4358334985291492,
+          "ci95_low": -2.036638678059463,
+          "ci95_high": 0.924416473108125,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Part Material",
+          "delta": -0.1887682850063683,
+          "ci95_low": -1.0841180788344154,
+          "ci95_high": 1.1718840605116956,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − P",
+          "metric": "Part Transparency",
+          "delta": -0.9073532862954464,
+          "ci95_low": -1.7102098392580838,
+          "ci95_high": 0.4645578853071702,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Object AP",
+          "delta": -0.4833664819232481,
+          "ci95_low": -1.4792505529143496,
+          "ci95_high": 0.5767400555894342,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Part AP",
+          "delta": -0.2311496941845803,
+          "ci95_low": -1.0945950195064291,
+          "ci95_high": 0.4734429677779201,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Obj Color",
+          "delta": -0.2378429610723742,
+          "ci95_low": -0.9707954194766008,
+          "ci95_high": 0.6087383441457228,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Obj Pattern",
+          "delta": 0.1733730976109981,
+          "ci95_low": -2.130947973576545,
+          "ci95_high": 2.6925752222448223,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Obj Material",
+          "delta": -1.723216196503042,
+          "ci95_low": -3.190728558698493,
+          "ci95_high": 0.5005892000613449,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Obj Transparency",
+          "delta": -0.1457798677285851,
+          "ci95_low": -2.9429521402168355,
+          "ci95_high": 1.9722841772270847,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Part Color",
+          "delta": -0.485662567787557,
+          "ci95_low": -1.1859056144026574,
+          "ci95_high": 0.4464488195662153,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Part Pattern",
+          "delta": 0.2371977709397654,
+          "ci95_low": -1.9001733636108689,
+          "ci95_high": 2.068272475965847,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Part Material",
+          "delta": -0.8107610470562463,
+          "ci95_low": -2.2283527893990565,
+          "ci95_high": 0.365194559642995,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − E2",
+          "metric": "Part Transparency",
+          "delta": 0.1346270671657308,
+          "ci95_low": -1.795750379071929,
+          "ci95_high": 1.5988121095228576,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Object AP",
+          "delta": 4.985579025694406,
+          "ci95_low": 3.870183885103482,
+          "ci95_high": 6.725736984838281,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Part AP",
+          "delta": 1.6691433378504428,
+          "ci95_low": 0.1231189821626858,
+          "ci95_high": 2.7040960600179984,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Obj Color",
+          "delta": 3.6338718250313065,
+          "ci95_low": 2.604231314225568,
+          "ci95_high": 4.776018519456471,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Obj Pattern",
+          "delta": 8.674333494072542,
+          "ci95_low": 4.847410552651336,
+          "ci95_high": 12.19977703071775,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Obj Material",
+          "delta": 3.8596811042373886,
+          "ci95_low": 2.064440589301728,
+          "ci95_high": 7.049522585475008,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Obj Transparency",
+          "delta": 3.774429679436402,
+          "ci95_low": 1.2755956273312823,
+          "ci95_high": 7.983086554378399,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Part Color",
+          "delta": 2.632139839610204,
+          "ci95_low": 1.5112712467708422,
+          "ci95_high": 3.951460912224468,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Part Pattern",
+          "delta": 7.449026974941994,
+          "ci95_low": 3.5497466869700944,
+          "ci95_high": 9.296254441360094,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Part Material",
+          "delta": -2.4308519172821725,
+          "ci95_low": -5.152204343226002,
+          "ci95_high": -0.0584559927092559,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P",
+          "metric": "Part Transparency",
+          "delta": -0.9737415458682364,
+          "ci95_low": -4.221645108180562,
+          "ci95_high": 2.026336339891945,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Object AP",
+          "delta": 5.72837091473928,
+          "ci95_low": 4.510017323365047,
+          "ci95_high": 7.378885747695032,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Part AP",
+          "delta": 2.1253948578942428,
+          "ci95_low": 0.4917316210394652,
+          "ci95_high": 3.28262506097111,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Obj Color",
+          "delta": 3.3715313814197145,
+          "ci95_low": 2.3026133744339825,
+          "ci95_high": 4.600024300824638,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Obj Pattern",
+          "delta": 8.735236966553757,
+          "ci95_low": 5.554231872055225,
+          "ci95_high": 12.359950058305277,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Obj Material",
+          "delta": 5.566935328799747,
+          "ci95_low": 3.208232019688247,
+          "ci95_high": 8.437508747375745,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Obj Transparency",
+          "delta": 5.239779982183904,
+          "ci95_low": 2.2355712108352725,
+          "ci95_high": 9.119556472162742,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Part Color",
+          "delta": 2.486254641003676,
+          "ci95_low": 1.2371068504703562,
+          "ci95_high": 3.835532782547223,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Part Pattern",
+          "delta": 7.6476627025313775,
+          "ci95_low": 3.899856144297916,
+          "ci95_high": 9.923811998174823,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Part Material",
+          "delta": -1.431322585219558,
+          "ci95_low": -4.265522376456399,
+          "ci95_high": 0.8319605219686889,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E1",
+          "metric": "Part Transparency",
+          "delta": -0.2010153267385206,
+          "ci95_low": -3.5893372265129977,
+          "ci95_high": 2.9930983169398417,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Object AP",
+          "delta": 5.245004432816032,
+          "ci95_low": 4.055002801500445,
+          "ci95_high": 6.921122857917137,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Part AP",
+          "delta": 1.8942451637096624,
+          "ci95_low": 0.2556242479548795,
+          "ci95_high": 2.782760147017554,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Obj Color",
+          "delta": 3.1336884203473403,
+          "ci95_low": 2.1659168497640424,
+          "ci95_high": 4.28372366495982,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Obj Pattern",
+          "delta": 8.908610064164755,
+          "ci95_low": 5.473883102909412,
+          "ci95_high": 12.969626811519696,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Obj Material",
+          "delta": 3.843719132296705,
+          "ci95_low": 1.866343273774694,
+          "ci95_high": 7.017478084692162,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Obj Transparency",
+          "delta": 5.094000114455319,
+          "ci95_low": 1.9923305375535287,
+          "ci95_high": 8.647024494929266,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Part Color",
+          "delta": 2.000592073216118,
+          "ci95_low": 0.9357355278409488,
+          "ci95_high": 3.3869444946174267,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Part Pattern",
+          "delta": 7.884860473471143,
+          "ci95_low": 4.282901693591469,
+          "ci95_high": 9.80364517061792,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Part Material",
+          "delta": -2.242083632275804,
+          "ci95_low": -5.118441596698129,
+          "ci95_high": -0.1355409209320706,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − E2",
+          "metric": "Part Transparency",
+          "delta": -0.0663882595727898,
+          "ci95_low": -3.7979703148869537,
+          "ci95_high": 2.7392192735823526,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Object AP",
+          "delta": -1.0431223766555462,
+          "ci95_low": -1.9963749779861668,
+          "ci95_high": 0.0429048491481647,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Part AP",
+          "delta": -0.6912836199881482,
+          "ci95_low": -1.4088001550180442,
+          "ci95_high": 0.001878859629942,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Obj Color",
+          "delta": -0.1206370974307731,
+          "ci95_low": -0.7615484886335138,
+          "ci95_high": 0.7768573562366802,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Obj Pattern",
+          "delta": -0.4819529759724759,
+          "ci95_low": -3.794405458943237,
+          "ci95_high": 1.4922490435854134,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Obj Material",
+          "delta": -1.0208222241073024,
+          "ci95_low": -2.7977950471947306,
+          "ci95_high": 1.5162326507965054,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Obj Transparency",
+          "delta": -2.54907720911163,
+          "ci95_low": -4.2053212614370645,
+          "ci95_high": 0.2738800735877711,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Part Color",
+          "delta": 0.1717777451018776,
+          "ci95_low": -0.645024118721256,
+          "ci95_high": 1.0368633110093557,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Part Pattern",
+          "delta": -0.8575329249629817,
+          "ci95_low": -2.63936648467638,
+          "ci95_high": 1.012302212808721,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Part Material",
+          "delta": -0.2137254195794469,
+          "ci95_low": -1.656729353158726,
+          "ci95_high": 0.8401656392112362,
+          "B": 1000
+        },
+        {
+          "comparison": "Continue − P",
+          "metric": "Part Transparency",
+          "delta": -1.865653880512042,
+          "ci95_low": -3.2899404311403004,
+          "ci95_high": -0.3342687001215707,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Object AP",
+          "delta": 0.3003304876106725,
+          "ci95_low": -0.3526737513810625,
+          "ci95_high": 0.9912987311045546,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Part AP",
+          "delta": 0.2350320999443482,
+          "ci95_low": -0.3956723595954994,
+          "ci95_high": 0.722201227357004,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Obj Color",
+          "delta": 0.382977541042365,
+          "ci95_low": -0.3891451945054628,
+          "ci95_high": 0.9442135249324568,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Obj Pattern",
+          "delta": 0.4210495034912611,
+          "ci95_low": -0.7506359100195032,
+          "ci95_high": 2.4787234378232967,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Obj Material",
+          "delta": -0.6864320004550564,
+          "ci95_low": -1.9856267733665347,
+          "ci95_high": 0.8237803111817125,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Obj Transparency",
+          "delta": 1.0837269063641273,
+          "ci95_low": -0.8006424437818291,
+          "ci95_high": 2.4924947192857574,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Part Color",
+          "delta": -0.0258925464953492,
+          "ci95_low": -0.5253144189623713,
+          "ci95_high": 0.5495103593228701,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Part Pattern",
+          "delta": 0.658897197373598,
+          "ci95_low": -1.1774803113861072,
+          "ci95_high": 1.912838860403007,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Part Material",
+          "delta": -0.7858039124831677,
+          "ci95_low": -1.5173937590444246,
+          "ci95_high": 0.3447683916304308,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 − Continue",
+          "metric": "Part Transparency",
+          "delta": 1.0929276613823262,
+          "ci95_low": 0.0051826136089872,
+          "ci95_high": 2.02434203090716,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Object AP",
+          "delta": 0.7836969695339207,
+          "ci95_low": -0.2544942615585309,
+          "ci95_high": 1.8282426718383136,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Part AP",
+          "delta": 0.4661817941289286,
+          "ci95_low": -0.1939853972350963,
+          "ci95_high": 1.2603154937759655,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Obj Color",
+          "delta": 0.6208205021147393,
+          "ci95_low": -0.316319131551867,
+          "ci95_high": 1.1686736828403788,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Obj Pattern",
+          "delta": 0.2476764058802629,
+          "ci95_low": -1.7605703580343257,
+          "ci95_high": 3.0654570318885908,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Obj Material",
+          "delta": 1.0367841960479858,
+          "ci95_low": -1.145377271085433,
+          "ci95_high": 2.8341485576593373,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Obj Transparency",
+          "delta": 1.2295067740927124,
+          "ci95_low": -1.1475604833414097,
+          "ci95_high": 3.534290530245088,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Part Color",
+          "delta": 0.4597700212922078,
+          "ci95_low": -0.4069899572376524,
+          "ci95_high": 1.151483632500146,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Part Pattern",
+          "delta": 0.4216994264338325,
+          "ci95_low": -1.4605959189405306,
+          "ci95_high": 1.9033641267271744,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Part Material",
+          "delta": 0.0249571345730785,
+          "ci95_low": -0.880053638100577,
+          "ci95_high": 1.5472191936720252,
+          "B": 1000
+        },
+        {
+          "comparison": "E2 − Continue",
+          "metric": "Part Transparency",
+          "delta": 0.9583005942165954,
+          "ci95_low": -0.4813248663595368,
+          "ci95_high": 2.9021824510193777,
+          "B": 1000
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Object AP",
+          "delta": -0.1782885942586247,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Part AP",
+          "delta": -0.0279484952928115,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Obj Color",
+          "delta": 0.3002247789673333,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Obj Pattern",
+          "delta": 0.2124936391732248,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Obj Material",
+          "delta": -1.049193124699929,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Obj Transparency",
+          "delta": -0.1766796704751527,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Part Color",
+          "delta": 0.0937593010878927,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Part Pattern",
+          "delta": -0.0357096320946226,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Part Material",
+          "delta": -0.3312146623750323,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E1 second phase − E1_4k",
+          "metric": "Part Transparency",
+          "delta": 0.1613710122105303,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Object AP",
+          "delta": 0.798818766531987,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Part AP",
+          "delta": 0.4006843230548469,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Obj Color",
+          "delta": 0.4554167978622416,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Obj Pattern",
+          "delta": 1.668289959062271,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Obj Material",
+          "delta": 1.5623982922904285,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Obj Transparency",
+          "delta": -0.4908299830869822,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Part Color",
+          "delta": 0.565180193548855,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Part Pattern",
+          "delta": 0.8235110861599111,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Part Material",
+          "delta": 0.3746133445896618,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "E2 second phase − E2_4k",
+          "metric": "Part Transparency",
+          "delta": -0.1605673320790472,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Object AP",
+          "delta": -0.8304257112233557,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Part AP",
+          "delta": -0.1286476574666508,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Obj Color",
+          "delta": 0.1678607905367286,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Obj Pattern",
+          "delta": -0.3805556567890775,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Obj Material",
+          "delta": -0.6309967821008051,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Obj Transparency",
+          "delta": -2.47801119654028,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Part Color",
+          "delta": -0.0629272015726272,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Part Pattern",
+          "delta": -0.0931407933918393,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Part Material",
+          "delta": 0.6434662725648437,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        },
+        {
+          "comparison": "Continue second phase − Continue_4k",
+          "metric": "Part Transparency",
+          "delta": -1.0019889074669948,
+          "ci95_low": null,
+          "ci95_high": null,
+          "B": 0
+        }
+      ],
+      "outcome": [
+        "R2 Test E1 Object40.32/Part39.56; E2 40.80/39.79; Continue40.02/39.33; 기존P41.06/40.02.",
+        "같은 추가학습량 Continue 대비 E1 Object+0.30 [−0.35,+0.99], E2+0.78 [−0.25,+1.83]: CI0포함.",
+        "Material: E1 31.01, E2 32.74, Continue31.70, P32.72. E2가 P 대비+0.02지만 이득 근거는 없음.",
+        "Mean Probe에서도 Pattern/Material의 유의한 개선을 확인 못함."
+      ],
+      "caveats": [
+        "각 branch별 이전16kcheckpoint에서 시작하므로 같은단일초기checkpoint 비교는 아님.",
+        "4k→8k 증분은점추정치만, phase 내 모델간CI는B1000.",
+        "추가loss학습에 속성라벨은사용하지않음."
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/REPORT.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/lineage.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/E1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/E2/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/results/r2_ap.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/results/r2_contrasts.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pm_extra_phase2_s0/done.json"
+      ],
+      "control": "Continue branch at同P12k+4k+4k budget; branch-specific16k inputs differ.",
+      "architecture_change": "E1: ROI-level contrastive loss .1 추가; frozen crop teacher의 자기 ROI가 positive, teacher cosine<threshold0.848854이고 same-image IoU>.9 중복을 제외한 batch ROI가 negative. Temperature .07.；E2: ROI를2×2 quadrant로 나눠 frozen crop teacher quadrant mean과 student quadrant mean cosine을 맞춤(.1). Full384에서 양변≥32px ROI만 적용.；Continue: 새 loss 없이 기존 crop/global loss로 같은4k 추가",
+      "training_change": "E1: 기존 P encoder 전체; L_crop+.5L_global+.1L_contrastive；E2: 기존 P encoder 전체; L_crop+.5L_global+.1L_spatial；Continue: 기존 P encoder 전체",
+      "budget": "E1: 이전16k EMA→fresh AdamW/warmup600+cosine4k; extra weight warmup400; COCOstream[4000:8000], batch16；E2: E1과동일4k recipe；Continue: 이전Continue16k EMA→같은4k; 누적 P12k+4k+4k",
+      "findings": [
+        "R2 Test E1 Object40.32/Part39.56; E2 40.80/39.79; Continue40.02/39.33; 기존P41.06/40.02.",
+        "같은 추가학습량 Continue 대비 E1 Object+0.30 [−0.35,+0.99], E2+0.78 [−0.25,+1.83]: CI0포함.",
+        "Material: E1 31.01, E2 32.74, Continue31.70, P32.72. E2가 P 대비+0.02지만 이득 근거는 없음.",
+        "Mean Probe에서도 Pattern/Material의 유의한 개선을 확인 못함."
+      ],
+      "limitations": [
+        "각 branch별 이전16kcheckpoint에서 시작하므로 같은단일초기checkpoint 비교는 아님.",
+        "4k→8k 증분은점추정치만, phase 내 모델간CI는B1000.",
+        "추가loss학습에 속성라벨은사용하지않음."
+      ],
+      "result_split": "Official Test (Val selected)"
+    },
+    {
+      "id": "siglip-localcue",
+      "title": "SigLIP2 Local Cue Response: 편집된 국소 질감의 변화까지 맞추기",
+      "date_scope": "오늘 신규12k M1/M2",
+      "status": "공식 VAL 완료 06:30 UTC; TEST 미실행(eval_test 비어 있음)",
+      "question": "평균 crop alignment가 국소 appearance 변화에 둔감한가? 같은 ROI의 texture 편집 전후 feature 변화 방향을 맞추면 도움이 되는가? Native detail 입력이 필요한가?",
+      "initialization": "공식 pretrained google/siglip2-base-patch16-384 + 새 P8 fine의 공통 calibrated initial (e9e75294...). P8 학습완료checkpoint에서 이어학습한 것이 아님. M1/M2초기coarse/fine 일치.",
+      "variants": [
+        {
+          "name": "M1",
+          "change": "기존 P8 architecture 유지. 하나의 ROI 안 luma high-frequency band를 swap/boost/suppress한 I′ 생성. 원본I와편집I′의 crop/global loss + .2*(1−cos(dS,dT)); dS=normalize(Q(I′,r))−normalize(Q(I,r)); dT=frozen crop teacher의 동일 편집전후 변화. ||dT||≥.02에서 적용.",
+          "learned": "기존 P8 encoder전체; 원본/편집이미지 둘 다 forward",
+          "budget": "COCO12k×16images; 기존warmup/optimizer/EMA; student image forward383984로P8의191992보다2배, compute-matched 아님"
+        },
+        {
+          "name": "M2",
+          "change": "M1과동일loss/편집/dataorder + native RGB(최대640,no upscale)를 이미지당1번읽는 경량Conv Detail path. Conv stride2×3(3→32→64→128)+ResBlock2, stride8; P8 48×48finegrid로resample+zero-init1×1proj(128→384)해서 최종fine에더함.",
+          "learned": "기존 P8전체+Detail약0.807Mparams; 저장finegrid/ROIread/fusion은P8유지",
+          "budget": "M1과동일12k; nativepath추가연산/메모리"
+        }
+      ],
+      "protocol": "PACO Official VAL GT-ROI/GT-Category Oracle Attribute AP만; officialVAL epoch선택; projectM0/M2사용안함. B1000 paired image bootstrap; TEST 미실행.",
+      "results": [
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "Model": "B0",
+          "Overall AP": 53.14929140640812,
+          "Object AP": 51.62045819466488,
+          "Part AP": 54.67812461815135,
+          "Obj Color": 44.9223048373152,
+          "Obj Pattern": 55.67003894286759,
+          "Obj Material": 51.05371852065731,
+          "Obj Transparency": 54.83577047781944,
+          "Part Color": 50.75771208315712,
+          "Part Pattern": 51.95052154094719,
+          "Part Material": 55.09171868533155,
+          "Part Transparency": 60.91254616316954
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "Model": "P8",
+          "Overall AP": 54.67502696083828,
+          "Object AP": 53.6992198024389,
+          "Part AP": 55.65083411923766,
+          "Obj Color": 50.72064565670856,
+          "Obj Pattern": 53.93104321615924,
+          "Obj Material": 54.18442034557612,
+          "Obj Transparency": 55.960769991311714,
+          "Part Color": 57.438636635191365,
+          "Part Pattern": 52.21646259250768,
+          "Part Material": 54.46913134715956,
+          "Part Transparency": 58.47910590209205
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "Model": "M1",
+          "Overall AP": 54.098102301312,
+          "Object AP": 52.120243440402966,
+          "Part AP": 56.07596116222103,
+          "Obj Color": 49.19478733640327,
+          "Obj Pattern": 51.79241574913844,
+          "Obj Material": 50.374809920869694,
+          "Obj Transparency": 57.11896075520045,
+          "Part Color": 56.2835595739305,
+          "Part Pattern": 53.37367938194984,
+          "Part Material": 54.05672156842888,
+          "Part Transparency": 60.58988412457487
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "Model": "M2",
+          "Overall AP": 54.4170900447192,
+          "Object AP": 52.87694924064538,
+          "Part AP": 55.957230848793024,
+          "Obj Color": 51.04070289751665,
+          "Obj Pattern": 52.416816702307415,
+          "Obj Material": 48.72224131747457,
+          "Obj Transparency": 59.32803604528289,
+          "Part Color": 56.9186040081461,
+          "Part Pattern": 53.70890151467791,
+          "Part Material": 52.298750677152974,
+          "Part Transparency": 60.90266719519512
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "Model": "C0",
+          "Overall AP": 56.43649645165976,
+          "Object AP": 57.84673984680824,
+          "Part AP": 55.02625305651128,
+          "Obj Color": 51.42694431937078,
+          "Obj Pattern": 65.31806376271004,
+          "Obj Material": 51.79652733015173,
+          "Obj Transparency": 62.84542397500039,
+          "Part Color": 58.38407842430418,
+          "Part Pattern": 56.63580778646652,
+          "Part Material": 51.92331294916346,
+          "Part Transparency": 53.16181306611097
+        }
+      ],
+      "contrasts": [
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Overall AP",
+          "delta": -0.3189877434072059,
+          "ci95_low": -1.2085300241250043,
+          "ci95_high": 0.6721073207906403,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Object AP",
+          "delta": -0.7567058002424147,
+          "ci95_low": -1.9467803882723804,
+          "ci95_high": 0.802118995237677,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Part AP",
+          "delta": 0.1187303134280028,
+          "ci95_low": -1.1573833309308943,
+          "ci95_high": 1.1212226262141904,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Obj Color",
+          "delta": -1.8459155611133795,
+          "ci95_low": -3.7400837841662566,
+          "ci95_high": 1.210201476739282,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Obj Pattern",
+          "delta": -0.6244009531689798,
+          "ci95_low": -3.7699062119762696,
+          "ci95_high": 1.735416753739396,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Obj Material",
+          "delta": 1.6525686033951246,
+          "ci95_low": -0.7280401717532479,
+          "ci95_high": 4.980095234019351,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Obj Transparency",
+          "delta": -2.209075290082445,
+          "ci95_low": -4.963208261417784,
+          "ci95_high": 0.9599670159801706,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Part Color",
+          "delta": -0.635044434215601,
+          "ci95_low": -2.697462602637834,
+          "ci95_high": 1.3284856879687434,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Part Pattern",
+          "delta": -0.3352221327280631,
+          "ci95_low": -3.2510343346501984,
+          "ci95_high": 0.883560210494272,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Part Material",
+          "delta": 1.7579708912759102,
+          "ci95_low": -0.5912860426300274,
+          "ci95_high": 3.224846201054548,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − M2",
+          "metric": "Part Transparency",
+          "delta": -0.3127830706202488,
+          "ci95_low": -2.6115886248800377,
+          "ci95_high": 2.840554330788456,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Overall AP",
+          "delta": -0.5769246595262842,
+          "ci95_low": -2.0711570395807413,
+          "ci95_high": 1.0618569171548549,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Object AP",
+          "delta": -1.578976362035938,
+          "ci95_low": -3.5680623883240585,
+          "ci95_high": 0.760339326726641,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Part AP",
+          "delta": 0.4251270429833695,
+          "ci95_low": -1.4598640548078736,
+          "ci95_high": 1.7618206131002927,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Obj Color",
+          "delta": -1.5258583203052822,
+          "ci95_low": -3.928748693297373,
+          "ci95_high": 1.7363560676926255,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Obj Pattern",
+          "delta": -2.138627467020804,
+          "ci95_low": -7.300886564246129,
+          "ci95_high": 1.603790601879368,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Obj Material",
+          "delta": -3.809610424706421,
+          "ci95_low": -7.645242662250837,
+          "ci95_high": 0.6602094649813967,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Obj Transparency",
+          "delta": 1.158190763888733,
+          "ci95_low": -3.3313794881774603,
+          "ci95_high": 6.302802760326578,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Part Color",
+          "delta": -1.1550770612608616,
+          "ci95_low": -3.531251444959307,
+          "ci95_high": 1.2917182053466938,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Part Pattern",
+          "delta": 1.1572167894421668,
+          "ci95_low": -2.141375954315991,
+          "ci95_high": 4.143101263199748,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Part Material",
+          "delta": -0.4124097787306766,
+          "ci95_low": -4.111087551849964,
+          "ci95_high": 2.306567072386273,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − P8",
+          "metric": "Part Transparency",
+          "delta": 2.110778222482814,
+          "ci95_low": -2.6000007158009413,
+          "ci95_high": 5.647597902683293,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Overall AP",
+          "delta": -0.2579369161190783,
+          "ci95_low": -1.8246629055768788,
+          "ci95_high": 1.210273402196066,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Object AP",
+          "delta": -0.8222705617935233,
+          "ci95_low": -3.003581225734164,
+          "ci95_high": 1.2001188730225738,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Part AP",
+          "delta": 0.3063967295553667,
+          "ci95_low": -1.51539755423939,
+          "ci95_high": 1.8987203508745447,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Obj Color",
+          "delta": 0.3200572408080973,
+          "ci95_low": -2.1883205444502978,
+          "ci95_high": 2.687333206500192,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Obj Pattern",
+          "delta": -1.514226513851824,
+          "ci95_low": -5.39634900165331,
+          "ci95_high": 2.4067668530516517,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Obj Material",
+          "delta": -5.462179028101545,
+          "ci95_low": -9.895598219186844,
+          "ci95_high": -0.488396579101401,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Obj Transparency",
+          "delta": 3.3672660539711785,
+          "ci95_low": -1.7887811207854951,
+          "ci95_high": 8.033189246771181,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Part Color",
+          "delta": -0.5200326270452607,
+          "ci95_low": -2.878744874617143,
+          "ci95_high": 1.5392132292110492,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Part Pattern",
+          "delta": 1.49243892217023,
+          "ci95_low": -1.010473961270481,
+          "ci95_high": 4.939701253345097,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Part Material",
+          "delta": -2.170380670006587,
+          "ci95_low": -5.3907110963382,
+          "ci95_high": 1.0666727991568,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − P8",
+          "metric": "Part Transparency",
+          "delta": 2.423561293103063,
+          "ci95_low": -2.609628113475992,
+          "ci95_high": 5.5997074137449205,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Overall AP",
+          "delta": 2.338394150347767,
+          "ci95_low": 0.1789309023590249,
+          "ci95_high": 4.494181803848644,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Object AP",
+          "delta": 5.726496406405275,
+          "ci95_low": 2.4717465057713257,
+          "ci95_high": 8.261279298721124,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Part AP",
+          "delta": -1.0497081057097477,
+          "ci95_low": -3.4424113194106005,
+          "ci95_high": 2.052746129155329,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Obj Color",
+          "delta": 2.23215698296751,
+          "ci95_low": -0.4689150561340701,
+          "ci95_high": 6.173922609662434,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Obj Pattern",
+          "delta": 13.525648013571605,
+          "ci95_low": 6.633444045143382,
+          "ci95_high": 18.284838553862887,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Obj Material",
+          "delta": 1.4217174092820386,
+          "ci95_low": -4.195745035650092,
+          "ci95_high": 8.262908819999138,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Obj Transparency",
+          "delta": 5.726463219799939,
+          "ci95_low": -2.4279968405278924,
+          "ci95_high": 11.364141271107528,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Part Color",
+          "delta": 2.1005188503736747,
+          "ci95_low": -2.1018140598261645,
+          "ci95_high": 6.328292747763629,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Part Pattern",
+          "delta": 3.2621284045166803,
+          "ci95_low": -3.5282799026475877,
+          "ci95_high": 10.664060749581632,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Part Material",
+          "delta": -2.133408619265424,
+          "ci95_low": -6.0933958622880695,
+          "ci95_high": 2.1851628474227422,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M1",
+          "metric": "Part Transparency",
+          "delta": -7.428071058463892,
+          "ci95_low": -12.272961733550035,
+          "ci95_high": -0.9999996878667708,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Overall AP",
+          "delta": 2.0194064069405613,
+          "ci95_low": -0.1670446432922011,
+          "ci95_high": 4.216621265415956,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Object AP",
+          "delta": 4.96979060616286,
+          "ci95_low": 1.797335477434168,
+          "ci95_high": 7.8624508052129265,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Part AP",
+          "delta": -0.9309777922817446,
+          "ci95_low": -3.3088468041694163,
+          "ci95_high": 2.0562229657713447,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Obj Color",
+          "delta": 0.3862414218541303,
+          "ci95_low": -1.7563706517162896,
+          "ci95_high": 4.864202266321423,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Obj Pattern",
+          "delta": 12.901247060402625,
+          "ci95_low": 5.927499047101681,
+          "ci95_high": 17.31609275135327,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Obj Material",
+          "delta": 3.074286012677163,
+          "ci95_low": -3.3023327067696058,
+          "ci95_high": 10.36574657284852,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Obj Transparency",
+          "delta": 3.517387929717493,
+          "ci95_low": -4.369728152665745,
+          "ci95_high": 10.130151242494916,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Part Color",
+          "delta": 1.4654744161580735,
+          "ci95_low": -2.3585243623980543,
+          "ci95_high": 5.606480930388175,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Part Pattern",
+          "delta": 2.926906271788617,
+          "ci95_low": -4.060648015731867,
+          "ci95_high": 9.634911640020892,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Part Material",
+          "delta": -0.3754377279895138,
+          "ci95_low": -5.144351617340369,
+          "ci95_high": 3.246231058550777,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − M2",
+          "metric": "Part Transparency",
+          "delta": -7.740854129084141,
+          "ci95_low": -12.148014401254551,
+          "ci95_high": -0.3315590222957617,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Overall AP",
+          "delta": 1.761469490821483,
+          "ci95_low": -0.2267752899285205,
+          "ci95_high": 3.94764752635016,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Object AP",
+          "delta": 4.147520044369337,
+          "ci95_low": 1.35896899045789,
+          "ci95_high": 6.724173249351089,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Part AP",
+          "delta": -0.6245810627263779,
+          "ci95_low": -3.066015584344262,
+          "ci95_high": 2.051205003995529,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Obj Color",
+          "delta": 0.7062986626622276,
+          "ci95_low": -1.4450074583796428,
+          "ci95_high": 4.895525018427781,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Obj Pattern",
+          "delta": 11.3870205465508,
+          "ci95_low": 3.6794888553549914,
+          "ci95_high": 16.3686872206496,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Obj Material",
+          "delta": -2.387893015424382,
+          "ci95_low": -6.464035711823331,
+          "ci95_high": 3.4411912874931416,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Obj Transparency",
+          "delta": 6.884653983688672,
+          "ci95_low": -0.1948416645611451,
+          "ci95_high": 12.177908267662,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Part Color",
+          "delta": 0.9454417891128132,
+          "ci95_low": -3.2687756496538505,
+          "ci95_high": 4.990795868174974,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Part Pattern",
+          "delta": 4.419345193958847,
+          "ci95_low": -3.122675456919269,
+          "ci95_high": 12.078770076115042,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Part Material",
+          "delta": -2.5458183979961007,
+          "ci95_low": -6.9119344489274095,
+          "ci95_high": 0.4911313133780539,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "C0 − P8",
+          "metric": "Part Transparency",
+          "delta": -5.317292835981078,
+          "ci95_low": -9.655747403993391,
+          "ci95_high": 0.0460653571271112,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Overall AP",
+          "delta": 0.9488108949038788,
+          "ci95_low": -0.5409480611906508,
+          "ci95_high": 2.6994955626257977,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Object AP",
+          "delta": 0.4997852457380816,
+          "ci95_low": -1.447444261533562,
+          "ci95_high": 2.9665288163811687,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Part AP",
+          "delta": 1.3978365440696765,
+          "ci95_low": -0.3635810743461892,
+          "ci95_high": 3.235714942736199,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Obj Color",
+          "delta": 4.272482499088071,
+          "ci95_low": 1.5829026838854707,
+          "ci95_high": 7.249780504873371,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Obj Pattern",
+          "delta": -3.87762319372915,
+          "ci95_low": -9.31843692133254,
+          "ci95_high": 1.5327053856398682,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Obj Material",
+          "delta": -0.6789085997876185,
+          "ci95_low": -4.517476841922264,
+          "ci95_high": 4.651402256316117,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Obj Transparency",
+          "delta": 2.28319027738101,
+          "ci95_low": -2.689620777453898,
+          "ci95_high": 7.326863156070255,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Part Color",
+          "delta": 5.52584749077338,
+          "ci95_low": 2.0987911804377326,
+          "ci95_high": 8.896573713074945,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Part Pattern",
+          "delta": 1.4231578410026486,
+          "ci95_low": -2.747955038489959,
+          "ci95_high": 5.249594557157549,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Part Material",
+          "delta": -1.034997116902666,
+          "ci95_low": -4.215000643943949,
+          "ci95_high": 2.875944550224016,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M1 − B0",
+          "metric": "Part Transparency",
+          "delta": -0.3226620385946788,
+          "ci95_low": -3.361779981811098,
+          "ci95_high": 3.326908032664135,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Overall AP",
+          "delta": 1.2677986383110849,
+          "ci95_low": -0.2602635871165235,
+          "ci95_high": 2.906894863663071,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Object AP",
+          "delta": 1.2564910459804963,
+          "ci95_low": -0.9620787599489578,
+          "ci95_high": 3.3344790450970314,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Part AP",
+          "delta": 1.2791062306416734,
+          "ci95_low": -0.3110065394243229,
+          "ci95_high": 3.379579126777114,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Obj Color",
+          "delta": 6.11839806020145,
+          "ci95_low": 2.471082253854844,
+          "ci95_high": 9.336653416436295,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Obj Pattern",
+          "delta": -3.25322224056017,
+          "ci95_low": -7.838498534489694,
+          "ci95_high": 1.0340714179010544,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Obj Material",
+          "delta": -2.331477203182743,
+          "ci95_low": -5.550604843348171,
+          "ci95_high": 2.2684546986084726,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Obj Transparency",
+          "delta": 4.492265567463456,
+          "ci95_low": -0.9131778552505224,
+          "ci95_high": 9.393988994139423,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Part Color",
+          "delta": 6.160891924988981,
+          "ci95_low": 2.933374158800749,
+          "ci95_high": 9.10330459235847,
+          "B": 1000,
+          "excludes_zero": true
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Part Pattern",
+          "delta": 1.7583799737307118,
+          "ci95_low": -1.9448134035288829,
+          "ci95_high": 5.966071308269911,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Part Material",
+          "delta": -2.792968008178576,
+          "ci95_low": -5.734549463755785,
+          "ci95_high": 2.073461946023712,
+          "B": 1000,
+          "excludes_zero": false
+        },
+        {
+          "protocol": "PACO Official Val — GT-ROI / GT-Category Oracle Attribute AP",
+          "comparison": "M2 − B0",
+          "metric": "Part Transparency",
+          "delta": -0.0098789679744299,
+          "ci95_low": -3.893518698080296,
+          "ci95_high": 3.952409000947332,
+          "B": 1000,
+          "excludes_zero": false
+        }
+      ],
+      "response": [
+        {
+          "model": "initial",
+          "group": "all",
+          "n": 467,
+          "norm_dT": 0.1795734061283205,
+          "norm_dS": 0.1701910185968659,
+          "cos": 0.173786495249854,
+          "cos_coarse": 0.173766454015669,
+          "ratio_dS_dT": 1.0804365426202258,
+          "leak_ratio": 0.3103244352321169
+        },
+        {
+          "model": "initial",
+          "group": "op_swap",
+          "n": 227,
+          "norm_dT": 0.2284725131425957,
+          "norm_dS": 0.1866488676551023,
+          "cos": 0.1930525340016783,
+          "cos_coarse": 0.1930288428498128,
+          "ratio_dS_dT": 0.9007388046694238,
+          "leak_ratio": 0.2720792829060254
+        },
+        {
+          "model": "initial",
+          "group": "op_boost",
+          "n": 119,
+          "norm_dT": 0.1095669857155876,
+          "norm_dS": 0.1583924849650689,
+          "cos": 0.129198992272698,
+          "cos_coarse": 0.1292597084000957,
+          "ratio_dS_dT": 1.4664520864111523,
+          "leak_ratio": 0.3186678079678512
+        },
+        {
+          "model": "initial",
+          "group": "op_suppress",
+          "n": 121,
+          "norm_dT": 0.1566863543669547,
+          "norm_dS": 0.1509190662494622,
+          "cos": 0.1814932891144609,
+          "cos_coarse": 0.1814006727173432,
+          "ratio_dS_dT": 1.0379203178575138,
+          "leak_ratio": 0.3735458076928922
+        },
+        {
+          "model": "initial",
+          "group": "size_tiny_lt4_tokens",
+          "n": 120,
+          "norm_dT": 0.1559865762790044,
+          "norm_dS": 0.2022726949304342,
+          "cos": 0.036486123719563,
+          "cos_coarse": 0.0364838032595192,
+          "ratio_dS_dT": 1.4650507860733677,
+          "leak_ratio": 0.1395542625868124
+        },
+        {
+          "model": "initial",
+          "group": "size_small_4to16_tokens",
+          "n": 131,
+          "norm_dT": 0.2090319897979498,
+          "norm_dS": 0.1830721114911423,
+          "cos": 0.0703730197793996,
+          "cos_coarse": 0.0703462007604823,
+          "ratio_dS_dT": 1.0046092713823804,
+          "leak_ratio": 0.1694421185430767
+        },
+        {
+          "model": "initial",
+          "group": "size_medium_16to64_tokens",
+          "n": 103,
+          "norm_dT": 0.1927885612816486,
+          "norm_dS": 0.1613685800106201,
+          "cos": 0.1917381693509597,
+          "cos_coarse": 0.1917183596405734,
+          "ratio_dS_dT": 0.946317795813174,
+          "leak_ratio": 0.3387221008586026
+        },
+        {
+          "model": "initial",
+          "group": "size_large_ge64_tokens",
+          "n": 113,
+          "norm_dT": 0.158424593211539,
+          "norm_dS": 0.1292307251915995,
+          "cos": 0.4231155876202129,
+          "cos_coarse": 0.4230843742617068,
+          "ratio_dS_dT": 0.8821524208406427,
+          "leak_ratio": 0.8091129354542976
+        },
+        {
+          "model": "P8",
+          "group": "all",
+          "n": 467,
+          "norm_dT": 0.1795734061283205,
+          "norm_dS": 0.0743545722974189,
+          "cos": 0.2547738474785755,
+          "cos_coarse": 0.2306729335207253,
+          "ratio_dS_dT": 0.4682226662739304,
+          "leak_ratio": 0.1900252803281981
+        },
+        {
+          "model": "P8",
+          "group": "op_swap",
+          "n": 227,
+          "norm_dT": 0.2284725131425957,
+          "norm_dS": 0.0825352408340619,
+          "cos": 0.2861800931049469,
+          "cos_coarse": 0.2537246753917063,
+          "ratio_dS_dT": 0.3886449325825176,
+          "leak_ratio": 0.1660690620564833
+        },
+        {
+          "model": "P8",
+          "group": "op_boost",
+          "n": 119,
+          "norm_dT": 0.1095669857155876,
+          "norm_dS": 0.0638903382844722,
+          "cos": 0.2065833794156543,
+          "cos_coarse": 0.187902471864549,
+          "ratio_dS_dT": 0.6023077051219947,
+          "leak_ratio": 0.2055930840590391
+        },
+        {
+          "model": "P8",
+          "group": "op_suppress",
+          "n": 121,
+          "norm_dT": 0.1566863543669547,
+          "norm_dS": 0.0692986391546312,
+          "cos": 0.2432486238612308,
+          "cos_coarse": 0.2294906156064465,
+          "ratio_dS_dT": 0.4856443681336914,
+          "leak_ratio": 0.219763392257254
+        },
+        {
+          "model": "P8",
+          "group": "size_tiny_lt4_tokens",
+          "n": 120,
+          "norm_dT": 0.1559865762790044,
+          "norm_dS": 0.0697059044071162,
+          "cos": 0.1188972851377911,
+          "cos_coarse": 0.079354065961282,
+          "ratio_dS_dT": 0.4963392381157064,
+          "leak_ratio": 0.1288760046864458
+        },
+        {
+          "model": "P8",
+          "group": "size_small_4to16_tokens",
+          "n": 131,
+          "norm_dT": 0.2090319897979498,
+          "norm_dS": 0.0726199831230608,
+          "cos": 0.1949121245815781,
+          "cos_coarse": 0.1440728157403246,
+          "ratio_dS_dT": 0.3963381820172174,
+          "leak_ratio": 0.1190885723519937
+        },
+        {
+          "model": "P8",
+          "group": "size_medium_16to64_tokens",
+          "n": 103,
+          "norm_dT": 0.1927885612816486,
+          "norm_dS": 0.0771159930968458,
+          "cos": 0.3010191496425462,
+          "cos_coarse": 0.2647009988324445,
+          "ratio_dS_dT": 0.4484188310583462,
+          "leak_ratio": 0.1967488370021333
+        },
+        {
+          "model": "P8",
+          "group": "size_large_ge64_tokens",
+          "n": 113,
+          "norm_dT": 0.158424593211539,
+          "norm_dS": 0.0787850589021644,
+          "cos": 0.4263119630317772,
+          "cos_coarse": 0.4607436309477924,
+          "ratio_dS_dT": 0.5397507533873948,
+          "leak_ratio": 0.4094592314943424
+        },
+        {
+          "model": "M1",
+          "group": "all",
+          "n": 467,
+          "norm_dT": 0.1795734061283205,
+          "norm_dS": 0.1028604538237767,
+          "cos": 0.4102365597743517,
+          "cos_coarse": 0.3823272500883157,
+          "ratio_dS_dT": 0.6300674787692043,
+          "leak_ratio": 0.158178047034348
+        },
+        {
+          "model": "M1",
+          "group": "op_swap",
+          "n": 227,
+          "norm_dT": 0.2284725131425957,
+          "norm_dS": 0.1212318990551887,
+          "cos": 0.4483516521891373,
+          "cos_coarse": 0.4164661925208102,
+          "ratio_dS_dT": 0.5712357089379113,
+          "leak_ratio": 0.1285775335822678
+        },
+        {
+          "model": "M1",
+          "group": "op_boost",
+          "n": 119,
+          "norm_dT": 0.1095669857155876,
+          "norm_dS": 0.0820131609529382,
+          "cos": 0.3464365290837879,
+          "cos_coarse": 0.3150740695976409,
+          "ratio_dS_dT": 0.7558518780260749,
+          "leak_ratio": 0.1703946029751992
+        },
+        {
+          "model": "M1",
+          "group": "op_suppress",
+          "n": 121,
+          "norm_dT": 0.1566863543669547,
+          "norm_dS": 0.088897724766746,
+          "cos": 0.401476871129895,
+          "cos_coarse": 0.3844230231975228,
+          "ratio_dS_dT": 0.6167325055471872,
+          "leak_ratio": 0.2016169168673148
+        },
+        {
+          "model": "M1",
+          "group": "size_tiny_lt4_tokens",
+          "n": 120,
+          "norm_dT": 0.1559865762790044,
+          "norm_dS": 0.102891982300207,
+          "cos": 0.2865823714605843,
+          "cos_coarse": 0.2332777145202271,
+          "ratio_dS_dT": 0.7076331757744252,
+          "leak_ratio": 0.080989041842246
+        },
+        {
+          "model": "M1",
+          "group": "size_small_4to16_tokens",
+          "n": 131,
+          "norm_dT": 0.2090319897979498,
+          "norm_dS": 0.1059504305759004,
+          "cos": 0.375468386891689,
+          "cos_coarse": 0.332336736032526,
+          "ratio_dS_dT": 0.5596138570553741,
+          "leak_ratio": 0.0893784209168782
+        },
+        {
+          "model": "M1",
+          "group": "size_medium_16to64_tokens",
+          "n": 103,
+          "norm_dT": 0.1927885612816486,
+          "norm_dS": 0.1074020719535431,
+          "cos": 0.4552007972904779,
+          "cos_coarse": 0.4379428573025083,
+          "ratio_dS_dT": 0.6133801431976914,
+          "leak_ratio": 0.1737072845025228
+        },
+        {
+          "model": "M1",
+          "group": "size_large_ge64_tokens",
+          "n": 113,
+          "norm_dT": 0.158424593211539,
+          "norm_dS": 0.0951050817966461,
+          "cos": 0.540872106509926,
+          "cos_coarse": 0.5478696754548402,
+          "ratio_dS_dT": 0.6445837298112496,
+          "leak_ratio": 0.389293920909574
+        },
+        {
+          "model": "M2",
+          "group": "all",
+          "n": 467,
+          "norm_dT": 0.1795734061283205,
+          "norm_dS": 0.1028189015608655,
+          "cos": 0.4092199388747871,
+          "cos_coarse": 0.381522966732273,
+          "ratio_dS_dT": 0.6297707666075096,
+          "leak_ratio": 0.150696320264265
+        },
+        {
+          "model": "M2",
+          "group": "op_swap",
+          "n": 227,
+          "norm_dT": 0.2284725131425957,
+          "norm_dS": 0.1208382546819648,
+          "cos": 0.449124247976271,
+          "cos_coarse": 0.4198327250368401,
+          "ratio_dS_dT": 0.5682465591598826,
+          "leak_ratio": 0.1237361520291564
+        },
+        {
+          "model": "M2",
+          "group": "op_boost",
+          "n": 119,
+          "norm_dT": 0.1095669857155876,
+          "norm_dS": 0.0825784441647159,
+          "cos": 0.3406916875861773,
+          "cos_coarse": 0.3072162593613152,
+          "ratio_dS_dT": 0.762853556757689,
+          "leak_ratio": 0.1595784899754129
+        },
+        {
+          "model": "M2",
+          "group": "op_suppress",
+          "n": 121,
+          "norm_dT": 0.1566863543669547,
+          "norm_dS": 0.0889199038059258,
+          "cos": 0.4017536887698922,
+          "cos_coarse": 0.3827310910463826,
+          "ratio_dS_dT": 0.6143091390268482,
+          "leak_ratio": 0.1924012307736041
+        },
+        {
+          "model": "M2",
+          "group": "size_tiny_lt4_tokens",
+          "n": 120,
+          "norm_dT": 0.1559865762790044,
+          "norm_dS": 0.1028779883558551,
+          "cos": 0.2823452967684716,
+          "cos_coarse": 0.222054969628031,
+          "ratio_dS_dT": 0.7069336184948158,
+          "leak_ratio": 0.0715736073954796
+        },
+        {
+          "model": "M2",
+          "group": "size_small_4to16_tokens",
+          "n": 131,
+          "norm_dT": 0.2090319897979498,
+          "norm_dS": 0.1062319976995692,
+          "cos": 0.3755652555300079,
+          "cos_coarse": 0.3346800665364011,
+          "ratio_dS_dT": 0.5587957630120891,
+          "leak_ratio": 0.0847387712627357
+        },
+        {
+          "model": "M2",
+          "group": "size_medium_16to64_tokens",
+          "n": 103,
+          "norm_dT": 0.1927885612816486,
+          "norm_dS": 0.1070613544795987,
+          "cos": 0.4568484181049958,
+          "cos_coarse": 0.4431913649138895,
+          "ratio_dS_dT": 0.6141153281973276,
+          "leak_ratio": 0.1691824583758599
+        },
+        {
+          "model": "M2",
+          "group": "size_large_ge64_tokens",
+          "n": 113,
+          "norm_dT": 0.158424593211539,
+          "norm_dS": 0.0949323647449501,
+          "cos": 0.5395561088766672,
+          "cos_coarse": 0.5489630956301647,
+          "ratio_dS_dT": 0.6443786728090323,
+          "leak_ratio": 0.3762041967945884
+        }
+      ],
+      "outcome": [
+        "R2 OfficialVal P8 Overall54.68, M1 54.10, M2 54.42; M1−P8 −0.58 [−2.07,+1.06], M2−P8 −0.26 [−1.82,+1.21]: 개선확인못함.",
+        "ObjectMaterial은M1 50.37 vsP8 54.18, M2 48.72. M2−P8 −5.46 [−9.90,−0.49]로 이번CI에서하락신호.",
+        "편집반응cosine이 P8 .255→M1 .410로 개선되어도 AP개선으로이어지지않음.",
+        "Crop−M1/M2 ObjectPattern +13.53/+12.90 AP가남음."
+      ],
+      "caveats": [
+        "이실험의 M2는방법이름(M1/M2)이며 project M2평가지표와다름.",
+        "편집response는원래COCOdev467ROI진단, PACO분류AP와다른통계.",
+        "teacher변화방향이속성판별방향과같다는보장없음.",
+        "seed0단일,추가계산량통제안됨,TEST결론없음."
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/M1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/M2/config.json",
+        "/home/irteam/Crop_representation/src/siglip_cue/train.py",
+        "/home/irteam/Crop_representation/src/siglip_cue/model.py",
+        "/home/irteam/Crop_representation/src/siglip_cue/transforms.py",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/results/val_gt_roi_oracle/tables.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/results/val_gt_roi_oracle/paco_ap_val.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/results/val_gt_roi_oracle/contrasts_val.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/results/val_gt_roi_oracle/response_summary.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_localcue_s0/done_val.json"
+      ],
+      "control": "P8 baseline with sameinitial/12k; M1 architecture fixed testsloss+two-view training, M2−M1 addsnativeDetail. No separate two-view-no-cue control.",
+      "architecture_change": "M1: 기존 P8 architecture 유지. 하나의 ROI 안 luma high-frequency band를 swap/boost/suppress한 I′ 생성. 원본I와편집I′의 crop/global loss + .2*(1−cos(dS,dT)); dS=normalize(Q(I′,r))−normalize(Q(I,r)); dT=frozen crop teacher의 동일 편집전후 변화. ||dT||≥.02에서 적용.；M2: M1과동일loss/편집/dataorder + native RGB(최대640,no upscale)를 이미지당1번읽는 경량Conv Detail path. Conv stride2×3(3→32→64→128)+ResBlock2, stride8; P8 48×48finegrid로resample+zero-init1×1proj(128→384)해서 최종fine에더함.",
+      "training_change": "M1: 기존 P8 encoder전체; 원본/편집이미지 둘 다 forward；M2: 기존 P8전체+Detail약0.807Mparams; 저장finegrid/ROIread/fusion은P8유지",
+      "budget": "M1: COCO12k×16images; 기존warmup/optimizer/EMA; student image forward383984로P8의191992보다2배, compute-matched 아님；M2: M1과동일12k; nativepath추가연산/메모리",
+      "findings": [
+        "R2 OfficialVal P8 Overall54.68, M1 54.10, M2 54.42; M1−P8 −0.58 [−2.07,+1.06], M2−P8 −0.26 [−1.82,+1.21]: 개선확인못함.",
+        "ObjectMaterial은M1 50.37 vsP8 54.18, M2 48.72. M2−P8 −5.46 [−9.90,−0.49]로 이번CI에서하락신호.",
+        "편집반응cosine이 P8 .255→M1 .410로 개선되어도 AP개선으로이어지지않음.",
+        "Crop−M1/M2 ObjectPattern +13.53/+12.90 AP가남음."
+      ],
+      "limitations": [
+        "이실험의 M2는방법이름(M1/M2)이며 project M2평가지표와다름.",
+        "편집response는원래COCOdev467ROI진단, PACO분류AP와다른통계.",
+        "teacher변화방향이속성판별방향과같다는보장없음.",
+        "seed0단일,추가계산량통제안됨,TEST결론없음."
+      ],
+      "result_split": "Official Val only"
+    },
+    {
+      "id": "siglip-pixeldit",
+      "title": "SigLIP2 PixelDiT S1/S2: RGB 복원 과제와 중심화의 추가 이득",
+      "date_scope": "오늘 신규12k, OfficialVal와Test/Mean평가완료",
+      "status": "완료; Test+Mean 최종 done07:25 UTC",
+      "question": "Student ROI공간feature를조건으로 실제crop pixel denoising을학습하면 Pattern/Material이개선되는가? centered feature loss를추가하면더좋은가?",
+      "initialization": "LocalCue와같은officialpretrained+calibratedP8 initial e9e75294...; S1/S2동일초기encoder,decoderseed700,noise200000+step. 기존P12k에서추가학습아님.",
+      "variants": [
+        {
+          "name": "S1",
+          "change": "L=L_crop+L_pixel+.5L_global. Noisycrop384+시간t+ROI8×8×768 memory→PatchDiT2block(width384/head6)+localpixelblock(width64/head4)→RGBvelocity(noise−RGB). Decoder7,526,640params; 원본논문crop용경량변형.",
+          "learned": "encoder전체+새decoder; 평가때decoder제거",
+          "budget": "COCO12k×16; full384/crop384; 1object+1nestedcrop/image; t∈[.1,.9]; pixelMSEpadding제외"
+        },
+        {
+          "name": "S2",
+          "change": "S1에 .5 L_centered 추가: COCOteacher cropmeans100k의고정채널mu/sd로변환후cosine. sigmafloor=.1medianσ.",
+          "learned": "S1과동일encoder/decoder",
+          "budget": "S1과동일12k; stats/seed/stream일치"
+        }
+      ],
+      "protocol": "공식 PACO VAL/TEST 분리, R2+Mean10epoch, OfficialVAL (Object+Part)/2 epoch고정후Test. R2 epochsP8=6/S1=5/S2=5; B1000 imageCI. ProjectM2와혼합금지.",
+      "val_results": [
+        {
+          "Model": "P8",
+          "Overall AP": 54.67502696083828,
+          "Object AP": 53.6992198024389,
+          "Part AP": 55.65083411923766,
+          "Obj Color": 50.72064565670856,
+          "Obj Pattern": 53.93104321615924,
+          "Obj Material": 54.18442034557612,
+          "Obj Transparency": 55.960769991311714,
+          "Part Color": 57.438636635191365,
+          "Part Pattern": 52.21646259250768,
+          "Part Material": 54.46913134715956,
+          "Part Transparency": 58.47910590209205
+        },
+        {
+          "Model": "S1",
+          "Overall AP": 55.11079200633557,
+          "Object AP": 53.10819735379199,
+          "Part AP": 57.11338665887915,
+          "Obj Color": 49.28178301588091,
+          "Obj Pattern": 54.77812984690506,
+          "Obj Material": 53.55042255146658,
+          "Obj Transparency": 54.82245400091538,
+          "Part Color": 56.37168783995365,
+          "Part Pattern": 55.69898222023181,
+          "Part Material": 54.42624625754593,
+          "Part Transparency": 61.95663031778519
+        },
+        {
+          "Model": "S2",
+          "Overall AP": 54.505528111991225,
+          "Object AP": 52.515249371396735,
+          "Part AP": 56.49580685258571,
+          "Obj Color": 49.25098518611663,
+          "Obj Pattern": 56.0169005219564,
+          "Obj Material": 50.30560618547433,
+          "Obj Transparency": 54.487505592039575,
+          "Part Color": 56.77229585357411,
+          "Part Pattern": 54.51574619081673,
+          "Part Material": 54.29485871943703,
+          "Part Transparency": 60.40032664651496
+        },
+        {
+          "Model": "B0",
+          "Overall AP": 53.14929140640812,
+          "Object AP": 51.62045819466488,
+          "Part AP": 54.67812461815135,
+          "Obj Color": 44.9223048373152,
+          "Obj Pattern": 55.67003894286759,
+          "Obj Material": 51.05371852065731,
+          "Obj Transparency": 54.83577047781944,
+          "Part Color": 50.75771208315712,
+          "Part Pattern": 51.95052154094719,
+          "Part Material": 55.09171868533155,
+          "Part Transparency": 60.91254616316954
+        },
+        {
+          "Model": "C0",
+          "Overall AP": 56.43649645165976,
+          "Object AP": 57.84673984680824,
+          "Part AP": 55.02625305651128,
+          "Obj Color": 51.42694431937078,
+          "Obj Pattern": 65.31806376271004,
+          "Obj Material": 51.79652733015173,
+          "Obj Transparency": 62.84542397500039,
+          "Part Color": 58.38407842430418,
+          "Part Pattern": 56.63580778646652,
+          "Part Material": 51.92331294916346,
+          "Part Transparency": 53.16181306611097
+        }
+      ],
+      "results": [
+        {
+          "Model": "P8",
+          "Overall AP": 40.54118465694065,
+          "Object AP": 41.0643063204946,
+          "Part AP": 40.01806299338671,
+          "Obj Color": 34.788040701467715,
+          "Obj Pattern": 46.220354116721474,
+          "Obj Material": 32.72219643605451,
+          "Obj Transparency": 50.526634027734666,
+          "Part Color": 39.48553144303682,
+          "Part Pattern": 42.15095349055641,
+          "Part Material": 34.36132895808117,
+          "Part Transparency": 44.07443808187242
+        },
+        {
+          "Model": "S1",
+          "Overall AP": 39.6092407764761,
+          "Object AP": 39.86758799690371,
+          "Part AP": 39.35089355604849,
+          "Obj Color": 34.42585900664494,
+          "Obj Pattern": 45.01798034736037,
+          "Obj Material": 31.181382260428546,
+          "Obj Transparency": 48.84513037318097,
+          "Part Color": 39.06219255796213,
+          "Part Pattern": 40.78958023305723,
+          "Part Material": 34.35158230693885,
+          "Part Transparency": 43.200219126235744
+        },
+        {
+          "Model": "S2",
+          "Overall AP": 39.596202911013336,
+          "Object AP": 39.77985254628637,
+          "Part AP": 39.41255327574031,
+          "Obj Color": 34.44214933069179,
+          "Obj Pattern": 45.02845062669424,
+          "Obj Material": 30.592392823417576,
+          "Obj Transparency": 49.05641740434189,
+          "Part Color": 39.15744705932427,
+          "Part Pattern": 42.09000661556132,
+          "Part Material": 33.218953450606186,
+          "Part Transparency": 43.18380597746947
+        },
+        {
+          "Model": "B0",
+          "Overall AP": 38.32197560390509,
+          "Object AP": 38.66676025574922,
+          "Part AP": 37.97719095206095,
+          "Obj Color": 31.4437355646456,
+          "Obj Pattern": 43.40096054779941,
+          "Obj Material": 33.56677373726138,
+          "Obj Transparency": 46.25557117329048,
+          "Part Color": 35.022276522325605,
+          "Part Pattern": 40.32801307875889,
+          "Part Material": 34.74512005323072,
+          "Part Transparency": 41.81335415392859
+        },
+        {
+          "Model": "C0",
+          "Overall AP": 43.86854583871308,
+          "Object AP": 46.049885346189,
+          "Part AP": 41.68720633123715,
+          "Obj Color": 38.42191252649902,
+          "Obj Pattern": 54.894687610794016,
+          "Obj Material": 36.5818775402919,
+          "Obj Transparency": 54.30106370717107,
+          "Part Color": 42.117671282647024,
+          "Part Pattern": 49.599980465498405,
+          "Part Material": 31.930477040798998,
+          "Part Transparency": 43.100696536004186
+        }
+      ],
+      "mean_results": [
+        {
+          "Model": "P8",
+          "Overall AP": 35.72356161564238,
+          "Object AP": 36.25888220899303,
+          "Part AP": 35.18824102229173,
+          "Obj Color": 28.88392623399272,
+          "Obj Pattern": 39.77413486284114,
+          "Obj Material": 29.3597521126682,
+          "Obj Transparency": 47.01771562647004,
+          "Part Color": 32.09183150038582,
+          "Part Pattern": 38.3696482272713,
+          "Part Material": 29.08598343092644,
+          "Part Transparency": 41.20550093058336
+        },
+        {
+          "Model": "S1",
+          "Overall AP": 35.58269925646236,
+          "Object AP": 36.22852620280733,
+          "Part AP": 34.93687231011739,
+          "Obj Color": 29.033617298738147,
+          "Obj Pattern": 39.211026272964055,
+          "Obj Material": 29.35271296023414,
+          "Obj Transparency": 47.31674827929297,
+          "Part Color": 32.32626728029727,
+          "Part Pattern": 37.912543602321215,
+          "Part Material": 28.89817565391518,
+          "Part Transparency": 40.61050270393587
+        },
+        {
+          "Model": "S2",
+          "Overall AP": 35.77249646840786,
+          "Object AP": 35.8364751259618,
+          "Part AP": 35.70851781085392,
+          "Obj Color": 29.252548662812927,
+          "Obj Pattern": 39.15916276937324,
+          "Obj Material": 28.736061712369967,
+          "Obj Transparency": 46.19812735929105,
+          "Part Color": 32.396651620434746,
+          "Part Pattern": 38.70006003236563,
+          "Part Material": 29.608643838495723,
+          "Part Transparency": 42.1287157521196
+        },
+        {
+          "Model": "B0",
+          "Overall AP": 32.561359593655844,
+          "Object AP": 32.79477382824484,
+          "Part AP": 32.327945359066845,
+          "Obj Color": 25.15322993669128,
+          "Obj Pattern": 35.70417989543358,
+          "Obj Material": 27.62492071946791,
+          "Obj Transparency": 42.69676476138659,
+          "Part Color": 26.700386564988555,
+          "Part Pattern": 35.06877798859458,
+          "Part Material": 28.02930781729895,
+          "Part Transparency": 39.5133090653853
+        },
+        {
+          "Model": "C0",
+          "Overall AP": 39.027809925308816,
+          "Object AP": 41.53456568170047,
+          "Part AP": 36.52105416891715,
+          "Obj Color": 30.808777524804984,
+          "Obj Pattern": 49.69309367167269,
+          "Obj Material": 34.96261867985375,
+          "Obj Transparency": 50.67377285047046,
+          "Part Color": 33.27821234767902,
+          "Part Pattern": 44.30674928183615,
+          "Part Material": 28.940885152298883,
+          "Part Transparency": 39.55836989385458
+        }
+      ],
+      "contrasts": [
+        {
+          "comparison": "S1 − P8",
+          "metric": "Overall AP",
+          "delta": -0.9319438804645516,
+          "ci95_low": -1.552661803018887,
+          "ci95_high": -0.2036995706274258,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Object AP",
+          "delta": -1.1967183235908865,
+          "ci95_low": -2.1096393447409696,
+          "ci95_high": -0.0836104892975255,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Part AP",
+          "delta": -0.6671694373382167,
+          "ci95_low": -1.351879494169515,
+          "ci95_high": 0.0058418957093097,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Obj Color",
+          "delta": -0.3621816948227732,
+          "ci95_low": -0.9837709630267372,
+          "ci95_high": 0.5634900487186484,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Obj Pattern",
+          "delta": -1.2023737693611096,
+          "ci95_low": -4.463903503824795,
+          "ci95_high": 0.8381592842746023,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Obj Material",
+          "delta": -1.5408141756259646,
+          "ci95_low": -3.405052857525992,
+          "ci95_high": 0.5595914784366774,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Obj Transparency",
+          "delta": -1.681503654553694,
+          "ci95_low": -3.3940081637373627,
+          "ci95_high": 1.2412455811038292,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Part Color",
+          "delta": -0.423338885074692,
+          "ci95_low": -1.1776959675223435,
+          "ci95_high": 0.418061552174552,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Part Pattern",
+          "delta": -1.3613732574991817,
+          "ci95_low": -2.886524024163685,
+          "ci95_high": 0.373033479515206,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Part Material",
+          "delta": -0.0097466511423149,
+          "ci95_low": -1.5028736707332473,
+          "ci95_high": 0.943689717363681,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − P8",
+          "metric": "Part Transparency",
+          "delta": -0.8742189556366782,
+          "ci95_low": -2.4364238133444545,
+          "ci95_high": 0.8523224816182168,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Overall AP",
+          "delta": -0.9449817459273148,
+          "ci95_low": -1.6892190581658566,
+          "ci95_high": -0.0234530328730324,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Object AP",
+          "delta": -1.2844537742082238,
+          "ci95_low": -2.226212723992833,
+          "ci95_high": 0.1391844784816018,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Part AP",
+          "delta": -0.6055097176463988,
+          "ci95_low": -1.4916950346381186,
+          "ci95_high": 0.1677130413309564,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Obj Color",
+          "delta": -0.3458913707759237,
+          "ci95_low": -1.226112346560521,
+          "ci95_high": 0.4365071308001191,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Obj Pattern",
+          "delta": -1.1919034900272365,
+          "ci95_low": -4.510142798483032,
+          "ci95_high": 1.450772999803124,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Obj Material",
+          "delta": -2.129803612636934,
+          "ci95_low": -3.6458244461692337,
+          "ci95_high": 0.4347464348399422,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Obj Transparency",
+          "delta": -1.4702166233927727,
+          "ci95_low": -3.674035700940464,
+          "ci95_high": 1.9867986564742124,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Part Color",
+          "delta": -0.3280843837125502,
+          "ci95_low": -1.141803562260176,
+          "ci95_high": 0.5190361433289362,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Part Pattern",
+          "delta": -0.0609468749950963,
+          "ci95_low": -2.334906823614272,
+          "ci95_high": 1.7408135262557307,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Part Material",
+          "delta": -1.1423755074749806,
+          "ci95_low": -2.699221611156627,
+          "ci95_high": 0.636079986811908,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − P8",
+          "metric": "Part Transparency",
+          "delta": -0.8906321044029539,
+          "ci95_low": -2.649607974313599,
+          "ci95_high": 0.7190941187035678,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Overall AP",
+          "delta": -0.0130378654627634,
+          "ci95_low": -0.586793566045399,
+          "ci95_high": 0.6965523759534806,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Object AP",
+          "delta": -0.0877354506173375,
+          "ci95_low": -0.8610607225966914,
+          "ci95_high": 1.005876452976997,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Part AP",
+          "delta": 0.0616597196918178,
+          "ci95_low": -0.6356915111697503,
+          "ci95_high": 0.693468608308115,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Obj Color",
+          "delta": 0.0162903240468494,
+          "ci95_low": -0.9263299101595884,
+          "ci95_high": 0.5743493545743165,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Obj Pattern",
+          "delta": 0.0104702793338731,
+          "ci95_low": -1.8889189645679885,
+          "ci95_high": 2.820108971750503,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Obj Material",
+          "delta": -0.5889894370109694,
+          "ci95_low": -2.0099951172278328,
+          "ci95_high": 1.8211066430370184,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Obj Transparency",
+          "delta": 0.2112870311609214,
+          "ci95_low": -2.159178865127494,
+          "ci95_high": 2.736735048463775,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Part Color",
+          "delta": 0.0952545013621417,
+          "ci95_low": -0.5278041454108836,
+          "ci95_high": 0.751943164962065,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Part Pattern",
+          "delta": 1.3004263825040852,
+          "ci95_low": -0.7600923912723916,
+          "ci95_high": 2.5761812781152704,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Part Material",
+          "delta": -1.1326288563326656,
+          "ci95_low": -2.2663091182562,
+          "ci95_high": 0.741446417268468,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − S1",
+          "metric": "Part Transparency",
+          "delta": -0.0164131487662757,
+          "ci95_low": -1.782566039312978,
+          "ci95_high": 1.3073830870508063,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Overall AP",
+          "delta": 3.3273611817724245,
+          "ci95_low": 2.2088816931302477,
+          "ci95_high": 4.441336986329535,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Object AP",
+          "delta": 4.985579025694406,
+          "ci95_low": 3.870183885103482,
+          "ci95_high": 6.725736984838281,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part AP",
+          "delta": 1.6691433378504428,
+          "ci95_low": 0.1231189821626858,
+          "ci95_high": 2.7040960600179984,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Color",
+          "delta": 3.6338718250313065,
+          "ci95_low": 2.604231314225568,
+          "ci95_high": 4.776018519456471,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Pattern",
+          "delta": 8.674333494072542,
+          "ci95_low": 4.847410552651336,
+          "ci95_high": 12.19977703071775,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Material",
+          "delta": 3.8596811042373886,
+          "ci95_low": 2.064440589301728,
+          "ci95_high": 7.049522585475008,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Obj Transparency",
+          "delta": 3.774429679436402,
+          "ci95_low": 1.2755956273312823,
+          "ci95_high": 7.983086554378399,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Color",
+          "delta": 2.632139839610204,
+          "ci95_low": 1.5112712467708422,
+          "ci95_high": 3.951460912224468,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Pattern",
+          "delta": 7.449026974941994,
+          "ci95_low": 3.5497466869700944,
+          "ci95_high": 9.296254441360094,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Material",
+          "delta": -2.4308519172821725,
+          "ci95_low": -5.152204343226002,
+          "ci95_high": -0.0584559927092559,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − P8",
+          "metric": "Part Transparency",
+          "delta": -0.9737415458682364,
+          "ci95_low": -4.221645108180562,
+          "ci95_high": 2.026336339891945,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Overall AP",
+          "delta": 4.259305062236976,
+          "ci95_low": 2.98004775389686,
+          "ci95_high": 5.360221524762983,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Object AP",
+          "delta": 6.182297349285292,
+          "ci95_low": 4.882284282386605,
+          "ci95_high": 7.906530006871631,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Part AP",
+          "delta": 2.3363127751886594,
+          "ci95_low": 0.6046442033960613,
+          "ci95_high": 3.416619009224751,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Obj Color",
+          "delta": 3.99605351985408,
+          "ci95_low": 2.7502830173577424,
+          "ci95_high": 5.078166808440713,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Obj Pattern",
+          "delta": 9.876707263433651,
+          "ci95_low": 6.873936383667451,
+          "ci95_high": 13.877017831119945,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Obj Material",
+          "delta": 5.400495279863353,
+          "ci95_low": 3.2384232560762216,
+          "ci95_high": 8.783059878398017,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Obj Transparency",
+          "delta": 5.455933333990096,
+          "ci95_low": 2.183620997063936,
+          "ci95_high": 9.00475124649164,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Part Color",
+          "delta": 3.055478724684896,
+          "ci95_low": 1.8172875557650865,
+          "ci95_high": 4.328675400851155,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Part Pattern",
+          "delta": 8.810400232441175,
+          "ci95_low": 4.7633166240028695,
+          "ci95_high": 10.523629224650035,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Part Material",
+          "delta": -2.421105266139857,
+          "ci95_low": -5.2134716138280295,
+          "ci95_high": 0.3033488327467434,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S1",
+          "metric": "Part Transparency",
+          "delta": -0.0995225902315581,
+          "ci95_low": -3.661589717406676,
+          "ci95_high": 2.922005081149456,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Overall AP",
+          "delta": 4.272342927699739,
+          "ci95_low": 2.978756704434515,
+          "ci95_high": 5.362796469029897,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Object AP",
+          "delta": 6.27003279990263,
+          "ci95_low": 4.810343969520184,
+          "ci95_high": 7.965543330507018,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Part AP",
+          "delta": 2.2746530554968416,
+          "ci95_low": 0.5886611646651211,
+          "ci95_high": 3.388330243033502,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Obj Color",
+          "delta": 3.97976319580723,
+          "ci95_low": 2.899114865476438,
+          "ci95_high": 5.200287691475364,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Obj Pattern",
+          "delta": 9.866236984099778,
+          "ci95_low": 6.219699346131813,
+          "ci95_high": 13.515709975437655,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Obj Material",
+          "delta": 5.989484716874323,
+          "ci95_low": 3.600404130238574,
+          "ci95_high": 8.547821643966165,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Obj Transparency",
+          "delta": 5.244646302829175,
+          "ci95_low": 1.4958121747833413,
+          "ci95_high": 9.440998991131805,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Part Color",
+          "delta": 2.9602242233227543,
+          "ci95_low": 1.7074366046551614,
+          "ci95_high": 4.235307835069089,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Part Pattern",
+          "delta": 7.50997384993709,
+          "ci95_low": 3.684019733919376,
+          "ci95_high": 9.779451847477352,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Part Material",
+          "delta": -1.288476409807192,
+          "ci95_low": -4.251221683856709,
+          "ci95_high": 0.7775877808210689,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "C0 − S2",
+          "metric": "Part Transparency",
+          "delta": -0.0831094414652824,
+          "ci95_low": -3.5073441280483397,
+          "ci95_high": 3.176687608262028,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Overall AP",
+          "delta": 1.2872651725710114,
+          "ci95_low": 0.2988665938751329,
+          "ci95_high": 2.1716445880386046,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Object AP",
+          "delta": 1.200827741154491,
+          "ci95_low": -0.1031984592661135,
+          "ci95_high": 2.417606597078267,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Part AP",
+          "delta": 1.3737026039875389,
+          "ci95_low": 0.3330039463370809,
+          "ci95_high": 2.2545743903707827,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Obj Color",
+          "delta": 2.982123441999345,
+          "ci95_low": 2.2697199471595986,
+          "ci95_high": 4.12538627836231,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Obj Pattern",
+          "delta": 1.61701979956095,
+          "ci95_low": -1.5291146319945352,
+          "ci95_high": 4.44836041490287,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Obj Material",
+          "delta": -2.385391476832833,
+          "ci95_low": -4.619645622285279,
+          "ci95_high": 0.1656073732037224,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Obj Transparency",
+          "delta": 2.589559199890488,
+          "ci95_low": -0.2776487198857228,
+          "ci95_high": 5.281001092399851,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Part Color",
+          "delta": 4.039916035636523,
+          "ci95_low": 3.061802448371498,
+          "ci95_high": 5.019504553892802,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Part Pattern",
+          "delta": 0.4615671542983364,
+          "ci95_low": -1.6240962933266256,
+          "ci95_high": 2.731293471198556,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Part Material",
+          "delta": -0.3935377462918694,
+          "ci95_low": -3.1214508438784785,
+          "ci95_high": 1.0258979995954525,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S1 − B0",
+          "metric": "Part Transparency",
+          "delta": 1.3868649723071511,
+          "ci95_low": -0.257365294103802,
+          "ci95_high": 3.3788792621784647,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Overall AP",
+          "delta": 1.274227307108248,
+          "ci95_low": 0.2160041611449072,
+          "ci95_high": 2.282719496525985,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Object AP",
+          "delta": 1.1130922905371534,
+          "ci95_low": -0.1423420805956934,
+          "ci95_high": 2.5994527791160467,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Part AP",
+          "delta": 1.435362323679357,
+          "ci95_low": 0.270976391147666,
+          "ci95_high": 2.3120706636949966,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Obj Color",
+          "delta": 2.9984137660461947,
+          "ci95_low": 1.9937136457681528,
+          "ci95_high": 4.0616895648635785,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Obj Pattern",
+          "delta": 1.627490078894823,
+          "ci95_low": -1.2137039578363686,
+          "ci95_high": 5.174479572670998,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Obj Material",
+          "delta": -2.9743809138438024,
+          "ci95_low": -4.844261486555408,
+          "ci95_high": -0.1147465740299513,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Obj Transparency",
+          "delta": 2.800846231051409,
+          "ci95_low": -0.5431196922898978,
+          "ci95_high": 5.890361437513672,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Part Color",
+          "delta": 4.135170536998665,
+          "ci95_low": 3.188584248731829,
+          "ci95_high": 5.178145264965138,
+          "excludes_zero": true,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Part Pattern",
+          "delta": 1.7619935368024215,
+          "ci95_low": -0.8584831440657892,
+          "ci95_high": 3.7618797357225775,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Part Material",
+          "delta": -1.526166602624535,
+          "ci95_low": -3.764975117163272,
+          "ci95_high": 0.2269477172343916,
+          "excludes_zero": false,
+          "B": 1000
+        },
+        {
+          "comparison": "S2 − B0",
+          "metric": "Part Transparency",
+          "delta": 1.3704518235408756,
+          "ci95_low": -0.776672780531607,
+          "ci95_high": 3.377724831648573,
+          "excludes_zero": false,
+          "B": 1000
+        }
+      ],
+      "cost": [
+        {
+          "model": "P8",
+          "train_seconds": 1090,
+          "median_step_seconds": 0.083790690854246,
+          "peak_train_vram_gib": 9.8,
+          "encoder_parameters": 103008393,
+          "same_state_dict_keys_as_P8": true,
+          "aux_head_parameters": 0,
+          "train_time_vs_P8": 1.0,
+          "step_time_vs_P8": 1.0
+        },
+        {
+          "model": "S1",
+          "train_seconds": 1380,
+          "median_step_seconds": 0.1080873813107605,
+          "peak_train_vram_gib": 12.718125343322754,
+          "encoder_parameters": 103008393,
+          "same_state_dict_keys_as_P8": true,
+          "aux_head_parameters": 7526640,
+          "train_time_vs_P8": 1.2660550458715596,
+          "step_time_vs_P8": 1.2899688522532713
+        },
+        {
+          "model": "S2",
+          "train_seconds": 1371,
+          "median_step_seconds": 0.107608632659539,
+          "peak_train_vram_gib": 12.696126461029053,
+          "encoder_parameters": 103008393,
+          "same_state_dict_keys_as_P8": true,
+          "aux_head_parameters": 7526640,
+          "train_time_vs_P8": 1.2577981651376149,
+          "step_time_vs_P8": 1.2842552264752685
+        }
+      ],
+      "outcome": [
+        "TestR2 Overall P8 40.54, S1 39.61, S2 39.60. S1−P8 −0.93 [−1.55,−0.20]; S2−P8 −0.94 [−1.69,−0.02].",
+        "S2−S1 TestOverall −0.01 [−0.59,+0.70]: centered추가이득확인못함.",
+        "Val에서 S1 PartPattern +3.48[+.02,+8.07]은 Test −1.36[−2.89,+.37]로재현안됨.",
+        "MeanTest Overall P8 35.72, S1 35.58, S2 35.77; 관련변화CI모두0포함.",
+        "학습시간S1약+26.6%,step약+29%;평가시decoder제거로추론구조와encoderparams는P8와동일."
+      ],
+      "caveats": [
+        "원래NVIDIA PixelDiT구조/규모/가중치재현이아님.",
+        "decoder는noisycrop도받으므로pixel loss개선이encoder속성정보개선을보장하지않음.",
+        "Test속성으로hyperparameter선택안함; 단일seed와다중비교보정없음."
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/S1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/S2/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/design.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/val_pilot/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/test_final/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/test_final/results/test_ap_r2.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/test_final/results/test_contrasts_r2.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_pixeldit_s0/test_final/done.json"
+      ],
+      "control": "P8 baseline: sameinitial+12k optimizersteps but no pixelhead. S2−S1 isolatescentered(.5). No separate Continue arm: Continue phase2 is20k and notmatched to thesefresh12k models.",
+      "architecture_change": "S1: L=L_crop+L_pixel+.5L_global. Noisycrop384+시간t+ROI8×8×768 memory→PatchDiT2block(width384/head6)+localpixelblock(width64/head4)→RGBvelocity(noise−RGB). Decoder7,526,640params; 원본논문crop용경량변형.；S2: S1에 .5 L_centered 추가: COCOteacher cropmeans100k의고정채널mu/sd로변환후cosine. sigmafloor=.1medianσ.",
+      "training_change": "S1: encoder전체+새decoder; 평가때decoder제거；S2: S1과동일encoder/decoder",
+      "budget": "S1: COCO12k×16; full384/crop384; 1object+1nestedcrop/image; t∈[.1,.9]; pixelMSEpadding제외；S2: S1과동일12k; stats/seed/stream일치",
+      "findings": [
+        "TestR2 Overall P8 40.54, S1 39.61, S2 39.60. S1−P8 −0.93 [−1.55,−0.20]; S2−P8 −0.94 [−1.69,−0.02].",
+        "S2−S1 TestOverall −0.01 [−0.59,+0.70]: centered추가이득확인못함.",
+        "Val에서 S1 PartPattern +3.48[+.02,+8.07]은 Test −1.36[−2.89,+.37]로재현안됨.",
+        "MeanTest Overall P8 35.72, S1 35.58, S2 35.77; 관련변화CI모두0포함.",
+        "학습시간S1약+26.6%,step약+29%;평가시decoder제거로추론구조와encoderparams는P8와동일."
+      ],
+      "limitations": [
+        "원래NVIDIA PixelDiT구조/규모/가중치재현이아님.",
+        "decoder는noisycrop도받으므로pixel loss개선이encoder속성정보개선을보장하지않음.",
+        "Test속성으로hyperparameter선택안함; 단일seed와다중비교보정없음."
+      ],
+      "result_split": "Official Val and Official Test, separate tables",
+      "matched_continue_note": "No matched Continue: S1/S2 are new12k from calibratedofficialinitial, notcontinuations. Correct12kcontrol isP8. E1/E2phase2Continue is20k and incomparable."
+    },
+    {
+      "id": "siglip-completed-compilation",
+      "title": "SigLIP2 P/M·첫4k 통합 정리",
+      "date_scope": "기존11/8실험결과를11/9에모은집계폴더; 신규encoder학습아님",
+      "status": "집계완료",
+      "question": "기본P/M과첫E1/E2/Continue4k,Mean결과를같이놓고기존Crop격차를확인",
+      "initialization": "기존siglip2_pm_s0와siglip2_pm_extra_s0결과재사용",
+      "protocol": "기존공식TEST결과; 표안의첫4k는오늘phase2의추가8k와구분해야함.",
+      "results": [
+        {
+          "Model": "P",
+          "Object AP": 41.0643063204946,
+          "Part AP": 40.01806299338671,
+          "Obj Color": 34.788040701467715,
+          "Obj Pattern": 46.220354116721474,
+          "Obj Material": 32.72219643605451,
+          "Obj Transparency": 50.526634027734666,
+          "Part Color": 39.48553144303682,
+          "Part Pattern": 42.15095349055641,
+          "Part Material": 34.36132895808117,
+          "Part Transparency": 44.07443808187242
+        },
+        {
+          "Model": "M",
+          "Object AP": 40.074675203440805,
+          "Part AP": 39.11788571540846,
+          "Obj Color": 34.41251354226783,
+          "Obj Pattern": 45.617833019858224,
+          "Obj Material": 30.813016759844672,
+          "Obj Transparency": 49.4553374917925,
+          "Part Color": 38.66929775354985,
+          "Part Pattern": 41.9016938558316,
+          "Part Material": 32.949772050374584,
+          "Part Transparency": 42.95077920187782
+        },
+        {
+          "Model": "B0",
+          "Object AP": 38.66676025574922,
+          "Part AP": 37.97719095206095,
+          "Obj Color": 31.4437355646456,
+          "Obj Pattern": 43.40096054779941,
+          "Obj Material": 33.56677373726138,
+          "Obj Transparency": 46.25557117329048,
+          "Part Color": 35.022276522325605,
+          "Part Pattern": 40.32801307875889,
+          "Part Material": 34.74512005323072,
+          "Part Transparency": 41.81335415392859
+        },
+        {
+          "Model": "C0",
+          "Object AP": 46.049885346189,
+          "Part AP": 41.68720633123715,
+          "Obj Color": 38.42191252649902,
+          "Obj Pattern": 54.894687610794016,
+          "Obj Material": 36.5818775402919,
+          "Obj Transparency": 54.30106370717107,
+          "Part Color": 42.117671282647024,
+          "Part Pattern": 49.599980465498405,
+          "Part Material": 31.930477040799,
+          "Part Transparency": 43.100696536004186
+        },
+        {
+          "Model": "E1",
+          "Object AP": 40.499803025708346,
+          "Part AP": 39.58975996863572,
+          "Obj Color": 34.75015636611197,
+          "Obj Pattern": 45.94695700506704,
+          "Obj Material": 32.06413533619208,
+          "Obj Transparency": 49.23796339546232,
+          "Part Color": 39.537657340555455,
+          "Part Pattern": 41.98802739506165,
+          "Part Material": 33.693014288393584,
+          "Part Transparency": 43.140340850532176
+        },
+        {
+          "Model": "E2",
+          "Object AP": 40.00606214684098,
+          "Part AP": 39.39227684447264,
+          "Obj Color": 34.83280730828944,
+          "Obj Pattern": 44.31778758756699,
+          "Obj Material": 31.175760115704765,
+          "Obj Transparency": 49.69789357580273,
+          "Part Color": 39.55189901588205,
+          "Part Pattern": 40.89160890586735,
+          "Part Material": 33.79794732848514,
+          "Part Transparency": 43.32765212765602
+        },
+        {
+          "Model": "Continue",
+          "Object AP": 40.8516096550624,
+          "Part AP": 39.45542703086521,
+          "Obj Color": 34.49954281350021,
+          "Obj Pattern": 46.11895679753808,
+          "Obj Material": 32.33237099404801,
+          "Obj Transparency": 50.45556801516332,
+          "Part Color": 39.72023638971133,
+          "Part Pattern": 41.38656135898527,
+          "Part Material": 33.50413726593688,
+          "Part Transparency": 43.210773108827375
+        }
+      ],
+      "outcome": [
+        "기본P8가M보다Object+0.99/Part+0.90이나CI모두0포함.",
+        "C0−P8 Object+4.99,Pattern+8.67,Material+3.86;Mean에서도Pattern/Material격차남음.",
+        "첫4k E1/E2를더학습할수있는가가오늘phase2의질문으로이어짐."
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_completed_summary/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_completed_summary/provenance.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/siglip2_completed_summary/r2_ap.csv"
+      ],
+      "control": "Existing P/M/FrozenB0/C0 and first4k controls; onlyaggregation.",
+      "architecture_change": "结构未变；旧结果集计",
+      "training_change": "无新增学习",
+      "budget": "新增0step",
+      "findings": [
+        "기본P8가M보다Object+0.99/Part+0.90이나CI모두0포함.",
+        "C0−P8 Object+4.99,Pattern+8.67,Material+3.86;Mean에서도Pattern/Material격차남음.",
+        "첫4k E1/E2를더학습할수있는가가오늘phase2의질문으로이어짐."
+      ],
+      "limitations": [],
+      "result_split": "Official Test (Val selected)"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+ "name": "Hybridold",
+ "ckpt": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_pixeldit_hybrid/P/checkpoints/ema_last.pt",
+ "probe": "/home/irteam/Crop_representation/output/2026-11-08/hcf_material_causal/r384_pixeldit_hybrid/probe/r2fused",
+ "epoch": 7,
+ "reproduction_pearson_vs_probe_scores": {
+  "ep1": 0.9999966571160263,
+  "ep10": 0.9999960801831305
+ },
+ "official": {
+  "val": {
+   "new_obj": 55.483144468515206,
+   "old_obj": 55.483144468515206,
+   "new_part": 57.92757622445752,
+   "old_part": 57.92757622445752,
+   "max_abs_diff": 0.0
+  },
+  "test": {
+   "new_obj": 42.321974876098665,
+   "old_obj": 42.321974876098665,
+   "new_part": 41.818202235259285,
+   "old_part": 41.818202235259285,
+   "max_abs_diff": 0.0
+  }
+ },
+ "stored_val": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/eval_val/r384_pixeldit_hybrid/ep7/official_results.json",
+ "stored_test": "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/eval/eval_boot/Hybrid_r2/test/official_results.json"
+}

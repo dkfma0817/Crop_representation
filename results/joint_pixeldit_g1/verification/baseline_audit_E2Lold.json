@@ -1,0 +1,28 @@
+{
+ "name": "E2Lold",
+ "ckpt": "/home/irteam/Crop_representation/results/overnight_six/E2L/checkpoints/ema_last.pt",
+ "probe": "/home/irteam/Crop_representation/results/overnight_six/E2L/probe/r2fused",
+ "epoch": 8,
+ "reproduction_pearson_vs_probe_scores": {
+  "ep1": 0.9999966777933909,
+  "ep10": 0.9999961382414847
+ },
+ "official": {
+  "val": {
+   "new_obj": 55.662958592034606,
+   "old_obj": 55.662958592034606,
+   "new_part": 58.75248708983645,
+   "old_part": 58.75248708983645,
+   "max_abs_diff": 0.0
+  },
+  "test": {
+   "new_obj": 42.99450615522714,
+   "old_obj": 42.99450615522714,
+   "new_part": 41.836725594291806,
+   "old_part": 41.836725594291806,
+   "max_abs_diff": 0.0
+  }
+ },
+ "stored_val": "/home/irteam/Crop_representation/results/overnight_six/eval/eval_val/E2L_r2/ep8/official_results.json",
+ "stored_test": "/home/irteam/Crop_representation/results/overnight_six/eval/fast_test/E2L_r2/official_results.json"
+}

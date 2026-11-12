@@ -1,0 +1,10 @@
+{
+ "status": "done",
+ "condition": "LowFlow",
+ "steps": 12000,
+ "time_s": 2894,
+ "started_from_step": 0,
+ "peak_gib": 13.295438289642334,
+ "head_removed_for_probe": true,
+ "ema_checksum": -27561.13849502848
+}

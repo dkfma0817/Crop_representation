@@ -1,0 +1,4 @@
+Model	ADE20K mIoU	Delta vs Frozen (pp)	Delta vs B0 (pp)
+Frozen	49.367	+0.000	+4.538
+B0	44.829	-4.538	+0.000
+B1	45.453	-3.914	+0.624

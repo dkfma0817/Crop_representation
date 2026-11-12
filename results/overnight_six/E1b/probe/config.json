@@ -1,0 +1,62 @@
+{
+ "job": {
+  "name": "overnight_E1b",
+  "backbone": "dinov3",
+  "mode": "hcf_fused",
+  "encoder_ckpt": "/home/irteam/Crop_representation/results/overnight_six/E1b/checkpoints/ema_last.pt",
+  "full_size": 384,
+  "seed": 0,
+  "epochs": 10,
+  "paco_dev_images": 1000,
+  "readers": [
+   {
+    "name": "r2fused",
+    "kind": "r2",
+    "layers": [
+     12
+    ]
+   }
+  ]
+ },
+ "args": {
+  "job": "/home/irteam/Crop_representation/results/overnight_six/configs/probe_E1b.yaml",
+  "out": "/home/irteam/Crop_representation/results/overnight_six/E1b/probe",
+  "exclude": "output/2026-11-04/readout_queue/data_check/train_exclude_image_ids.json",
+  "limit": 0,
+  "epochs": 0,
+  "max_steps": 0,
+  "workers": 8,
+  "cache": ""
+ },
+ "world": 1,
+ "n_train_rows": 200088,
+ "n_train_images": 37472,
+ "n_val_rows": 11109,
+ "n_val_images": 2051,
+ "steps_per_epoch": [
+  1560,
+  1560,
+  1558,
+  1559,
+  1560,
+  1558,
+  1559,
+  1560,
+  1560,
+  1560
+ ],
+ "total_steps": 15594,
+ "n_params": {
+  "r2fused": 10738294
+ },
+ "n_params_reader_only": {
+  "r2fused": 10647552
+ },
+ "encoder": "DINOv3-B/16 lvd1689m @384",
+ "S": 384,
+ "P": 16,
+ "layers": [
+  12
+ ],
+ "torch": "2.7.1+cu118"
+}

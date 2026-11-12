@@ -1,0 +1,32 @@
+{
+  "216": {
+    "reason": "B0\u2192P2 recovery",
+    "common_union_classes": 7,
+    "macro_iou": [
+      50.280497609654454,
+      41.636689536069376,
+      53.51056721612214
+    ],
+    "image_id": "ADE_val_00000217"
+  },
+  "446": {
+    "reason": "Original\u2192P2 residual",
+    "common_union_classes": 6,
+    "macro_iou": [
+      63.920305984005,
+      47.749190112005564,
+      49.97156650820918
+    ],
+    "image_id": "ADE_val_00000447"
+  },
+  "1070": {
+    "reason": "P2 regression versus B0",
+    "common_union_classes": 7,
+    "macro_iou": [
+      50.90637688201257,
+      55.95952525752963,
+      50.559104396560905
+    ],
+    "image_id": "ADE_val_00001071"
+  }
+}

@@ -1,0 +1,167 @@
+[
+  {
+    "path": "/home/irteam/datasets/paco/paco_lvis_v1_val.json",
+    "sha256": "25cddcf6fe4fb5fc46913c9d7092a9f027944be0985aaad0e0aa46f433eae20a",
+    "bytes": 26589933
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-07/paco_oracle_attr/data/manifest_val.parquet",
+    "sha256": "8a45bc1c8f9bdcb0df61764d72f5f077dd5bc0d1bf0e54a0fb2a9d6077247572",
+    "bytes": 1182983
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-07/paco_oracle_attr/data/labels_val.npy",
+    "sha256": "57e9f3a2fa6677be373e1df3f69dc648bbf7969f6f77ea682b2d186c649f7cbe",
+    "bytes": 1883349
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-07/paco_oracle_attr/preds/c0_crop/probs_val.npz",
+    "sha256": "564e67217e9a8f4919e13376b40620234502dbd6f4745f58936acd0e257b0025",
+    "bytes": 15833078
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/preds/r768_cosine/ep5/probs_val.npz",
+    "sha256": "73936dc2af1e616723ecf75d6be28b05dde0afff83a1c4c38e4e1eb50bfd78a1",
+    "bytes": 15833078
+  },
+  {
+    "path": "/home/irteam/datasets/coco/train2017/000000075285.jpg",
+    "sha256": "e6b478e84be8cb4c15068196a72555da2f4c82f2235dd88da12a0a5c35ade686",
+    "bytes": 87089
+  },
+  {
+    "path": "/home/irteam/datasets/coco/train2017/000000258078.jpg",
+    "sha256": "9590fd914ec3f5fca08556f97b89d5f035099258a72628cee1a53a09730fb8c9",
+    "bytes": 158400
+  },
+  {
+    "path": "/home/irteam/datasets/coco/train2017/000000165172.jpg",
+    "sha256": "021596cfa1c18fdcacc2e2b67649629f36f3096539b5b2679210c049ca949b8e",
+    "bytes": 62944
+  },
+  {
+    "path": "/home/irteam/datasets/coco/train2017/000000564820.jpg",
+    "sha256": "e79d827cb1b1920022f80e624c4f44be68610193b4e470b53d8bd52467546b4c",
+    "bytes": 133815
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-07/paco_oracle_attr/eval/c0_crop/val/official_results.json",
+    "sha256": "4aeef5913cf30152f48de283b9596316a458017c13a1038273320ec6d5e8fd6f",
+    "bytes": 234550
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/eval_val/r768_cosine/ep5/official_results.json",
+    "sha256": "df75573621efa56bab3e359aebfb460d40bd7c7444acd0025ac5ab9a289052b5",
+    "bytes": 234552
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-07/paco_oracle_attr/eval/c0_crop/test/official_results.json",
+    "sha256": "27ed2b437bc3e24e89e0902f4959c43428553fc27696d73ebc524ee4110d0289",
+    "bytes": 286891
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/eval_test/r768_cosine/test/official_results.json",
+    "sha256": "8a108da9e34b635885ffbc0e5f0a0273d7e5ef3df554508a2a891990ea5aece9",
+    "bytes": 286791
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/ivc/bbdata.py",
+    "sha256": "5a80939118e9d68f50346bb7b5081d5be9d4c4d8ab9b21f8caf2c5d739a0f719",
+    "bytes": 8474
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/ivc/common.py",
+    "sha256": "cdc7e4d9eb300e1114c5242511699ff0760a7f91b55d47f781ae463515f380dc",
+    "bytes": 9167
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/readout/models.py",
+    "sha256": "6ba2d35376f40dc7de7485e391c211dbc6d6e01f08a10771d5c3e3bce2cc012f",
+    "bytes": 9616
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/readout/common.py",
+    "sha256": "36ef7faa8a2929cddc5beee51c30b9e66ae07140db57eccb332761495c855d6f",
+    "bytes": 11764
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/pacoattr/audit.py",
+    "sha256": "67a33318b09c6a0eeb3d68ced4bd9f510e2484caa16a062e497e25b41260a806",
+    "bytes": 11700
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/pacoattr/infer.py",
+    "sha256": "681ac5b2f2821235594ea9a0d542b3e978cd6b2354b3b7be5ac6acba142e4a4a",
+    "bytes": 8049
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/pacoattr/official_eval.py",
+    "sha256": "a9ce73dfcadd48f4ccce791142acb89c276a8d9d30d89085356ff8845202d13e",
+    "bytes": 7749
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/hcf/probe.py",
+    "sha256": "87795441671dba2fb6015d285157510c2199ec0a1057acb895075ad4825eb921",
+    "bytes": 8566
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/hcf/model.py",
+    "sha256": "70976064093899f00f36fe002217d91b4ac81a271b6e44b5beaa100f45643333",
+    "bytes": 11740
+  },
+  {
+    "path": "/home/irteam/Crop_representation/src/ivc/train_bb.py",
+    "sha256": "286637e26e699edf62864e858a0753ff660c4596b4a864381b5d8bfde3aa9c1f",
+    "bytes": 21919
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/selection.json",
+    "sha256": "88a02b20ab995b24d697460b403a117a4287edf56f727cf54121e4756da751b1",
+    "bytes": 2115
+  },
+  {
+    "path": "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/scripts/infer_val.py",
+    "sha256": "a444366287e9ba7397e2444292ee852c0fe8a059ef40f239c7407dca2a396896",
+    "bytes": 6841
+  },
+  {
+    "path": "/home/irteam/Crop_representation/third_party/research/2026-10-28/paco_crop_finetune/code/eval_tables.py",
+    "sha256": "b9385729bf93e76ba191c8c6e064be49262a7b39e8a3f45bbd3c5d7fdb87d9ff",
+    "bytes": 4671
+  },
+  {
+    "path": "/home/irteam/Crop_representation/third_party/research/2026-10-24/dinov2_oracle_region_decoder/paco_lp_official_metric/code/pom_common.py",
+    "sha256": "633d50c9c2ce483897b25ed4379325026b92626629f8d3f47523020d921c0b93",
+    "bytes": 9345
+  },
+  {
+    "path": "/home/irteam/Crop_representation/third_party/research/2026-10-24/dinov2_oracle_region_decoder/paco_lp_official_metric/code/aggregate.py",
+    "sha256": "a9a0e602c3752d001c6dffa7439345105cf7d1cc93a50c7c24745255320974d8",
+    "bytes": 20920
+  },
+  {
+    "path": "/home/irteam/Crop_representation/third_party/research/2026-10-26/multilevel_relation_decoder/code/eval_mlr.py",
+    "sha256": "c8cf86144d398e30f62c2d52b97b9a2c1de849a5305a69596b5c394397d3036e",
+    "bytes": 5812
+  },
+  {
+    "path": "/home/irteam/Crop_representation/third_party/research/2026-10-30/paco_region_reader/code/common_rr.py",
+    "sha256": "c951b4e4e818270951dbad0888c742750cfda44a701293eccd182a052afaba29",
+    "bytes": 11509
+  },
+  {
+    "path": "/home/irteam/datasets/lvis_src/paco/paco/evaluation/paco_eval_api/eval.py",
+    "sha256": "9216afb13801993c6b6f289c3209326c7775b5dd12affd63dfea9b46ee842579",
+    "bytes": 32875
+  },
+  {
+    "path": "/home/irteam/datasets/lvis_src/paco/paco/evaluation/paco_eval_api/results.py",
+    "sha256": "4070c3bc3ad2cbfb7ce895d1b50ca09d9cd5b05dccc2f8be6d68906ca7fc1d09",
+    "bytes": 4514
+  },
+  {
+    "path": "/home/irteam/datasets/lvis_src/paco/paco/evaluation/utils/paco_utils.py",
+    "sha256": "20ce1c7d11c8414546c87a8f4bb7c98eb25ab20723971afdebd75a1f116f8938",
+    "bytes": 6822
+  }
+]

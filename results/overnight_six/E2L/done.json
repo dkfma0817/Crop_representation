@@ -1,0 +1,11 @@
+{
+ "status": "done",
+ "condition": "E2L",
+ "steps": 12000,
+ "time_s": 1752,
+ "started_from_step": 0,
+ "peak_gib": 11.872604370117188,
+ "teacher_unchanged": true,
+ "ema_checksum": -27282.559369986302,
+ "checkpoint_sha1": "39dc2e47437ce4bc7db827e8902414000cbd5b79"
+}

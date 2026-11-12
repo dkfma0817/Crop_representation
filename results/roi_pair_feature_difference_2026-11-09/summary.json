@@ -1,0 +1,367 @@
+{
+  "status": "complete",
+  "date": "2026-11-09",
+  "split": "PACO Val",
+  "metric_context": "project M2 eligible category-attribute units; pair statistics are diagnostic, not AP",
+  "seed": 0,
+  "bootstrap_B": 1000,
+  "pairs": 129328,
+  "same_image_pairs": 0,
+  "new_training": false,
+  "primary_reader": "existing frozen Mean + Linear Probe",
+  "sensitivity_reader": "existing frozen R2",
+  "tables": {
+    "baseline": [
+      [
+        "C0",
+        384,
+        10,
+        6,
+        "41.65",
+        "40.73",
+        "46.13",
+        "54.37"
+      ],
+      [
+        "P384",
+        384,
+        10,
+        6,
+        "36.29",
+        "42.82",
+        "44.32",
+        "47.52"
+      ],
+      [
+        "P768",
+        768,
+        9,
+        6,
+        "39.42",
+        "47.78",
+        "43.83",
+        "53.52"
+      ],
+      [
+        "P768-centered",
+        768,
+        9,
+        6,
+        "42.67",
+        "46.61",
+        "46.14",
+        "55.85"
+      ]
+    ],
+    "inventory": [
+      [
+        "object",
+        "Material",
+        102,
+        13,
+        40,
+        "44,728",
+        "2,173",
+        "1,604"
+      ],
+      [
+        "object",
+        "Pattern / Marking",
+        104,
+        10,
+        22,
+        "33,599",
+        "2,406",
+        "1,726"
+      ],
+      [
+        "part",
+        "Material",
+        130,
+        13,
+        37,
+        "31,049",
+        "3,212",
+        "1,348"
+      ],
+      [
+        "part",
+        "Pattern / Marking",
+        95,
+        10,
+        17,
+        "19,952",
+        "3,006",
+        "1,269"
+      ]
+    ],
+    "group_counts": [
+      [
+        "Material",
+        "P384",
+        "3,642",
+        "30,763",
+        "3,520",
+        "6,803",
+        1332
+      ],
+      [
+        "Material",
+        "P768",
+        "3,021",
+        "31,384",
+        "3,354",
+        "6,969",
+        1227
+      ],
+      [
+        "Material",
+        "P768-centered",
+        "2,882",
+        "31,523",
+        "3,219",
+        "7,104",
+        1190
+      ],
+      [
+        "Pattern / Marking",
+        "P384",
+        "2,241",
+        "25,560",
+        "1,634",
+        "4,164",
+        1026
+      ],
+      [
+        "Pattern / Marking",
+        "P768",
+        "1,745",
+        "26,056",
+        "1,696",
+        "4,102",
+        923
+      ],
+      [
+        "Pattern / Marking",
+        "P768-centered",
+        "1,719",
+        "26,082",
+        "1,706",
+        "4,092",
+        920
+      ]
+    ],
+    "geometry": [
+      [
+        "Material",
+        "P384",
+        "0.799 [0.788, 0.811]",
+        "0.807 [0.801, 0.813]",
+        "0.684 [0.669, 0.699]",
+        "0.734 [0.724, 0.743]",
+        "0.895",
+        "1.045 / 2.846"
+      ],
+      [
+        "Material",
+        "P768",
+        "0.833 [0.822, 0.846]",
+        "0.833 [0.828, 0.838]",
+        "0.749 [0.736, 0.762]",
+        "0.784 [0.777, 0.791]",
+        "0.916",
+        "0.876 / 2.827"
+      ],
+      [
+        "Material",
+        "P768-centered",
+        "0.847 [0.835, 0.861]",
+        "0.847 [0.841, 0.853]",
+        "0.759 [0.745, 0.771]",
+        "0.791 [0.784, 0.797]",
+        "0.918",
+        "0.849 / 2.820"
+      ],
+      [
+        "Pattern / Marking",
+        "P384",
+        "0.833 [0.816, 0.851]",
+        "0.823 [0.815, 0.830]",
+        "0.714 [0.692, 0.735]",
+        "0.743 [0.732, 0.753]",
+        "0.902",
+        "0.963 / 2.853"
+      ],
+      [
+        "Pattern / Marking",
+        "P768",
+        "0.842 [0.830, 0.855]",
+        "0.846 [0.840, 0.853]",
+        "0.778 [0.758, 0.796]",
+        "0.789 [0.781, 0.797]",
+        "0.923",
+        "0.740 / 2.832"
+      ],
+      [
+        "Pattern / Marking",
+        "P768-centered",
+        "0.853 [0.841, 0.867]",
+        "0.857 [0.850, 0.865]",
+        "0.782 [0.764, 0.797]",
+        "0.795 [0.788, 0.803]",
+        "0.924",
+        "0.714 / 2.831"
+      ]
+    ],
+    "matched": [
+      [
+        "Material",
+        "P384",
+        "-0.0152 [-0.0352, 0.0004]",
+        "-0.0118 [-0.0353, 0.0055]",
+        "1.0635 / 1.0608",
+        "2,801",
+        66,
+        "76.9%"
+      ],
+      [
+        "Material",
+        "P768",
+        "-0.0053 [-0.0203, 0.0096]",
+        "-0.0114 [-0.0360, 0.0039]",
+        "0.8198 / 0.8177",
+        "2,380",
+        59,
+        "78.8%"
+      ],
+      [
+        "Material",
+        "P768-centered",
+        "-0.0108 [-0.0210, 0.0056]",
+        "-0.0206 [-0.0415, 0.0018]",
+        "0.8058 / 0.8029",
+        "2,218",
+        57,
+        "77.0%"
+      ],
+      [
+        "Pattern / Marking",
+        "P384",
+        "0.0096 [-0.0117, 0.0270]",
+        "-0.0232 [-0.0492, 0.0033]",
+        "0.8193 / 0.8198",
+        "1,733",
+        52,
+        "77.3%"
+      ],
+      [
+        "Pattern / Marking",
+        "P768",
+        "0.0008 [-0.0181, 0.0248]",
+        "-0.0185 [-0.0419, 0.0049]",
+        "0.6458 / 0.6422",
+        "1,343",
+        46,
+        "77.0%"
+      ],
+      [
+        "Pattern / Marking",
+        "P768-centered",
+        "-0.0117 [-0.0305, 0.0163]",
+        "-0.0179 [-0.0409, 0.0069]",
+        "0.6633 / 0.6619",
+        "1,333",
+        46,
+        "77.5%"
+      ]
+    ],
+    "fixed_cohort": [
+      [
+        "Material",
+        "P768 \u2212 P384",
+        "0.027 [0.022, 0.032]",
+        "0.064 [0.058, 0.070]",
+        "41.3 [37.0, 45.3]"
+      ],
+      [
+        "Material",
+        "P768-centered \u2212 P768",
+        "0.016 [0.013, 0.019]",
+        "0.009 [0.007, 0.010]",
+        "4.4 [2.4, 6.7]"
+      ],
+      [
+        "Pattern / Marking",
+        "P768 \u2212 P384",
+        "0.016 [0.006, 0.023]",
+        "0.057 [0.047, 0.067]",
+        "45.3 [39.4, 51.1]"
+      ],
+      [
+        "Pattern / Marking",
+        "P768-centered \u2212 P768",
+        "0.012 [0.009, 0.015]",
+        "0.007 [0.005, 0.009]",
+        "3.5 [0.6, 6.6]"
+      ]
+    ],
+    "head_transfer": [
+      [
+        "Material",
+        "P384",
+        "31.5 [27.8, 35.3]",
+        "74.3 [70.2, 77.9]",
+        "0.722"
+      ],
+      [
+        "Material",
+        "P768",
+        "32.6 [28.4, 36.8]",
+        "71.3 [66.6, 75.4]",
+        "0.754"
+      ],
+      [
+        "Material",
+        "P768-centered",
+        "32.2 [27.8, 36.7]",
+        "70.8 [65.9, 75.1]",
+        "0.779"
+      ],
+      [
+        "Pattern / Marking",
+        "P384",
+        "32.3 [27.0, 37.5]",
+        "70.8 [64.7, 76.0]",
+        "0.696"
+      ],
+      [
+        "Pattern / Marking",
+        "P768",
+        "33.3 [27.9, 39.2]",
+        "68.4 [62.0, 74.2]",
+        "0.729"
+      ],
+      [
+        "Pattern / Marking",
+        "P768-centered",
+        "32.9 [27.3, 38.6]",
+        "67.8 [61.3, 73.6]",
+        "0.751"
+      ]
+    ]
+  },
+  "answers": {
+    "1_magnitude": "Normalized differences are smaller than C0 on average, including successful B pairs. Failure-specific extra shrinkage is not robust after controlling category, both ROI sizes and closely matching teacher margin.",
+    "2_direction": "A has lower unadjusted difference cosine than B while individual cosine remains high. The effect weakens under difficulty matching; severe direction mismatch with ratio>=0.8 and cosine<0.5 affects only about 1-4.4% of Object A pairs under this exploratory threshold.",
+    "3_pattern_material": "Material is somewhat more contracted in P384; both attribute types improve geometrically at 768. No robust failure-specific difference after nearest-margin matching in either type. Newer students already exceed C0 Mean Pattern AP; centered also exceeds C0 Mean Material AP in point estimate.",
+    "4_resolution": "Same-pair comparison improves magnitude and direction, particularly direction for small ROIs. Roughly 41-45% of fixed P384 A pairs become correctly ranked at P768, but new failures remain; teacher head transfer recovers only about one third of residual A.",
+    "5_method": "Strongest direct evidence supports testing input-detail/encoding interventions. Existing-head projections motivate discriminative diagnostics, not sufficiency of any alignment method. Relative Distillation remains a controlled-ablation hypothesis; this diagnosis does not establish an error-specific missing pair relation, AP benefit or methodological novelty."
+  },
+  "limitations": [
+    "Fixed trained models and sampled pair graph; one seed; exploratory multiple comparisons, no multiplicity correction.",
+    "Nearest-margin matching is descriptive, keeps around 77% of Object A; fixed matches in bootstrap do not include rematching uncertainty.",
+    "Bootstrap resamples image vertices jointly for both endpoints; no independent-pair resampling, but sparse graph/pair-selection and model-training variability are not estimated.",
+    "Normalized difference norm is an angular separation; it does not measure all attribute information or irrecoverable loss.",
+    "No new reader/probe was fitted, so intrinsic information availability cannot be identified."
+  ]
+}

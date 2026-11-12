@@ -1,0 +1,7 @@
+{
+ "roi_seen": 1464356,
+ "roi_weighted": 485966,
+ "weighted_fraction": 0.33186329007427157,
+ "weight": 2.0,
+ "rule": "4 <= area / 16^2 < 16 on the 384 canvas"
+}

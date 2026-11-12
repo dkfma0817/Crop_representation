@@ -1,0 +1,151 @@
+{
+  "desktop": {
+    "title": "2026.11.09 · Crop Representation 실험 기록",
+    "innerWidth": 1440,
+    "scrollWidth": 1425,
+    "scrollHeight": 9074,
+    "visibleCards": 17,
+    "brokenImages": [],
+    "badOverflow": [],
+    "filters": {
+      "onlySigLIP": true,
+      "pixelSearch": [
+        "exp-siglip-pixeldit"
+      ],
+      "restored": 17,
+      "groupOptions": [
+        "all",
+        "input",
+        "objective",
+        "structure",
+        "diagnostic",
+        "context"
+      ]
+    },
+    "protocols": [
+      {
+        "value": "official_test",
+        "rows": 10,
+        "caption": "공식 PACO Test AP · R2 · 각 조건의 공식 Val (Object+Part)/2 최대 epoch을 고정해 평가. C0와 Frozen/G1은 기존 공식 참조를 재사용합니다. 아래 차이는 점추정이며 이 표에 CI가 없습니다.",
+        "svgBars": 10
+      },
+      {
+        "value": "official_val",
+        "rows": 10,
+        "caption": "공식 PACO Val AP · R2 · reader epoch 선택에 사용한 데이터입니다. Test와 같은 모델이어도 split이 다르며 project M2 Val과도 직접 비교하지 않습니다.",
+        "svgBars": 10
+      },
+      {
+        "value": "project_val_r2",
+        "rows": 9,
+        "caption": "PACO Val · project M2 AP · R2 · train 내부 dev 1,000장의 M0로 epoch 선택. 공식 evaluator 결과가 아닙니다. 순정 native/bilinear readout도 구분합니다.",
+        "svgBars": 9
+      },
+      {
+        "value": "project_val_mean",
+        "rows": 9,
+        "caption": "PACO Val · project M2 AP · Mean + Linear · train 내부 dev M0 선택. Encoder는 고정했지만 선형 probe는 PACO 정답으로 학습했습니다.",
+        "svgBars": 9
+      }
+    ],
+    "expandedLayout": {
+      "scrollWidth": 1425,
+      "noBodyOverflow": true
+    },
+    "embeddedFontCheck": true,
+    "fontFaces": [
+      {
+        "family": "ReportKorean",
+        "status": "loaded"
+      }
+    ],
+    "printRestore": {
+      "allExpanded": true,
+      "exactRestore": true
+    }
+  },
+  "mobile": {
+    "title": "2026.11.09 · Crop Representation 실험 기록",
+    "innerWidth": 390,
+    "scrollWidth": 390,
+    "scrollHeight": 16797,
+    "visibleCards": 17,
+    "brokenImages": [],
+    "badOverflow": [
+      {
+        "tag": "A",
+        "cls": "",
+        "width": 51
+      },
+      {
+        "tag": "A",
+        "cls": "",
+        "width": 62
+      },
+      {
+        "tag": "A",
+        "cls": "",
+        "width": 24
+      }
+    ],
+    "filters": {
+      "onlySigLIP": true,
+      "pixelSearch": [
+        "exp-siglip-pixeldit"
+      ],
+      "restored": 17,
+      "groupOptions": [
+        "all",
+        "input",
+        "objective",
+        "structure",
+        "diagnostic",
+        "context"
+      ]
+    },
+    "protocols": [
+      {
+        "value": "official_test",
+        "rows": 10,
+        "caption": "공식 PACO Test AP · R2 · 각 조건의 공식 Val (Object+Part)/2 최대 epoch을 고정해 평가. C0와 Frozen/G1은 기존 공식 참조를 재사용합니다. 아래 차이는 점추정이며 이 표에 CI가 없습니다.",
+        "svgBars": 10
+      },
+      {
+        "value": "official_val",
+        "rows": 10,
+        "caption": "공식 PACO Val AP · R2 · reader epoch 선택에 사용한 데이터입니다. Test와 같은 모델이어도 split이 다르며 project M2 Val과도 직접 비교하지 않습니다.",
+        "svgBars": 10
+      },
+      {
+        "value": "project_val_r2",
+        "rows": 9,
+        "caption": "PACO Val · project M2 AP · R2 · train 내부 dev 1,000장의 M0로 epoch 선택. 공식 evaluator 결과가 아닙니다. 순정 native/bilinear readout도 구분합니다.",
+        "svgBars": 9
+      },
+      {
+        "value": "project_val_mean",
+        "rows": 9,
+        "caption": "PACO Val · project M2 AP · Mean + Linear · train 내부 dev M0 선택. Encoder는 고정했지만 선형 probe는 PACO 정답으로 학습했습니다.",
+        "svgBars": 9
+      }
+    ],
+    "expandedLayout": {
+      "scrollWidth": 390,
+      "noBodyOverflow": true
+    },
+    "embeddedFontCheck": true,
+    "fontFaces": [
+      {
+        "family": "ReportKorean",
+        "status": "loaded"
+      }
+    ],
+    "printRestore": {
+      "allExpanded": true,
+      "exactRestore": true
+    }
+  },
+  "html_sha256": "80e666b48ae61218d9da32358367689a0ca6a6929383ca39a4596a74ec596201",
+  "fontEnvironment": "Only DejaVu system fallback exposed; Hangul must render from embedded ReportKorean WOFF",
+  "consoleErrors": []
+}

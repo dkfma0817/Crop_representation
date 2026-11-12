@@ -1,0 +1,13 @@
+name: jointpg_LowFlow
+backbone: dinov3
+mode: hcf_fused
+encoder_ckpt: /home/irteam/Crop_representation/results/joint_pixeldit_g1/LowFlow/checkpoints/ema_last.pt
+full_size: 384
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+- name: r2fused
+  kind: r2
+  layers:
+  - 12

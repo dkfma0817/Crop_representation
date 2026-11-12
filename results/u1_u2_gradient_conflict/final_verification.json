@@ -1,0 +1,20 @@
+{
+  "utc": "2026-11-11T04:15:35Z",
+  "report_sha256": "6bb2a98116549b8a7a04da316b4ad7add55021128dbc5c947208187fd0fa39d0",
+  "standalone_html": true,
+  "external_resource_dependencies": 0,
+  "embedded_svg_xml_valid": 5,
+  "broken_local_links": 0,
+  "offline_chromium_render": true,
+  "screenshot": "/tmp/u12-completed-report.png",
+  "protected_previous_artifacts_unchanged": 23,
+  "training_steps": {
+    "U1": 12000,
+    "U2": 12000
+  },
+  "ADE_iterations": 40000,
+  "ADE_encoders_unchanged": true,
+  "strict_encoder_export_both": true,
+  "U_series_PACO_Test": false,
+  "P2_Test_separate_report": "/home/irteam/Crop_representation/results/p2_paco_test/results.json"
+}

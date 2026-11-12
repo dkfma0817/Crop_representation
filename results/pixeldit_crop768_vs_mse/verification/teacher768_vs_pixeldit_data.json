@@ -1,0 +1,37 @@
+{
+ "manifest": {
+  "image_ids.npy": {
+   "same_file": true,
+   "sha_equal": true
+  },
+  "object_boxes.npy": {
+   "same_file": true,
+   "sha_equal": true
+  },
+  "nested_boxes.npy": {
+   "same_file": true,
+   "sha_equal": true
+  },
+  "g_cls.npy": {
+   "same_file": true,
+   "sha_equal": null
+  },
+  "g_mean.npy": {
+   "same_file": true,
+   "sha_equal": null
+  }
+ },
+ "n_live_checked": 354,
+ "n_live_nested": 164,
+ "min_cos_live768_vs_cache": 0.9999997615814209,
+ "min_cos_live384_vs_hybrid_teacher": 0.9999405741691589,
+ "n_rois": 1452,
+ "cos_768_vs_384_mean": 0.9318516797106456,
+ "cos_768_vs_384_p05": 0.8496405094861984,
+ "norm768_mean": 8.563793962652033,
+ "norm384_mean": 8.969703538358704,
+ "norm768_over_384_mean": 0.9559480412508,
+ "layer": "final-norm patch tokens (forward_features, prefix dropped), both",
+ "pooling": "content-coverage-weighted mean (48x48 at 768, 24x24 at 384)",
+ "flow_target": "unchanged: the 384 RGB crops of CropObjectiveDS"
+}

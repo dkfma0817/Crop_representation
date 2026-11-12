@@ -1,0 +1,38 @@
+{
+ "args": {
+  "condition": "LowFlow",
+  "initial": "output/2026-11-08/hcf_material_causal/initial.pt",
+  "out": "/home/irteam/Crop_representation/results/joint_pixeldit_g1/LowFlow",
+  "shared": "output/2026-11-08/hcf_pilot/shared",
+  "steps": "12000",
+  "workers": "8",
+  "log_every": "100",
+  "check_every": "1000",
+  "save_every": "1000",
+  "smoke": "False",
+  "mix": "False",
+  "alphas": "0,0.25,0.5,0.75,1"
+ },
+ "condition": "LowFlow",
+ "spec": {
+  "lam_grid": 0.0,
+  "lam_flow": 0.25
+ },
+ "crop_weight": 1.0,
+ "global_weight": 0.5,
+ "steps": 12000,
+ "world": 1,
+ "images_per_step": 16,
+ "warmup": 600,
+ "full_size": 384,
+ "crop_teacher": "C0 Native Crop384 (output/2026-11-08/hcf_pilot/shared)",
+ "grid_teacher": null,
+ "flow": "PixelDiT Hybrid: CropPixelDiT head, 8x8 conditioning, 384 RGB crop flow target, head dropped for probes",
+ "initial_sha256": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa",
+ "seed": 0,
+ "encoder_params": 95473545,
+ "head_params": 7526640,
+ "source_sha256": "efea697bceeb1687328d7f9d7a289eff91311aea461a3b69c8284584ab0eac00",
+ "pdit_train_sha256": "e230a4f8163ac812eb3b5a150996b38d905bccdd4e16fec79c5c29c0714b15db",
+ "torch": "2.7.1+cu118"
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "condition": "C0",
+    "pid": 1462675,
+    "gpu": 0,
+    "command": [
+      "/home/irteam/miniforge3/envs/dinov2_ord_py310/bin/python",
+      "-u",
+      "/home/irteam/Crop_representation/results/roi_pair_feature_difference_2026-11-09/source/extract.py",
+      "--condition",
+      "C0"
+    ]
+  },
+  {
+    "condition": "P384",
+    "pid": 1462679,
+    "gpu": 1,
+    "command": [
+      "/home/irteam/miniforge3/envs/dinov2_ord_py310/bin/python",
+      "-u",
+      "/home/irteam/Crop_representation/results/roi_pair_feature_difference_2026-11-09/source/extract.py",
+      "--condition",
+      "P384"
+    ]
+  },
+  {
+    "condition": "P768",
+    "pid": 1462692,
+    "gpu": 2,
+    "command": [
+      "/home/irteam/miniforge3/envs/dinov2_ord_py310/bin/python",
+      "-u",
+      "/home/irteam/Crop_representation/results/roi_pair_feature_difference_2026-11-09/source/extract.py",
+      "--condition",
+      "P768"
+    ]
+  },
+  {
+    "condition": "P768-centered",
+    "pid": 1462694,
+    "gpu": 3,
+    "command": [
+      "/home/irteam/miniforge3/envs/dinov2_ord_py310/bin/python",
+      "-u",
+      "/home/irteam/Crop_representation/results/roi_pair_feature_difference_2026-11-09/source/extract.py",
+      "--condition",
+      "P768-centered"
+    ]
+  }
+]

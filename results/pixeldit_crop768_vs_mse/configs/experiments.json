@@ -1,0 +1,14 @@
+{
+ "PC768": {
+  "base": "Hybrid",
+  "teacher": "Native Crop768",
+  "crop_loss": "1 - cos",
+  "flow": true
+ },
+ "M1": {
+  "base": "A0",
+  "teacher": "Native Crop384 (C0)",
+  "crop_loss": "raw MSE",
+  "flow": false
+ }
+}

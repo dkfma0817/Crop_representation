@@ -1,0 +1,6 @@
+{
+ "J1": "PixelDiT Hybrid + 0.20 G1U grid",
+ "LowFlow": "PixelDiT Hybrid, lambda_flow 0.25",
+ "W1": "weight mix of PixelDiT Hybrid and E2-L EMA encoders, alpha 0.25 / 0.5 / 0.75 (+ endpoints)",
+ "A0bb": "A0 encoder, R2 retrained on the shared path"
+}

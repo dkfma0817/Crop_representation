@@ -1,0 +1,312 @@
+{
+ "protocol": "PACO annotated Val, project M2 AP, dev-M0-selected epoch, seed 0. Mean pooled + level-specific train z-score + identical 768->59 linear heads. Existing crop/self-distilled mean probes reused; new coarse/fused probes have matching world=1, ten epochs, data split, initialization, steps and optimizer. No Test read.",
+ "bootstrap": {
+  "B": 1000,
+  "seed": 0,
+  "n_images": 2051
+ },
+ "results": {
+  "crop_mean": {
+   "epoch": 10,
+   "dev_M0": 46.551861312028706,
+   "val_M0": {
+    "overall": 40.55360255861502,
+    "object": 44.60365433195978,
+    "part": 36.798100005149884,
+    "color": 23.480552047423796,
+    "pattern_marking": 42.08859788383096,
+    "material": 69.01201576637675,
+    "transparency": 67.16051084933866,
+    "object/color": 25.269392532315265,
+    "object/pattern_marking": 46.65703023155446,
+    "object/material": 76.35047503587464,
+    "object/transparency": 71.20617488149094,
+    "part/color": 21.883373043056416,
+    "part/pattern_marking": 37.52016553610746,
+    "part/material": 62.23805336376331,
+    "part/transparency": 63.1148468171864
+   },
+   "val_M2": {
+    "object/color": 32.20369821100812,
+    "object/pattern_marking": 40.729573407790035,
+    "object/material": 41.64993081427744,
+    "object/transparency": 54.240443418979154,
+    "object": 42.205911463013685,
+    "part/color": 37.092566749517644,
+    "part/pattern_marking": 47.00892548163624,
+    "part/material": 33.253448427194485,
+    "part/transparency": 44.22305101649266,
+    "part": 40.39449791871026,
+    "color": 34.64813248026288,
+    "pattern_marking": 43.86924944471314,
+    "material": 37.45168962073596,
+    "transparency": 49.23174721773591,
+    "overall": 41.300204690861975
+   }
+  },
+  "self_distilled_mean": {
+   "epoch": 10,
+   "dev_M0": 46.26303107687925,
+   "val_M0": {
+    "overall": 40.01900519292356,
+    "object": 43.34220984127475,
+    "part": 36.93748815536155,
+    "color": 22.455797021069355,
+    "pattern_marking": 40.116005273527946,
+    "material": 70.33791947034865,
+    "transparency": 68.47620092614828,
+    "object/color": 25.24278369777859,
+    "object/pattern_marking": 44.49972119122588,
+    "object/material": 72.92283630030205,
+    "object/transparency": 71.60404691781258,
+    "part/color": 19.967416059721817,
+    "part/pattern_marking": 35.73228935583001,
+    "part/material": 67.95184239654552,
+    "part/transparency": 65.348354934484
+   },
+   "val_M2": {
+    "object/color": 32.1898291458853,
+    "object/pattern_marking": 42.59714079701604,
+    "object/material": 36.79411398267185,
+    "object/transparency": 50.12138252914035,
+    "object": 40.425616613678386,
+    "part/color": 34.443967581145536,
+    "part/pattern_marking": 42.83461189819025,
+    "part/material": 31.92352476372487,
+    "part/transparency": 50.23373409000885,
+    "part": 39.85895958326737,
+    "color": 33.31689836351542,
+    "pattern_marking": 42.71587634760315,
+    "material": 34.35881937319836,
+    "transparency": 50.1775583095746,
+    "overall": 40.142288098472875
+   }
+  },
+  "coarse_mean": {
+   "epoch": 10,
+   "dev_M0": 46.03149006001424,
+   "val_M0": {
+    "overall": 39.75140372403169,
+    "object": 43.028533670607274,
+    "part": 36.71261050084343,
+    "color": 22.029071367421903,
+    "pattern_marking": 39.23642161447315,
+    "material": 70.81792558260864,
+    "transparency": 68.74309953172887,
+    "object/color": 24.644299356716118,
+    "object/pattern_marking": 43.44447750460599,
+    "object/material": 73.81815538604869,
+    "object/transparency": 71.5468720332726,
+    "part/color": 19.69404637698064,
+    "part/pattern_marking": 35.02836572434032,
+    "part/material": 68.0484826871255,
+    "part/transparency": 65.93932703018514
+   },
+   "val_M2": {
+    "object/color": 31.48807642517969,
+    "object/pattern_marking": 40.8612306088832,
+    "object/material": 38.13135849493709,
+    "object/transparency": 48.94214837055292,
+    "object": 39.85570347488823,
+    "part/color": 34.76178613130762,
+    "part/pattern_marking": 44.13541196718757,
+    "part/material": 32.52655474506824,
+    "part/transparency": 50.112339695256495,
+    "part": 40.38402313470498,
+    "color": 33.12493127824365,
+    "pattern_marking": 42.498321288035385,
+    "material": 35.328956620002664,
+    "transparency": 49.527244032904704,
+    "overall": 40.1198633047966
+   }
+  },
+  "fused_mean": {
+   "epoch": 10,
+   "dev_M0": 46.64321231301358,
+   "val_M0": {
+    "overall": 40.36659238450249,
+    "object": 43.505370743325685,
+    "part": 37.45608881541189,
+    "color": 23.244138459316815,
+    "pattern_marking": 39.30441980768227,
+    "material": 70.7856679724917,
+    "transparency": 68.76341988869507,
+    "object/color": 25.74768307426295,
+    "object/pattern_marking": 43.410062819306496,
+    "object/material": 73.51576754162127,
+    "object/transparency": 71.79397651373633,
+    "part/color": 21.008830767400628,
+    "part/pattern_marking": 35.19877679605805,
+    "part/material": 68.26557606252591,
+    "part/transparency": 65.73286326365381
+   },
+   "val_M2": {
+    "object/color": 32.88895866546699,
+    "object/pattern_marking": 42.54829548907995,
+    "object/material": 36.188700171120985,
+    "object/transparency": 49.35654419285172,
+    "object": 40.24562462962991,
+    "part/color": 37.326026271986876,
+    "part/pattern_marking": 43.70521076446117,
+    "part/material": 32.898295882741884,
+    "part/transparency": 49.60402306519338,
+    "part": 40.88338899609583,
+    "color": 35.10749246872693,
+    "pattern_marking": 43.12675312677056,
+    "material": 34.54349802693144,
+    "transparency": 49.48028362902255,
+    "overall": 40.564506812862874
+   }
+  }
+ },
+ "comparisons": {
+  "fused_mean - crop_mean": {
+   "overall": {
+    "point": -0.7356978779990939,
+    "lo": -3.0403261555558516,
+    "hi": 1.3972048566235362
+   },
+   "object/material": {
+    "point": -5.461230643156448,
+    "lo": -10.414300461061424,
+    "hi": -0.34359995541318084
+   },
+   "part/material": {
+    "point": -0.3551525444526007,
+    "lo": -6.245552094006643,
+    "hi": 4.528906462124911
+   },
+   "object/color": {
+    "point": 0.6852604544588772,
+    "lo": -1.7971399680088513,
+    "hi": 3.1861539739458333
+   },
+   "part/color": {
+    "point": 0.23345952246922508,
+    "lo": -4.0110743677978205,
+    "hi": 4.287022361914852
+   },
+   "object/pattern_marking": {
+    "point": 1.8187220812898985,
+    "lo": -1.7657576150875387,
+    "hi": 5.221967291410019
+   },
+   "part/pattern_marking": {
+    "point": -3.303714717175069,
+    "lo": -7.467940427227625,
+    "hi": 2.529270181514049
+   }
+  },
+  "coarse_mean - crop_mean": {
+   "overall": {
+    "point": -1.1803413860653578,
+    "lo": -3.5871446445645407,
+    "hi": 1.195427549109568
+   },
+   "object/material": {
+    "point": -3.5185723193403504,
+    "lo": -8.900069451748456,
+    "hi": 1.7994217584722332
+   },
+   "part/material": {
+    "point": -0.7268936821262457,
+    "lo": -6.548455659697866,
+    "hi": 4.824561851609804
+   },
+   "object/color": {
+    "point": -0.7156217858284215,
+    "lo": -3.2263581560127097,
+    "hi": 2.017421419946359
+   },
+   "part/color": {
+    "point": -2.330780618210028,
+    "lo": -6.676619764717075,
+    "hi": 1.2632666522052423
+   },
+   "object/pattern_marking": {
+    "point": 0.13165720109316226,
+    "lo": -3.054243706523826,
+    "hi": 4.721185141192113
+   },
+   "part/pattern_marking": {
+    "point": -2.8735135144486676,
+    "lo": -7.115888564017169,
+    "hi": 3.570424684434791
+   }
+  },
+  "fused_mean - self_distilled_mean": {
+   "overall": {
+    "point": 0.4222187143899916,
+    "lo": -0.9773324130476625,
+    "hi": 1.180273049889929
+   },
+   "object/material": {
+    "point": -0.6054138115508465,
+    "lo": -3.824264102155811,
+    "hi": 2.615087103602259
+   },
+   "part/material": {
+    "point": 0.9747711190170207,
+    "lo": -2.0170931679394326,
+    "hi": 2.973976781207111
+   },
+   "object/color": {
+    "point": 0.6991295195816889,
+    "lo": -0.530856632858819,
+    "hi": 2.099904684593567
+   },
+   "part/color": {
+    "point": 2.8820586908413404,
+    "lo": 1.15451040110966,
+    "hi": 4.668871159191534
+   },
+   "object/pattern_marking": {
+    "point": -0.04884530793610509,
+    "lo": -2.7509690356669174,
+    "hi": 1.9178833961611175
+   },
+   "part/pattern_marking": {
+    "point": 0.8705988662709174,
+    "lo": -4.709036838635726,
+    "hi": 3.6326472526946625
+   }
+  },
+  "fused_mean - coarse_mean": {
+   "overall": {
+    "point": 0.44464350806626385,
+    "lo": -0.3670536610927494,
+    "hi": 1.052984726219881
+   },
+   "object/material": {
+    "point": -1.9426583238160973,
+    "lo": -4.407094812135078,
+    "hi": 0.3063098724225319
+   },
+   "part/material": {
+    "point": 0.37174113767364503,
+    "lo": -2.277405950373153,
+    "hi": 2.430136154034581
+   },
+   "object/color": {
+    "point": 1.4008822402872987,
+    "lo": 0.27155068578241565,
+    "hi": 2.476690477833837
+   },
+   "part/color": {
+    "point": 2.564240140679253,
+    "lo": 1.2590214261090655,
+    "hi": 4.620116322480437
+   },
+   "object/pattern_marking": {
+    "point": 1.6870648801967363,
+    "lo": -1.415770922952415,
+    "hi": 3.1872387753059463
+   },
+   "part/pattern_marking": {
+    "point": -0.4302012027264013,
+    "lo": -2.7561802125122723,
+    "hi": 1.078493131679294
+   }
+  }
+ }
+}

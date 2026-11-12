@@ -1,0 +1,28 @@
+{
+ "E2": {
+  "base": "G1U",
+  "lam_grid": 0.61,
+  "route": "grid"
+ },
+ "E2L": {
+  "base": "G1U",
+  "lam_grid": 0.2
+ },
+ "E1a": {
+  "base": "A0",
+  "teacher768": true
+ },
+ "E1b": {
+  "base": "A0",
+  "teacher768": true,
+  "spatial": true
+ },
+ "F1": {
+  "base": "A0",
+  "route": "crop"
+ },
+ "S1": {
+  "base": "A0",
+  "small_weight": 2.0
+ }
+}

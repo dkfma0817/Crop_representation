@@ -1,0 +1,72 @@
+{
+ "lambda_spatial": 1.5,
+ "median_ratio": 1.5049203038215637,
+ "rule": "median ||g_crop768|| / ||g_spatial|| at the initial weights, all CoarseFine parameters, 8 batches, 2 significant figures",
+ "records": [
+  {
+   "batch": 0,
+   "grad_crop": 1.5259004831314087,
+   "grad_spatial": 1.2169535160064697,
+   "ratio": 1.2538691759109497,
+   "spatial_loss": 0.2962210774421692,
+   "crop_loss": 0.16176007688045502
+  },
+  {
+   "batch": 1,
+   "grad_crop": 1.318748116493225,
+   "grad_spatial": 0.9587030410766602,
+   "ratio": 1.3755543231964111,
+   "spatial_loss": 0.29881933331489563,
+   "crop_loss": 0.1952114999294281
+  },
+  {
+   "batch": 2,
+   "grad_crop": 1.1975626945495605,
+   "grad_spatial": 0.7714697122573853,
+   "ratio": 1.5523133277893066,
+   "spatial_loss": 0.2754693031311035,
+   "crop_loss": 0.15684755146503448
+  },
+  {
+   "batch": 3,
+   "grad_crop": 1.3043197393417358,
+   "grad_spatial": 0.8777912855148315,
+   "ratio": 1.4859110116958618,
+   "spatial_loss": 0.2755136787891388,
+   "crop_loss": 0.1530173271894455
+  },
+  {
+   "batch": 4,
+   "grad_crop": 1.3991491794586182,
+   "grad_spatial": 0.8994181156158447,
+   "ratio": 1.555616021156311,
+   "spatial_loss": 0.27450889348983765,
+   "crop_loss": 0.16158460080623627
+  },
+  {
+   "batch": 5,
+   "grad_crop": 1.4095278978347778,
+   "grad_spatial": 0.858688473701477,
+   "ratio": 1.6414892673492432,
+   "spatial_loss": 0.29113733768463135,
+   "crop_loss": 0.16689780354499817
+  },
+  {
+   "batch": 6,
+   "grad_crop": 1.385575532913208,
+   "grad_spatial": 0.9092122912406921,
+   "ratio": 1.5239295959472656,
+   "spatial_loss": 0.2881082594394684,
+   "crop_loss": 0.15756195783615112
+  },
+  {
+   "batch": 7,
+   "grad_crop": 1.0885013341903687,
+   "grad_spatial": 0.803532063961029,
+   "ratio": 1.354645848274231,
+   "spatial_loss": 0.2725510597229004,
+   "crop_loss": 0.13994687795639038
+  }
+ ],
+ "initial_sha256": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa"
+}

@@ -1,0 +1,269 @@
+[
+  {
+    "title": "B0에서 역전되고 P2에서 복원된 높은 Margin 관계",
+    "pool_count": 386,
+    "rows": [
+      64,
+      78,
+      2142
+    ],
+    "roles": [
+      "Query",
+      "Teacher j",
+      "Teacher k"
+    ],
+    "margins": {
+      "Original": 0.41016823053359985,
+      "B0": -0.027747809886932373,
+      "P2": 0.10585761070251465
+    },
+    "teacher_ranks": [
+      5,
+      3129
+    ],
+    "cosine": {
+      "Original": [
+        0.6232437491416931,
+        0.21307550370693207
+      ],
+      "B0": [
+        0.6137425899505615,
+        0.6414903998374939
+      ],
+      "P2": [
+        0.6911795139312744,
+        0.5853219032287598
+      ]
+    },
+    "patches": [
+      {
+        "cache_row": "64",
+        "image_id": "ADE_train_00013502",
+        "regime": "Interior",
+        "class_id_zero_based": "1",
+        "class": "building",
+        "patch_index_row_major": "146",
+        "purity": "1",
+        "patch_grid_y": 6,
+        "patch_grid_x": 2
+      },
+      {
+        "cache_row": "78",
+        "image_id": "ADE_train_00015008",
+        "regime": "Interior",
+        "class_id_zero_based": "1",
+        "class": "building",
+        "patch_index_row_major": "357",
+        "purity": "1",
+        "patch_grid_y": 11,
+        "patch_grid_x": 5
+      },
+      {
+        "cache_row": "2142",
+        "image_id": "ADE_train_00000896",
+        "regime": "Interior",
+        "class_id_zero_based": "39",
+        "class": "cushion",
+        "patch_index_row_major": "557",
+        "purity": "1",
+        "patch_grid_y": 15,
+        "patch_grid_x": 32
+      }
+    ]
+  },
+  {
+    "title": "가까운 후보에서 P2가 놓친 구간 상위 Margin 관계",
+    "pool_count": 131,
+    "rows": [
+      2927,
+      2925,
+      1272
+    ],
+    "roles": [
+      "Query",
+      "Teacher j",
+      "Teacher k"
+    ],
+    "margins": {
+      "Original": 0.08898073434829712,
+      "B0": 0.002133667469024658,
+      "P2": -0.020753145217895508
+    },
+    "teacher_ranks": [
+      2,
+      8
+    ],
+    "cosine": {
+      "Original": [
+        0.6963135600090027,
+        0.6073328256607056
+      ],
+      "B0": [
+        0.755575954914093,
+        0.7534422874450684
+      ],
+      "P2": [
+        0.7473759651184082,
+        0.7681291103363037
+      ]
+    },
+    "patches": [
+      {
+        "cache_row": "2927",
+        "image_id": "ADE_train_00009405",
+        "regime": "Interior",
+        "class_id_zero_based": "75",
+        "class": "swivel chair",
+        "patch_index_row_major": "531",
+        "purity": "1",
+        "patch_grid_y": 13,
+        "patch_grid_x": 11
+      },
+      {
+        "cache_row": "2925",
+        "image_id": "ADE_train_00006072",
+        "regime": "Interior",
+        "class_id_zero_based": "75",
+        "class": "swivel chair",
+        "patch_index_row_major": "416",
+        "purity": "1",
+        "patch_grid_y": 17,
+        "patch_grid_x": 8
+      },
+      {
+        "cache_row": "1272",
+        "image_id": "ADE_train_00013900",
+        "regime": "Interior",
+        "class_id_zero_based": "19",
+        "class": "chair",
+        "patch_index_row_major": "742",
+        "purity": "0.928571428571",
+        "patch_grid_y": 23,
+        "patch_grid_x": 6
+      }
+    ]
+  },
+  {
+    "title": "전체 상위 Margin에서도 P2가 놓친 관계",
+    "pool_count": 87,
+    "rows": [
+      2569,
+      2571,
+      966
+    ],
+    "roles": [
+      "Query",
+      "Teacher j",
+      "Teacher k"
+    ],
+    "margins": {
+      "Original": 0.3616555333137512,
+      "B0": -0.11119556427001953,
+      "P2": -0.020811080932617188
+    },
+    "teacher_ranks": [
+      1,
+      76
+    ],
+    "cosine": {
+      "Original": [
+        0.7796061038970947,
+        0.4179505705833435
+      ],
+      "B0": [
+        0.6858497858047485,
+        0.7970453500747681
+      ],
+      "P2": [
+        0.7431923151016235,
+        0.7640033960342407
+      ]
+    },
+    "patches": [
+      {
+        "cache_row": "2569",
+        "image_id": "ADE_train_00015509",
+        "regime": "Interior",
+        "class_id_zero_based": "56",
+        "class": "pool table",
+        "patch_index_row_major": "465",
+        "purity": "1",
+        "patch_grid_y": 12,
+        "patch_grid_x": 21
+      },
+      {
+        "cache_row": "2571",
+        "image_id": "ADE_train_00013363",
+        "regime": "Interior",
+        "class_id_zero_based": "56",
+        "class": "pool table",
+        "patch_index_row_major": "468",
+        "purity": "1",
+        "patch_grid_y": 14,
+        "patch_grid_x": 20
+      },
+      {
+        "cache_row": "966",
+        "image_id": "ADE_train_00001790",
+        "regime": "Interior",
+        "class_id_zero_based": "15",
+        "class": "table",
+        "patch_index_row_major": "599",
+        "purity": "1",
+        "patch_grid_y": 18,
+        "patch_grid_x": 23
+      }
+    ]
+  },
+  {
+    "title": "Teacher Top-1 유사도가 높아도 클래스가 다른 사례",
+    "pool_count": 31,
+    "rows": [
+      707,
+      2493,
+      735
+    ],
+    "roles": [
+      "Query",
+      "Teacher Top-1",
+      "P2 Top-1"
+    ],
+    "teacher_top1_cos": 0.8092532157897949,
+    "p2_top1_cos": 0.8707456588745117,
+    "patches": [
+      {
+        "cache_row": "707",
+        "image_id": "ADE_train_00008549",
+        "regime": "Interior",
+        "class_id_zero_based": "11",
+        "class": "sidewalk",
+        "patch_index_row_major": "680",
+        "purity": "0.984375",
+        "patch_grid_y": 21,
+        "patch_grid_x": 8
+      },
+      {
+        "cache_row": "2493",
+        "image_id": "ADE_train_00010988",
+        "regime": "Interior",
+        "class_id_zero_based": "52",
+        "class": "path",
+        "patch_index_row_major": "690",
+        "purity": "0.9765625",
+        "patch_grid_y": 22,
+        "patch_grid_x": 8
+      },
+      {
+        "cache_row": "735",
+        "image_id": "ADE_train_00011512",
+        "regime": "Interior",
+        "class_id_zero_based": "11",
+        "class": "sidewalk",
+        "patch_index_row_major": "521",
+        "purity": "0.973913043478",
+        "patch_grid_y": 14,
+        "patch_grid_x": 17
+      }
+    ]
+  }
+]

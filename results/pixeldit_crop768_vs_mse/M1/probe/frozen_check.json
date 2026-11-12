@@ -1,0 +1,8 @@
+{
+ "requires_grad_any": false,
+ "grads_present": false,
+ "checksum_before": -27615.919335816845,
+ "checksum_after": -27615.919335816845,
+ "unchanged": true,
+ "backbone": "dinov3"
+}

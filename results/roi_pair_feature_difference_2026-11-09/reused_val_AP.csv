@@ -1,0 +1,5 @@
+model,full_size,mean_epoch,r2_epoch,mean_material_AP,mean_pattern_AP,r2_material_AP,r2_pattern_AP
+C0,384,10,6,41.65,40.73,46.13,54.37
+P384,384,10,6,36.29,42.82,44.32,47.52
+P768,768,9,6,39.42,47.78,43.83,53.52
+P768-centered,768,9,6,42.67,46.61,46.14,55.85

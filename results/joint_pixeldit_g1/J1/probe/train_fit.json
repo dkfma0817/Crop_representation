@@ -1,0 +1,24 @@
+{
+ "r2fused": {
+  "train_subset_loss": 0.063112648203969,
+  "train_subset_M2": {
+   "object/color": 61.87681288830095,
+   "object/pattern_marking": 76.0274522485794,
+   "object/material": 69.43551842444653,
+   "object/transparency": 76.13485510349722,
+   "object": 70.86865966620603,
+   "part/color": 65.8684309890615,
+   "part/pattern_marking": 75.00932885797005,
+   "part/material": 68.57291706717848,
+   "part/transparency": 74.59395883862095,
+   "part": 71.01115893820774,
+   "color": 63.87262193868122,
+   "pattern_marking": 75.51839055327471,
+   "material": 69.00421774581251,
+   "transparency": 75.36440697105908,
+   "overall": 70.93990930220689
+  },
+  "n_images": 2000,
+  "n_rows": 10471
+ }
+}

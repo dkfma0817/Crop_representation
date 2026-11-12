@@ -1,0 +1,13 @@
+name: overnight_S1
+backbone: dinov3
+mode: hcf_fused
+encoder_ckpt: /home/irteam/Crop_representation/results/overnight_six/S1/checkpoints/ema_last.pt
+full_size: 384
+seed: 0
+epochs: 10
+paco_dev_images: 1000
+readers:
+- name: r2fused
+  kind: r2
+  layers:
+  - 12

@@ -1,0 +1,43 @@
+{
+ "args": {
+  "condition": "PC768",
+  "initial": "output/2026-11-08/hcf_material_causal/initial.pt",
+  "out": "/home/irteam/Crop_representation/results/pixeldit_crop768_vs_mse/PC768",
+  "shared384": "output/2026-11-08/hcf_pilot/shared",
+  "shared768": "output/2026-11-10/overnight_six_teacher768",
+  "lambda_mse_file": "",
+  "steps": "12000",
+  "workers": "8",
+  "log_every": "100",
+  "check_every": "1000",
+  "save_every": "1000",
+  "calib_batches": "8",
+  "smoke": "False",
+  "verify_teacher": "False",
+  "calibrate_mse": "False",
+  "condition_pdit": "baseline"
+ },
+ "condition": "PC768",
+ "spec": {
+  "base": "Hybrid",
+  "teacher": "Native Crop768",
+  "crop_loss": "1 - cos",
+  "flow": true
+ },
+ "lambda_mse": null,
+ "lambda_flow": 1.0,
+ "global_weight": 0.5,
+ "steps": 12000,
+ "world": 1,
+ "images_per_step": 16,
+ "warmup": 600,
+ "full_size": 384,
+ "teacher_dir": "output/2026-11-10/overnight_six_teacher768",
+ "initial_sha256": "ce57bb33c0382a1a5765385f94d00b6c1b26dfb9cac5d2f0c765f8be7e87d3aa",
+ "seed": 0,
+ "encoder_params": 95473545,
+ "head_params": 7526640,
+ "source_sha256": "30ef5e175448542c2abfce019871d1faa4f8c8eb0876f2ace79d7867bff279f4",
+ "pdit_train_sha256": "e230a4f8163ac812eb3b5a150996b38d905bccdd4e16fec79c5c29c0714b15db",
+ "torch": "2.7.1+cu118"
+}

@@ -1,0 +1,18 @@
+{
+ "chosen": "W1a075",
+ "rule": "highest official Val (Object + Part) / 2 at each alpha's own best epoch; ties -> smaller alpha; fixed before any W1 Test",
+ "val": {
+  "W1a025": {
+   "epoch": 7,
+   "overall": 56.7271552014823
+  },
+  "W1a050": {
+   "epoch": 6,
+   "overall": 56.46413127642206
+  },
+  "W1a075": {
+   "epoch": 7,
+   "overall": 56.888478271614055
+  }
+ }
+}

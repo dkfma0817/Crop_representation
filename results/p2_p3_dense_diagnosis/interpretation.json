@@ -1,0 +1,37 @@
+{
+  "lead": [
+    "Crop KD 이후 서로 다른 이미지의 같은 Semantic Class와 다른 Class를 구별하는 Patch Feature의 차이가 줄었습니다. P2는 원본과 같은 위치의 Feature 방향과 클래스 구별력을 모두 일부 회복했고, B0 대비 ADE20K가 2.079pp 올랐습니다."
+  ],
+  "mask": [
+    "P3는 P2와 실질적으로 다른 공간 제약을 적용했습니다. 전체 유효 Patch 면적의 72.0%에서 |w−1| ≥ 0.10이었고, 평균 절대 차이는 0.326이었습니다. 순수 ROI 내부·경계·외부의 평균 Weight는 0.529·0.949·1.251입니다.",
+    "이미지별 Union Coverage 중앙값은 29.3%입니다. 90% 이상을 덮은 이미지는 5.1%, 전체에 가까운 Union은 0.44%, 평균 |w−1| < 0.01로 사실상 Uniform인 이미지는 0.85%였습니다. 일부 포화는 있었지만 표본 전체의 선택성을 없애지는 않았습니다."
+  ],
+  "drift": [
+    "ADE Train에서 같은 위치의 Patch Cosine은 B0 0.759, P1 0.781, P2 0.857이었습니다. P2가 L2 정규화 거리도 가장 작았습니다. 이미지 안 Patch 관계의 Gram MSE는 P1이 0.0280으로 P2의 0.0432보다 낮았습니다. 두 지표는 각각 Feature 방향과 이미지 내 상대 관계의 보존을 측정합니다."
+  ],
+  "semantic": [
+    "B0는 Interior에서 Within-class Cosine이 0.522→0.673으로 올랐지만, Between-class Cosine은 0.322→0.531로 더 크게 올랐습니다. Within−Between 간격은 0.200→0.143, Macro ROC-AUC는 0.901→0.778로 줄었습니다. 서로 다른 클래스의 Patch가 더 비슷해진 것이 직접 관측됩니다.",
+    "P2의 AUC는 Interior 0.843, Mixed 0.810으로 B0의 0.778, 0.756과 P1의 0.804, 0.773보다 높았습니다. Interior에서는 B0 대비 같은 클래스의 Cosine이 주로 올라 간격이 넓어졌고, Mixed에서는 다른 클래스의 Cosine도 내려갔습니다. 원본과 같은 위치의 Cosine 개선뿐 아니라, 동일하게 샘플링한 다른 이미지의 패치에서 라벨 구별력 회복이 관측됩니다."
+  ],
+  "errors": [
+    "P2의 Interior 보조 mIoU는 B0 대비 +2.318pp, Boundary는 +0.880pp였습니다. Original 대비 잔여 손실도 Interior −2.791pp, Boundary −0.922pp였습니다. 이 GT 정의에서 손실은 경계에 국한되지 않았습니다. Thing과 Stuff 모두 P2에서 회복했으며 각각 Original 대비 −2.316pp, −2.747pp가 남았습니다."
+  ],
+  "c1": [
+    "관측. P2는 B0 대비 같은 위치의 Patch 방향과 이미지 간 Semantic Separation을 더 잘 보존했습니다. P1은 이미지 내 Gram을 가장 가깝게 유지했지만, P2보다 같은 위치의 방향 보존, 이미지 간 클래스 구별 AUC, ADE20K mIoU가 모두 낮았습니다. P2의 ADE20K 이득은 P1 대비 +1.671pp이고 PACO Overall은 P1 대비 −0.442pp입니다.",
+    "해석. 모델 전체의 순서는 방향 보존과 클래스 구별력 회복이 ADE20K 이득에 동반됐다는 설명과 일치합니다. 클래스별 P2−B0 AUC 변화와 IoU 변화의 Spearman ρ는 Interior 0.036, Mixed 0.118이었습니다. 111개 공통 클래스 중 두 지표가 함께 상승한 클래스는 각 구획 107개였지만, 상승 폭의 순위는 약하게만 연관됐습니다. 예를 들어 ceiling과 light의 Interior Pair AUC는 0.593→0.676, Val light→ceiling 혼동은 58.7→53.3%였습니다. 반면 water와 river의 Interior Pair AUC는 소폭 올랐고 river→water 혼동은 소폭 늘었습니다. 이 관계만으로 클래스별 IoU의 원인이나 학습한 Head가 사용할 수 있는 정보의 상한을 특정할 수 없습니다."
+  ],
+  "c2": [
+    "관측. P3의 6k와 12k 가중 Preservation Gradient Norm은 0.0862와 0.1115로, P2의 0.0937과 0.1195보다 각각 작았습니다. 두 조건 모두 해당 시점에서 Crop Gradient와 음의 Cosine을 보였습니다. 보존 강도의 재분배와 전체 Gradient 크기가 함께 달라졌습니다.",
+    "COCO Dev에서 ROI 외부 1−Cosine은 P2 0.15537, P3 0.14258로 P3가 낮았고, 내부는 0.15605와 0.15660으로 거의 같았습니다. P3는 ADE20K에서 P2보다 0.034pp 낮았고 PACO Overall은 0.262pp 낮았습니다. 마스크 포화로 공간 제약이 사라졌다는 설명은 지지되지 않습니다. P3가 앞서지 못한 이유가 ROI 내부 보존의 중요성인지, 전체 보존 Gradient 크기나 가중치 분포의 영향인지는 이 두 실행으로 구분할 수 없습니다. P3의 ADE Train Semantic Pair는 이 진단 범위에 포함하지 않았습니다."
+  ],
+  "c3": [
+    "확인된 잔여 손실. P2는 Official ADE20K에서 Original보다 2.460pp 낮습니다. GT가 50장 이상인 클래스 중 bottle −14.17pp, stairway −8.12pp, rock −7.67pp, mirror −7.55pp, desk −7.52pp가 남았습니다. Mirror는 B0 대비 7.12pp 회복했지만 격차가 남았고, bottle은 0.24pp만 회복했습니다. 최대 손실인 lake −21.43pp는 Val 5장에 근거하므로 대표 사례로 일반화하기 어렵습니다.",
+    "내부 영역의 잔여 mIoU 손실과 Mixed·Interior 양쪽의 Pair AUC 격차가 함께 관측됩니다. P2가 Original보다 다른 클래스를 더 비슷하게 표현하는 현상이 남아 있습니다. 어떤 Patch 특징이 각 클래스에서 직접 원인이었는지, 원본보다 부족한 정보가 윤곽·질감·장면 맥락 중 무엇인지, 또는 Linear Head 최적화에 얼마나 좌우됐는지는 이 분석으로 결정할 수 없습니다."
+  ],
+  "c4": [
+    "1. Observation. P2는 방향을 가장 잘 보존했지만 Original 대비 클래스 구별 AUC 격차가 Interior 0.058, Mixed 0.062 남았습니다. P1의 낮은 이미지 내 Gram MSE는 같은 수준의 ADE 회복으로 이어지지 않았습니다.",
+    "2. Interpretation. 다음에 직접 검증할 정보는 다른 이미지에 걸친 Semantic Contrast입니다. 경계 가중치나 같은 이미지 내부 Gram의 평균 오차를 더 줄이는 것만으로 이 정보를 보존할 수 있는지는 확인되지 않았습니다.",
+    "3. Method Hypothesis. P2의 Uniform Patch Anchoring을 기준으로, 서로 다른 COCO 이미지에서 Original Teacher가 높은 신뢰도로 가깝다고 보는 Patch와 더 멀다고 보는 Patch 사이의 상대 유사도 마진을 학습 시에 보존하면 잔여 클래스 구별 손실을 줄일 수 있습니다. Teacher 유사도는 Semantic Label의 대리 신호입니다. 기존 Crop768 Teacher와 보존 항은 학습 때만 사용하고, 추론은 표준 DINOv3-B/16의 Full RGB384 한 번 인코딩입니다. PACO Attribute Label은 Encoder 학습에 사용하지 않습니다.",
+    "4. Minimal verification. 먼저 고정 ADE Train 진단 집합에서 Teacher가 고른 이미지 간 Positive/Negative의 클래스 일치율을 확인합니다. 대리 신호가 충분할 때만 동일 초기화·COCO Stream·예산의 P2 대조와 마진 항 하나를 추가한 실행을 한 번 비교합니다. 가중치는 사전에 고정하고, 같은 Train AUC, ADE Official Val, PACO Overall·Object/Part Pattern을 함께 봅니다. AUC만 올라가거나 PACO가 악화하면 가설의 목표를 달성했다고 볼 수 없습니다."
+  ]
+}

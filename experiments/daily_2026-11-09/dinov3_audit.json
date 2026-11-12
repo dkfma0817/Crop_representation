@@ -1,0 +1,2111 @@
+{
+  "snapshot_utc": "2026-11-09T15:36:22.298010+00:00",
+  "scope": "DINOv3 today experiments; root handles hcf_followup and ROI pairdiagnosis",
+  "important_updates": [
+    "hcf_official_val/table_test.csv now exists for causal checkpoints: earlier only-Val statement is stale",
+    "hier_h0h1_s0/test_eval is newer than root done.json no-Test string",
+    "pixeldit_cond_p1p2 and pcond_p1p2 are distinct runs; latter probes ep0 only",
+    "g1_native768 and fine_bottleneck diagnostics still completing postprocessing; report point-estimate limitation",
+    "Initial P is G1-pool-pretrained coarse + new calibrated fine, NOT official-pretrained untouched DINOv3"
+  ],
+  "experiments": [
+    {
+      "id": "hcf_official_val",
+      "title": "기존 HCF 조건 공식 Val/Test 재평가",
+      "status": "complete",
+      "purpose": "이전 project M2 Val와 공식 Test의 혼동을 해소하고, 동일 causal checkpoint의 공식 AP를 직접 비교",
+      "change": "새 학습 없음. Initial/Cosine/Centered/MAE/JEPA/PixelDiT/768 및 followup의 기존 R2 reader를 공식 manifest로 재추론하고 공식 Val로 epoch 선택 후 Test 평가",
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.",
+      "training": "No new encoder or reader training; official Val (Object+Part)/2 max selects reader epoch, ties earlier.",
+      "protocol": "PACO official evaluator GT Box + GT Category Oracle attribute AP; Overall=(Object+Part)/2. Val와 Test 분리.",
+      "results": {
+        "official_val": [
+          {
+            "cell": "followup_control",
+            "epoch": "5",
+            "obj": "57.15",
+            "obj_col": "49.54",
+            "obj_pat": "62.64",
+            "obj_mat": "53.54",
+            "obj_ref": "62.89",
+            "part": "60.56",
+            "part_col": "57.78",
+            "part_pat": "59.79",
+            "part_mat": "57.79",
+            "part_ref": "66.88"
+          },
+          {
+            "cell": "followup_pixel",
+            "epoch": "6",
+            "obj": "58.56",
+            "obj_col": "50.56",
+            "obj_pat": "64.31",
+            "obj_mat": "57.21",
+            "obj_ref": "62.15",
+            "part": "60.69",
+            "part_col": "57.90",
+            "part_pat": "61.31",
+            "part_mat": "59.54",
+            "part_ref": "64.01"
+          },
+          {
+            "cell": "r384_centered",
+            "epoch": "7",
+            "obj": "54.84",
+            "obj_col": "48.08",
+            "obj_pat": "58.47",
+            "obj_mat": "52.07",
+            "obj_ref": "60.73",
+            "part": "57.23",
+            "part_col": "54.66",
+            "part_pat": "56.48",
+            "part_mat": "56.17",
+            "part_ref": "61.62"
+          },
+          {
+            "cell": "r384_cosine",
+            "epoch": "7",
+            "obj": "54.98",
+            "obj_col": "49.39",
+            "obj_pat": "57.46",
+            "obj_mat": "51.51",
+            "obj_ref": "61.57",
+            "part": "58.07",
+            "part_col": "56.68",
+            "part_pat": "59.07",
+            "part_mat": "54.25",
+            "part_ref": "62.29"
+          },
+          {
+            "cell": "r384_initial",
+            "epoch": "7",
+            "obj": "54.38",
+            "obj_col": "45.87",
+            "obj_pat": "60.50",
+            "obj_mat": "50.86",
+            "obj_ref": "60.28",
+            "part": "56.72",
+            "part_col": "53.07",
+            "part_pat": "57.51",
+            "part_mat": "54.45",
+            "part_ref": "61.83"
+          },
+          {
+            "cell": "r384_jepa",
+            "epoch": "5",
+            "obj": "52.69",
+            "obj_col": "43.36",
+            "obj_pat": "54.83",
+            "obj_mat": "52.63",
+            "obj_ref": "59.94",
+            "part": "56.77",
+            "part_col": "51.03",
+            "part_pat": "55.04",
+            "part_mat": "56.39",
+            "part_ref": "64.64"
+          },
+          {
+            "cell": "r384_jepa_hybrid",
+            "epoch": "8",
+            "obj": "54.91",
+            "obj_col": "48.54",
+            "obj_pat": "57.55",
+            "obj_mat": "52.65",
+            "obj_ref": "60.88",
+            "part": "58.10",
+            "part_col": "54.99",
+            "part_pat": "59.64",
+            "part_mat": "55.58",
+            "part_ref": "62.19"
+          },
+          {
+            "cell": "r384_mae",
+            "epoch": "5",
+            "obj": "53.21",
+            "obj_col": "44.89",
+            "obj_pat": "53.84",
+            "obj_mat": "52.70",
+            "obj_ref": "61.43",
+            "part": "56.01",
+            "part_col": "52.87",
+            "part_pat": "53.74",
+            "part_mat": "55.58",
+            "part_ref": "61.85"
+          },
+          {
+            "cell": "r384_mae_hybrid",
+            "epoch": "5",
+            "obj": "54.46",
+            "obj_col": "48.24",
+            "obj_pat": "54.97",
+            "obj_mat": "52.84",
+            "obj_ref": "61.79",
+            "part": "58.36",
+            "part_col": "54.46",
+            "part_pat": "57.18",
+            "part_mat": "57.17",
+            "part_ref": "64.62"
+          },
+          {
+            "cell": "r384_pixeldit",
+            "epoch": "8",
+            "obj": "53.40",
+            "obj_col": "46.86",
+            "obj_pat": "53.67",
+            "obj_mat": "54.54",
+            "obj_ref": "58.54",
+            "part": "57.54",
+            "part_col": "55.04",
+            "part_pat": "55.37",
+            "part_mat": "57.35",
+            "part_ref": "62.41"
+          },
+          {
+            "cell": "r384_pixeldit_hybrid",
+            "epoch": "7",
+            "obj": "55.48",
+            "obj_col": "49.48",
+            "obj_pat": "56.93",
+            "obj_mat": "52.34",
+            "obj_ref": "63.18",
+            "part": "57.93",
+            "part_col": "55.88",
+            "part_pat": "57.22",
+            "part_mat": "55.05",
+            "part_ref": "63.56"
+          },
+          {
+            "cell": "r768_centered",
+            "epoch": "6",
+            "obj": "57.60",
+            "obj_col": "50.41",
+            "obj_pat": "63.14",
+            "obj_mat": "55.42",
+            "obj_ref": "61.44",
+            "part": "61.09",
+            "part_col": "58.41",
+            "part_pat": "62.03",
+            "part_mat": "59.67",
+            "part_ref": "64.27"
+          },
+          {
+            "cell": "r768_cosine",
+            "epoch": "5",
+            "obj": "57.21",
+            "obj_col": "48.94",
+            "obj_pat": "61.60",
+            "obj_mat": "53.45",
+            "obj_ref": "64.85",
+            "part": "62.20",
+            "part_col": "58.67",
+            "part_pat": "62.69",
+            "part_mat": "59.18",
+            "part_ref": "68.27"
+          }
+        ],
+        "official_test": [
+          {
+            "cell": "followup_control",
+            "epoch": "5",
+            "dets_dropped": "1372",
+            "obj": "46.16",
+            "obj_col": "36.20",
+            "obj_pat": "52.61",
+            "obj_mat": "39.56",
+            "obj_ref": "56.25",
+            "part": "45.50",
+            "part_col": "41.37",
+            "part_pat": "49.36",
+            "part_mat": "40.42",
+            "part_ref": "50.83"
+          },
+          {
+            "cell": "followup_pixel",
+            "epoch": "6",
+            "dets_dropped": "1372",
+            "obj": "47.12",
+            "obj_col": "36.75",
+            "obj_pat": "55.05",
+            "obj_mat": "40.60",
+            "obj_ref": "56.09",
+            "part": "45.21",
+            "part_col": "41.44",
+            "part_pat": "48.96",
+            "part_mat": "40.75",
+            "part_ref": "49.69"
+          },
+          {
+            "cell": "r384_centered",
+            "epoch": "7",
+            "dets_dropped": "1372",
+            "obj": "41.63",
+            "obj_col": "33.80",
+            "obj_pat": "47.30",
+            "obj_mat": "34.43",
+            "obj_ref": "50.99",
+            "part": "41.22",
+            "part_col": "37.98",
+            "part_pat": "43.12",
+            "part_mat": "36.94",
+            "part_ref": "46.83"
+          },
+          {
+            "cell": "r384_cosine",
+            "epoch": "7",
+            "dets_dropped": "1372",
+            "obj": "41.71",
+            "obj_col": "33.54",
+            "obj_pat": "47.61",
+            "obj_mat": "33.98",
+            "obj_ref": "51.70",
+            "part": "41.52",
+            "part_col": "37.63",
+            "part_pat": "43.30",
+            "part_mat": "37.14",
+            "part_ref": "47.99"
+          },
+          {
+            "cell": "r384_initial",
+            "epoch": "7",
+            "dets_dropped": "1372",
+            "obj": "42.25",
+            "obj_col": "32.86",
+            "obj_pat": "48.36",
+            "obj_mat": "34.76",
+            "obj_ref": "53.00",
+            "part": "41.06",
+            "part_col": "36.12",
+            "part_pat": "43.80",
+            "part_mat": "35.79",
+            "part_ref": "48.54"
+          },
+          {
+            "cell": "r384_jepa",
+            "epoch": "5",
+            "dets_dropped": "1372",
+            "obj": "40.31",
+            "obj_col": "30.32",
+            "obj_pat": "46.27",
+            "obj_mat": "33.52",
+            "obj_ref": "51.14",
+            "part": "40.43",
+            "part_col": "33.57",
+            "part_pat": "44.25",
+            "part_mat": "36.20",
+            "part_ref": "47.68"
+          },
+          {
+            "cell": "r384_jepa_hybrid",
+            "epoch": "8",
+            "dets_dropped": "1372",
+            "obj": "42.03",
+            "obj_col": "32.93",
+            "obj_pat": "47.18",
+            "obj_mat": "35.25",
+            "obj_ref": "52.75",
+            "part": "41.56",
+            "part_col": "36.82",
+            "part_pat": "43.91",
+            "part_mat": "36.19",
+            "part_ref": "49.33"
+          },
+          {
+            "cell": "r384_mae",
+            "epoch": "5",
+            "dets_dropped": "1372",
+            "obj": "39.68",
+            "obj_col": "31.35",
+            "obj_pat": "45.02",
+            "obj_mat": "32.59",
+            "obj_ref": "49.75",
+            "part": "39.80",
+            "part_col": "34.95",
+            "part_pat": "42.39",
+            "part_mat": "35.51",
+            "part_ref": "46.36"
+          },
+          {
+            "cell": "r384_mae_hybrid",
+            "epoch": "5",
+            "dets_dropped": "1372",
+            "obj": "41.62",
+            "obj_col": "32.67",
+            "obj_pat": "46.38",
+            "obj_mat": "36.11",
+            "obj_ref": "51.29",
+            "part": "40.89",
+            "part_col": "36.63",
+            "part_pat": "42.27",
+            "part_mat": "37.24",
+            "part_ref": "47.42"
+          },
+          {
+            "cell": "r384_pixeldit",
+            "epoch": "8",
+            "dets_dropped": "1372",
+            "obj": "41.01",
+            "obj_col": "34.51",
+            "obj_pat": "44.46",
+            "obj_mat": "33.76",
+            "obj_ref": "51.31",
+            "part": "40.04",
+            "part_col": "38.22",
+            "part_pat": "41.00",
+            "part_mat": "34.36",
+            "part_ref": "46.59"
+          },
+          {
+            "cell": "r384_pixeldit_hybrid",
+            "epoch": "7",
+            "dets_dropped": "1372",
+            "obj": "42.32",
+            "obj_col": "34.42",
+            "obj_pat": "48.37",
+            "obj_mat": "35.05",
+            "obj_ref": "51.45",
+            "part": "41.82",
+            "part_col": "38.93",
+            "part_pat": "43.49",
+            "part_mat": "37.20",
+            "part_ref": "47.66"
+          },
+          {
+            "cell": "r768_centered",
+            "epoch": "6",
+            "dets_dropped": "1372",
+            "obj": "46.59",
+            "obj_col": "36.12",
+            "obj_pat": "55.55",
+            "obj_mat": "40.83",
+            "obj_ref": "53.87",
+            "part": "45.10",
+            "part_col": "41.03",
+            "part_pat": "49.15",
+            "part_mat": "40.27",
+            "part_ref": "49.95"
+          },
+          {
+            "cell": "r768_cosine",
+            "epoch": "5",
+            "dets_dropped": "1372",
+            "obj": "46.16",
+            "obj_col": "36.09",
+            "obj_pat": "52.34",
+            "obj_mat": "40.50",
+            "obj_ref": "55.69",
+            "part": "45.93",
+            "part_col": "40.79",
+            "part_pat": "49.92",
+            "part_mat": "41.60",
+            "part_ref": "51.41"
+          }
+        ]
+      },
+      "finding": "공식 Test도 현재 존재함. P384 Object/Part41.71/41.52, P76846.16/45.93, P768-centered46.59/45.10; C0 원래 official Test47.38/42.44. 따라서 최신 768은 Overall에서 C0를 넘지만 Object만 보면 C0가 여전히 높음. Val project M250.37과 직접 숫자 비교 금지.",
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/table.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/table_test.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/hcf_official_val/selection.json"
+      ],
+      "question": "이전 project M2 Val와 공식 Test의 혼동을 해소하고, 동일 causal checkpoint의 공식 AP를 직접 비교",
+      "control": "No new training; reevaluate existing causal checkpoints with original C0 official-reference reader",
+      "architecture_change": {},
+      "training_change": "No new encoder or reader training; official Val (Object+Part)/2 max selects reader epoch, ties earlier.",
+      "findings": [
+        "공식 Test도 현재 존재함. P384 Object/Part41.71/41.52, P76846.16/45.93, P768-centered46.59/45.10; C0 원래 official Test47.38/42.44. 따라서 최신 768은 Overall에서 C0를 넘지만 Object만 보면 C0가 여전히 높음. Val project M250.37과 직접 숫자 비교 금지."
+      ],
+      "limitations": [],
+      "budget": "No encoder training; existing or new diagnostic reader evaluation as specified"
+    },
+    {
+      "id": "hier_h0h1_s0",
+      "title": "H0/H1: 원본 세부 픽셀을 더 주면 도움이 되나?",
+      "status": "complete_val_and_test",
+      "purpose": "같은 640 detail 구조에서 저해상도 이미지의 단순 확대(H0)와 실제 원본 픽셀(H1)을 구분",
+      "architecture": "P384 Coarse–Fine + 640px detail branch. Conv stride8→80×80×192; 8×8 non-overlap window attention 2 blocks,3heads,MLP×4; resize to48×48;768 projection; F_out=F_P384+alpha*Project(detail). 추가1,075,393 params. ROI별 재인코딩 없이 이미지당 encoder1회.",
+      "variants": {
+        "H0": "original→384→640; 새로운 원본 세부 정보 없음",
+        "H1": "original→640; 약83–84%에서 더 높은 원본 pixel 정보, 약16–17%는 업샘플"
+      },
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.공유 P 가중치는 공통 initial과 exact match; Detail만 새 초기화, alpha0=.1",
+      "training": "12k step×16images, 동일COCO stream/AdamW/warmup600/EMA. L=crop cosine+.5 global. Global은 P384만 통과하며 Detail에는 crop loss만 전달.",
+      "protocol": "Official Val selects epoch; fixed selected Test once. R2 primary, frozen Mean Linear secondary; paired imagebootstrap1000 seed0.",
+      "results": {
+        "official_test_r2": [
+          {
+            "Model": "P384",
+            "Overall AP": "41.6102490917588",
+            "Object AP": "41.705308988654686",
+            "Part AP": "41.51518919486291",
+            "Obj Color": "33.53546164997298",
+            "Obj Pattern": "47.61397741592184",
+            "Obj Material": "33.97657158321212",
+            "Obj Transparency": "51.6952253055118",
+            "Part Color": "37.62663142814172",
+            "Part Pattern": "43.30418918602747",
+            "Part Material": "37.14087100558915",
+            "Part Transparency": "47.9890651596933"
+          },
+          {
+            "Model": "H0",
+            "Overall AP": "41.65406576450134",
+            "Object AP": "41.98101638906864",
+            "Part AP": "41.32711513993404",
+            "Obj Color": "34.08600220222353",
+            "Obj Pattern": "48.465905233308725",
+            "Obj Material": "34.31508207328256",
+            "Obj Transparency": "51.05707604745976",
+            "Part Color": "38.48702982387011",
+            "Part Pattern": "43.22445764449457",
+            "Part Material": "36.40165678093021",
+            "Part Transparency": "47.19531631044125"
+          },
+          {
+            "Model": "H1",
+            "Overall AP": "42.27798959590925",
+            "Object AP": "42.57079492599813",
+            "Part AP": "41.985184265820365",
+            "Obj Color": "34.16529354726561",
+            "Obj Pattern": "48.53702512690971",
+            "Obj Material": "35.331029490365296",
+            "Obj Transparency": "52.2498315394519",
+            "Part Color": "38.25696401854644",
+            "Part Pattern": "44.027027359978916",
+            "Part Material": "37.69273235689008",
+            "Part Transparency": "47.964013327866006"
+          },
+          {
+            "Model": "C0",
+            "Overall AP": "44.909983102124706",
+            "Object AP": "47.37610083559183",
+            "Part AP": "42.44386536865758",
+            "Obj Color": "34.944345346158514",
+            "Obj Pattern": "55.431015625149634",
+            "Obj Material": "40.97961787246233",
+            "Obj Transparency": "58.14942449859682",
+            "Part Color": "40.38058294787843",
+            "Part Pattern": "49.26123288441067",
+            "Part Material": "34.47108621878511",
+            "Part Transparency": "45.66255942355613"
+          }
+        ],
+        "official_val_r2": [
+          {
+            "Model": "P384",
+            "Overall AP": "56.52760485040976",
+            "Object AP": "54.98173992954059",
+            "Part AP": "58.07346977127892",
+            "Obj Color": "49.391331713603236",
+            "Obj Pattern": "57.45582331363547",
+            "Obj Material": "51.51204778844059",
+            "Obj Transparency": "61.567756902483076",
+            "Part Color": "56.68453643739905",
+            "Part Pattern": "59.06878999777423",
+            "Part Material": "54.254496434696",
+            "Part Transparency": "62.286056215246425"
+          },
+          {
+            "Model": "H0",
+            "Overall AP": "56.91513958233881",
+            "Object AP": "55.54502362934498",
+            "Part AP": "58.28525553533264",
+            "Obj Color": "48.5146285588442",
+            "Obj Pattern": "56.69766573546426",
+            "Obj Material": "54.387233738362916",
+            "Obj Transparency": "62.58056648470855",
+            "Part Color": "56.141646525291044",
+            "Part Pattern": "57.37490446288295",
+            "Part Material": "57.08554124760892",
+            "Part Transparency": "62.538929905547626"
+          },
+          {
+            "Model": "H1",
+            "Overall AP": "56.75964744511617",
+            "Object AP": "54.9905103745479",
+            "Part AP": "58.52878451568445",
+            "Obj Color": "48.73438406405071",
+            "Obj Pattern": "58.58934582969596",
+            "Obj Material": "49.6780708909471",
+            "Obj Transparency": "62.96024071349782",
+            "Part Color": "54.173894760297564",
+            "Part Pattern": "60.542707042065295",
+            "Part Material": "55.412158832899046",
+            "Part Transparency": "63.986377427475894"
+          },
+          {
+            "Model": "C0",
+            "Overall AP": "56.39509450332234",
+            "Object AP": "55.69895268500918",
+            "Part AP": "57.0912363216355",
+            "Obj Color": "48.14762122979513",
+            "Obj Pattern": "61.97797720451972",
+            "Obj Material": "51.797228321113195",
+            "Obj Transparency": "60.87298398460868",
+            "Part Color": "55.067589952454064",
+            "Part Pattern": "61.07221420518249",
+            "Part Material": "54.029310320912224",
+            "Part Transparency": "58.19583080799321"
+          }
+        ]
+      },
+      "finding": "Test Overall P38441.61,H0 41.65,H1 42.28,C044.91. H1−P384+.67[-.13,1.19],H1−H0+.62[-.12,1.33]. 원본픽셀 추가 또는 구조 개선의 유의한 이득 없음. Val의 H1−H0 Object Material−4.71은Test에서+1.02[-.30,2.49]로 재현 안됨.",
+      "caveats": [
+        "root done.json의 no Test 문구는 stale; test_eval/README.md가 최신",
+        "Original content/detail branch가 실제로 다름은input_audit로확인했지만 AP 개선 근거는없음",
+        "단일seed; 비용/지연 일부 GPU공유측정"
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/hier_h0h1_s0/val_eval/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/hier_h0h1_s0/test_eval/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/hier_h0h1_s0/H1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/hier_h0h1_s0/input_audit.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/hier_h0h1_s0/design.json"
+      ],
+      "question": "같은 640 detail 구조에서 저해상도 이미지의 단순 확대(H0)와 실제 원본 픽셀(H1)을 구분",
+      "control": "P384 shared initial; H0 vs H1 same architecture, only detail input changes",
+      "architecture_change": "P384 Coarse–Fine + 640px detail branch. Conv stride8→80×80×192; 8×8 non-overlap window attention 2 blocks,3heads,MLP×4; resize to48×48;768 projection; F_out=F_P384+alpha*Project(detail). 추가1,075,393 params. ROI별 재인코딩 없이 이미지당 encoder1회.",
+      "training_change": "12k step×16images, 동일COCO stream/AdamW/warmup600/EMA. L=crop cosine+.5 global. Global은 P384만 통과하며 Detail에는 crop loss만 전달.",
+      "findings": [
+        "Test Overall P38441.61,H0 41.65,H1 42.28,C044.91. H1−P384+.67[-.13,1.19],H1−H0+.62[-.12,1.33]. 원본픽셀 추가 또는 구조 개선의 유의한 이득 없음. Val의 H1−H0 Object Material−4.71은Test에서+1.02[-.30,2.49]로 재현 안됨."
+      ],
+      "limitations": [
+        "root done.json의 no Test 문구는 stale; test_eval/README.md가 최신",
+        "Original content/detail branch가 실제로 다름은input_audit로확인했지만 AP 개선 근거는없음",
+        "단일seed; 비용/지연 일부 GPU공유측정"
+      ],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "pixeldit_cond_p1p2_s0",
+      "title": "PixelDiT P1/P2: 조건 메모리를 더 정밀하게 쓰게 하면?",
+      "status": "complete_val_and_test",
+      "purpose": "기존 PixelDiT의 8×8 pooled ROI memory가 bottleneck인지, decoder가 공간별 conditioning을 더 사용하면 shared encoder 속성 정보가 개선되는지",
+      "architecture": "공통 Coarse–Fine P38495,473,545params. 기존 compact PixelDiT: patchDiT2blocks width384, local pixelblock width64.",
+      "variants": {
+        "Hybrid": "ROI24×24×768→8×8 pooling,64 memorytokens,ROI crossattention",
+        "P1": "pooling제거→24×24=576 memorytokens. 기존 CropPixelDiT head바이트동일7,526,640params. Crossattention유지",
+        "P2": "576 위치별ROI feature→CondMLP(M_j,t)→patch selfattn/FFN의 spatial AdaLN scale/shift/gate. ROI crossattention제거. local subpatch경로유지.6,784,368headparams"
+      },
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.",
+      "training": "Same initial ce57bb33, COCO12k×16images,AdamW/schedule/EMA unchanged; L=crop cosine+flow+.5global. 학습후head제거, encoder고정R2/Mean.",
+      "protocol": "Current primary official Val/Test; legacy project M2 only reference. Official Val selects epoch, Test once, paired1000imageboot.",
+      "results": {
+        "test_r2": [
+          {
+            "Model": "Initial Coarse-Fine P384",
+            "epoch": "7",
+            "Overall": "41.6538952338142",
+            "Object": "42.24605928283308",
+            "Part": "41.06173118479532",
+            "Obj Color": "32.85623737733389",
+            "Obj Pattern": "48.360683706592695",
+            "Obj Material": "34.76350130958314",
+            "Obj Transparency": "53.00381473782259",
+            "Part Color": "36.1223980394431",
+            "Part Pattern": "43.797853942068215",
+            "Part Material": "35.78813148192808",
+            "Part Transparency": "48.53854127574189"
+          },
+          {
+            "Model": "Crop Cosine P384",
+            "epoch": "7",
+            "Overall": "41.6102490917588",
+            "Object": "41.705308988654686",
+            "Part": "41.51518919486291",
+            "Obj Color": "33.53546164997298",
+            "Obj Pattern": "47.61397741592184",
+            "Obj Material": "33.97657158321212",
+            "Obj Transparency": "51.6952253055118",
+            "Part Color": "37.62663142814172",
+            "Part Pattern": "43.30418918602747",
+            "Part Material": "37.14087100558915",
+            "Part Transparency": "47.9890651596933"
+          },
+          {
+            "Model": "PixelDiT + Crop Cosine P384",
+            "epoch": "7",
+            "Overall": "42.07008855567898",
+            "Object": "42.321974876098665",
+            "Part": "41.818202235259285",
+            "Obj Color": "34.4179433600012",
+            "Obj Pattern": "48.37335061117595",
+            "Obj Material": "35.04832857511036",
+            "Obj Transparency": "51.44827695810713",
+            "Part Color": "38.93157438555672",
+            "Part Pattern": "43.48544542818106",
+            "Part Material": "37.198925546904334",
+            "Part Transparency": "47.656863580395026"
+          },
+          {
+            "Model": "P1 Dense ROI Memory",
+            "epoch": "5",
+            "Overall": "41.419065304522846",
+            "Object": "41.810782533689306",
+            "Part": "41.02734807535639",
+            "Obj Color": "33.79639574331495",
+            "Obj Pattern": "46.240891671013095",
+            "Obj Material": "35.6695824048833",
+            "Obj Transparency": "51.53626031554588",
+            "Part Color": "38.42217512328511",
+            "Part Pattern": "42.18818878437284",
+            "Part Material": "36.52530592919454",
+            "Part Transparency": "46.97372246457308"
+          },
+          {
+            "Model": "P2 Spatial Conditioning",
+            "epoch": "10",
+            "Overall": "41.42632385429995",
+            "Object": "41.64644311863578",
+            "Part": "41.20620458996413",
+            "Obj Color": "33.40858327573815",
+            "Obj Pattern": "47.86759489425387",
+            "Obj Material": "34.404286587287224",
+            "Obj Transparency": "50.90530771726387",
+            "Part Color": "37.39836584189758",
+            "Part Pattern": "42.968700310336814",
+            "Part Material": "36.75168198396673",
+            "Part Transparency": "47.70607022365539"
+          },
+          {
+            "Model": "C0 Crop Oracle",
+            "epoch": "5",
+            "Overall": "44.909983102124706",
+            "Object": "47.37610083559183",
+            "Part": "42.44386536865758",
+            "Obj Color": "34.944345346158514",
+            "Obj Pattern": "55.431015625149634",
+            "Obj Material": "40.97961787246233",
+            "Obj Transparency": "58.14942449859682",
+            "Part Color": "40.38058294787843",
+            "Part Pattern": "49.26123288441067",
+            "Part Material": "34.47108621878511",
+            "Part Transparency": "45.66255942355613"
+          }
+        ],
+        "val_r2": [
+          {
+            "Model": "Initial Coarse-Fine P384",
+            "epoch": "7",
+            "Overall": "55.545967065657514",
+            "Object": "54.3750351109752",
+            "Part": "56.71689902033983",
+            "Obj Color": "45.8664717979707",
+            "Obj Pattern": "60.501964038484914",
+            "Obj Material": "50.85507548731558",
+            "Obj Transparency": "60.2766291201296",
+            "Part Color": "53.07292077857792",
+            "Part Pattern": "57.51406096035004",
+            "Part Material": "54.44588056942075",
+            "Part Transparency": "61.834733773010605"
+          },
+          {
+            "Model": "Crop Cosine P384",
+            "epoch": "7",
+            "Overall": "56.52760485040976",
+            "Object": "54.98173992954059",
+            "Part": "58.07346977127892",
+            "Obj Color": "49.391331713603236",
+            "Obj Pattern": "57.45582331363547",
+            "Obj Material": "51.51204778844059",
+            "Obj Transparency": "61.567756902483076",
+            "Part Color": "56.68453643739905",
+            "Part Pattern": "59.06878999777423",
+            "Part Material": "54.254496434696",
+            "Part Transparency": "62.286056215246425"
+          },
+          {
+            "Model": "PixelDiT + Crop Cosine P384",
+            "epoch": "7",
+            "Overall": "56.70536034648636",
+            "Object": "55.483144468515206",
+            "Part": "57.92757622445752",
+            "Obj Color": "49.48429804437648",
+            "Obj Pattern": "56.93168543321955",
+            "Obj Material": "52.336447639857234",
+            "Obj Transparency": "63.18014675660758",
+            "Part Color": "55.87608087524371",
+            "Part Pattern": "57.222644015169394",
+            "Part Material": "55.05357222637451",
+            "Part Transparency": "63.558007781042456"
+          },
+          {
+            "Model": "P1 Dense ROI Memory",
+            "epoch": "5",
+            "Overall": "56.746727304680064",
+            "Object": "55.040343438420635",
+            "Part": "58.45311117093949",
+            "Obj Color": "49.724786648634236",
+            "Obj Pattern": "55.479883699803885",
+            "Obj Material": "52.231697876285686",
+            "Obj Transparency": "62.725005528958725",
+            "Part Color": "56.629786848585226",
+            "Part Pattern": "55.19625355851574",
+            "Part Material": "57.23927576446462",
+            "Part Transparency": "64.74712851219236"
+          },
+          {
+            "Model": "P2 Spatial Conditioning",
+            "epoch": "10",
+            "Overall": "56.307284936959306",
+            "Object": "55.38012975237505",
+            "Part": "57.23444012154356",
+            "Obj Color": "48.44285634532579",
+            "Obj Pattern": "55.31970977394216",
+            "Obj Material": "52.60333862576116",
+            "Obj Transparency": "65.15461426447109",
+            "Part Color": "54.79420137351996",
+            "Part Pattern": "56.82290096283346",
+            "Part Material": "54.56897127434777",
+            "Part Transparency": "62.75168687547304"
+          },
+          {
+            "Model": "C0 Crop Oracle",
+            "epoch": "5",
+            "Overall": "56.39509450332234",
+            "Object": "55.69895268500918",
+            "Part": "57.0912363216355",
+            "Obj Color": "48.14762122979513",
+            "Obj Pattern": "61.97797720451972",
+            "Obj Material": "51.797228321113195",
+            "Obj Transparency": "60.87298398460868",
+            "Part Color": "55.067589952454064",
+            "Part Pattern": "61.07221420518249",
+            "Part Material": "54.029310320912224",
+            "Part Transparency": "58.19583080799321"
+          }
+        ]
+      },
+      "finding": "조건을 타이미지로 바꾼flowMSE악화폭 Hybrid .0127,P1 .0271,P2 .0683로 조건 의존성증가. 하지만ValOverall56.71/56.75/56.31,Test42.07/41.42/41.43으로AP개선없음. TestP1−Hybrid−.65[-1.22,.19],P2−Hybrid−.64[-1.37,.03].",
+      "caveats": [
+        "zero/other-image conditioning은OOD진단:사용여부만확인,속성정보의증거아님",
+        "P2zero-init첫stepencoderflowgrad0,step2부터전달확인",
+        "pcond_p1p2_s0는 별도구현/별도학습이라 합치지말것"
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/pixeldit_cond_p1p2_s0/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/pixeldit_cond_p1p2_s0/P1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pixeldit_cond_p1p2_s0/P2/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pixeldit_cond_p1p2_s0/official_test/results/tables.md"
+      ],
+      "question": "기존 PixelDiT의 8×8 pooled ROI memory가 bottleneck인지, decoder가 공간별 conditioning을 더 사용하면 shared encoder 속성 정보가 개선되는지",
+      "control": "Existing r384_pixeldit_hybrid, memory8x8/64 tokens",
+      "architecture_change": "공통 Coarse–Fine P38495,473,545params. 기존 compact PixelDiT: patchDiT2blocks width384, local pixelblock width64.",
+      "training_change": "Same initial ce57bb33, COCO12k×16images,AdamW/schedule/EMA unchanged; L=crop cosine+flow+.5global. 학습후head제거, encoder고정R2/Mean.",
+      "findings": [
+        "조건을 타이미지로 바꾼flowMSE악화폭 Hybrid .0127,P1 .0271,P2 .0683로 조건 의존성증가. 하지만ValOverall56.71/56.75/56.31,Test42.07/41.42/41.43으로AP개선없음. TestP1−Hybrid−.65[-1.22,.19],P2−Hybrid−.64[-1.37,.03]."
+      ],
+      "limitations": [
+        "zero/other-image conditioning은OOD진단:사용여부만확인,속성정보의증거아님",
+        "P2zero-init첫stepencoderflowgrad0,step2부터전달확인",
+        "pcond_p1p2_s0는 별도구현/별도학습이라 합치지말것"
+      ],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "pcond_p1p2_s0",
+      "title": "별도 Pcond P1/P2 실행: 표현 학습 완료, probe 미완료",
+      "status": "representation_training_complete_probe_incomplete",
+      "purpose": "동일한 dense memory/spatial modulation 아이디어의 별도 구현 실험",
+      "variants": {
+        "P1": "576 denseROI crossattention;head7,526,640",
+        "P2": "spatially aligned AdaLN,head6,783,984 (위pixeldit_cond P2와384param차이)"
+      },
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.",
+      "training": "12k×16COCO, L=crop+flow+.5global, train seeds0. P1/P2 done.jsonsteps12000.",
+      "results": {
+        "P1": {
+          "status": "done",
+          "steps": 12000,
+          "time_s": 1461,
+          "peak_gib": 12.26632308959961,
+          "ema_target_stop_gradient": true,
+          "head_removed_for_probe": true
+        },
+        "P2": {
+          "status": "done",
+          "steps": 12000,
+          "time_s": 1417,
+          "peak_gib": 12.164558410644531,
+          "ema_target_stop_gradient": true,
+          "head_removed_for_probe": true
+        },
+        "probe": "probe_P1/probe_P2 현재 ep0 scores만 있고 done.json없음. 최종 학습된 probe AP아님."
+      },
+      "finding": "표현 학습 결과를 완료된 AP실험으로 세면안됨. 완료된 pixeldit_cond 결과와 checkpoint또는AP혼용금지.",
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/P1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/P2/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/P1/done.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/P2/done.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/probe_P1/r2fused/curves_dev.jsonl",
+        "/home/irteam/Crop_representation/output/2026-11-09/pcond_p1p2_s0/source_snapshot/src/pcond/heads.py"
+      ],
+      "question": "동일한 dense memory/spatial modulation 아이디어의 별도 구현 실험",
+      "control": "Same existingHybrid idea but independent run and implementation from pixeldit_cond",
+      "architecture_change": {
+        "P1": "576 denseROI crossattention;head7,526,640",
+        "P2": "spatially aligned AdaLN,head6,783,984 (위pixeldit_cond P2와384param차이)"
+      },
+      "training_change": "12k×16COCO, L=crop+flow+.5global, train seeds0. P1/P2 done.jsonsteps12000.",
+      "findings": [
+        "표현 학습 결과를 완료된 AP실험으로 세면안됨. 완료된 pixeldit_cond 결과와 checkpoint또는AP혼용금지."
+      ],
+      "limitations": [],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "g1_upscaled_teacher_s0",
+      "title": "G1U/G1R: 768 teacher의 공간 격자를 증류",
+      "status": "complete_val_and_test",
+      "purpose": "Full384보다 격자가 촘촘한 teacher의 공간 특징을 P384에 옮길 수 있는지; ROI 강조 가중치가 도움이 되는지",
+      "architecture": "Student coarse24→48bilinear+fine48 fuse를48×48×768grid로만듦. Teacher는 Student와같은Full384 RGB를bilinear768로확대해FrozenOriginalDINOv3로48×48인코딩. 새원본픽셀/ROIcrop없음.",
+      "variants": {
+        "G1U": "validcelluniformcosinegridloss",
+        "G1R": "validcell×maxROIarea-overlap 가중gridloss; Object+nested,semanticpart아님"
+      },
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.",
+      "training": "12k×16COCO, L=crop+.61grid+.5global. lambda.61=init8batchmedian||g_crop||/||g_grid||;sameinit/optimizer/schedule/EMA. Student추론은384만사용.",
+      "protocol": "Official Val epochselection,officialTestonce;paired1000imageboot.",
+      "results": {
+        "test": [
+          {
+            "Model": "P384 Crop Distillation",
+            "epoch": "7",
+            "Overall": "41.6102490917588",
+            "Object": "41.705308988654686",
+            "Part": "41.51518919486291",
+            "Obj Color": "33.53546164997298",
+            "Obj Pattern": "47.61397741592184",
+            "Obj Material": "33.97657158321212",
+            "Obj Transparency": "51.6952253055118",
+            "Part Color": "37.62663142814172",
+            "Part Pattern": "43.30418918602747",
+            "Part Material": "37.14087100558915",
+            "Part Transparency": "47.9890651596933"
+          },
+          {
+            "Model": "PixelDiT + Crop Cosine",
+            "epoch": "7",
+            "Overall": "42.07008855567898",
+            "Object": "42.321974876098665",
+            "Part": "41.818202235259285",
+            "Obj Color": "34.4179433600012",
+            "Obj Pattern": "48.37335061117595",
+            "Obj Material": "35.04832857511036",
+            "Obj Transparency": "51.44827695810713",
+            "Part Color": "38.93157438555672",
+            "Part Pattern": "43.48544542818106",
+            "Part Material": "37.198925546904334",
+            "Part Transparency": "47.656863580395026"
+          },
+          {
+            "Model": "G1-Uniform",
+            "epoch": "7",
+            "Overall": "42.0063661131387",
+            "Object": "42.40765503821807",
+            "Part": "41.60507718805932",
+            "Obj Color": "32.977968625529975",
+            "Obj Pattern": "49.70324799406245",
+            "Obj Material": "35.59102833724106",
+            "Obj Transparency": "51.3583751960388",
+            "Part Color": "37.311282838754714",
+            "Part Pattern": "44.44344707212017",
+            "Part Material": "37.251867120603634",
+            "Part Transparency": "47.41371172075875"
+          },
+          {
+            "Model": "G1-ROI",
+            "epoch": "5",
+            "Overall": "41.39008396501684",
+            "Object": "41.75517220084186",
+            "Part": "41.02499572919182",
+            "Obj Color": "32.585188336901",
+            "Obj Pattern": "46.131929374345965",
+            "Obj Material": "36.15164334443944",
+            "Obj Transparency": "52.151927747681036",
+            "Part Color": "36.61316451276462",
+            "Part Pattern": "42.42497092893343",
+            "Part Material": "37.01543459435415",
+            "Part Transparency": "48.0464128807151"
+          },
+          {
+            "Model": "C0 Crop Oracle",
+            "epoch": "5",
+            "Overall": "44.909983102124706",
+            "Object": "47.37610083559183",
+            "Part": "42.44386536865758",
+            "Obj Color": "34.944345346158514",
+            "Obj Pattern": "55.431015625149634",
+            "Obj Material": "40.97961787246233",
+            "Obj Transparency": "58.14942449859682",
+            "Part Color": "40.38058294787843",
+            "Part Pattern": "49.26123288441067",
+            "Part Material": "34.47108621878511",
+            "Part Transparency": "45.66255942355613"
+          }
+        ],
+        "val": [
+          {
+            "Model": "P384 Crop Distillation",
+            "epoch": "7",
+            "Overall": "56.52760485040976",
+            "Object": "54.98173992954059",
+            "Part": "58.07346977127892",
+            "Obj Color": "49.391331713603236",
+            "Obj Pattern": "57.45582331363547",
+            "Obj Material": "51.51204778844059",
+            "Obj Transparency": "61.567756902483076",
+            "Part Color": "56.68453643739905",
+            "Part Pattern": "59.06878999777423",
+            "Part Material": "54.254496434696",
+            "Part Transparency": "62.286056215246425"
+          },
+          {
+            "Model": "PixelDiT + Crop Cosine",
+            "epoch": "7",
+            "Overall": "56.70536034648636",
+            "Object": "55.483144468515206",
+            "Part": "57.92757622445752",
+            "Obj Color": "49.48429804437648",
+            "Obj Pattern": "56.93168543321955",
+            "Obj Material": "52.336447639857234",
+            "Obj Transparency": "63.18014675660758",
+            "Part Color": "55.87608087524371",
+            "Part Pattern": "57.222644015169394",
+            "Part Material": "55.05357222637451",
+            "Part Transparency": "63.558007781042456"
+          },
+          {
+            "Model": "G1-Uniform",
+            "epoch": "7",
+            "Overall": "56.176285955267446",
+            "Object": "54.65861289638468",
+            "Part": "57.6939590141502",
+            "Obj Color": "45.717595065119035",
+            "Obj Pattern": "58.488158955610835",
+            "Obj Material": "52.697499673525265",
+            "Obj Transparency": "61.731197891283585",
+            "Part Color": "55.22581645328615",
+            "Part Pattern": "56.82484743589532",
+            "Part Material": "55.7580053805485",
+            "Part Transparency": "62.967166786870855"
+          },
+          {
+            "Model": "G1-ROI",
+            "epoch": "5",
+            "Overall": "55.857438944663315",
+            "Object": "53.98493089017677",
+            "Part": "57.72994699914986",
+            "Obj Color": "46.45567974064823",
+            "Obj Pattern": "55.84772728220556",
+            "Obj Material": "53.218077722778204",
+            "Obj Transparency": "60.41823881507508",
+            "Part Color": "54.63750668593171",
+            "Part Pattern": "54.769588297296835",
+            "Part Material": "57.09725213027672",
+            "Part Transparency": "64.41544088309415"
+          },
+          {
+            "Model": "C0 Crop Oracle",
+            "epoch": "5",
+            "Overall": "56.39509450332234",
+            "Object": "55.69895268500918",
+            "Part": "57.0912363216355",
+            "Obj Color": "48.14762122979513",
+            "Obj Pattern": "61.97797720451972",
+            "Obj Material": "51.797228321113195",
+            "Obj Transparency": "60.87298398460868",
+            "Part Color": "55.067589952454064",
+            "Part Pattern": "61.07221420518249",
+            "Part Material": "54.029310320912224",
+            "Part Transparency": "58.19583080799321"
+          }
+        ]
+      },
+      "finding": "G0 frozen Up768−Full384 ValOverall+2.79이나, Test G1U42.01−Cosine41.61=+.40[-.42,1.12].G1R41.39(−.22[-.87,.64]).Grid−cropgradientcos−.55~−.84충돌이관찰됨. 공간teacher이득이AP로확실히전달되었다는근거없음.",
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/G1U/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/G1R/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/lambda.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_upscaled_teacher_s0/eval/results/tables.md"
+      ],
+      "question": "Full384보다 격자가 촘촘한 teacher의 공간 특징을 P384에 옮길 수 있는지; ROI 강조 가중치가 도움이 되는지",
+      "control": "r384_cosine P384, same initial/recipe; add gridloss",
+      "architecture_change": "Student coarse24→48bilinear+fine48 fuse를48×48×768grid로만듦. Teacher는 Student와같은Full384 RGB를bilinear768로확대해FrozenOriginalDINOv3로48×48인코딩. 새원본픽셀/ROIcrop없음.",
+      "training_change": "12k×16COCO, L=crop+.61grid+.5global. lambda.61=init8batchmedian||g_crop||/||g_grid||;sameinit/optimizer/schedule/EMA. Student추론은384만사용.",
+      "findings": [
+        "G0 frozen Up768−Full384 ValOverall+2.79이나, Test G1U42.01−Cosine41.61=+.40[-.42,1.12].G1R41.39(−.22[-.87,.64]).Grid−cropgradientcos−.55~−.84충돌이관찰됨. 공간teacher이득이AP로확실히전달되었다는근거없음."
+      ],
+      "limitations": [],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "g1_native768_s0",
+      "title": "G1N: teacher에 실제 원본 768 pixel을 주면?",
+      "status": "training_probe_and_test_points_complete_CI_postprocessing_pending",
+      "purpose": "G1U의 단순upsample teacher와 실제original→768 teacher 차이를분리",
+      "architecture": "Student/ROI/loss/초기화는G1U와같음. FrozenOriginal teacher만originalRGB→768(기존384layout×2정렬)로변경. Student input384유지.",
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.",
+      "training": "12k×16,world1. L=crop+.61grid+.5global,validcelluniform. lambda는G1U값재사용.2GPU효율실험은요청변경으로안함.",
+      "protocol": "Official Val selected Test point estimates. Bootstrap/ROI-size 후처리는진행중;아직CI없는표를유의성표로쓰지말것.",
+      "results": {
+        "selection": {
+          "C0_r2": {
+            "epoch": 5,
+            "val_obj": 55.69895268500918,
+            "val_part": 57.0912363216355,
+            "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+          },
+          "Cosine_r2": {
+            "epoch": 7,
+            "val_obj": 54.98173992954059,
+            "val_part": 58.07346977127892,
+            "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+          },
+          "G1N_r2": {
+            "epoch": 7,
+            "val_obj": 54.32859849063383,
+            "val_part": 57.786380109502936,
+            "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+          },
+          "G1U_r2": {
+            "epoch": 7,
+            "val_obj": 54.65861289638468,
+            "val_part": 57.6939590141502,
+            "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+          },
+          "Hybrid_r2": {
+            "epoch": 7,
+            "val_obj": 55.483144468515206,
+            "val_part": 57.92757622445752,
+            "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+          }
+        },
+        "val": {
+          "Cosine_r2": {
+            "obj": 54.98173992954059,
+            "part": 58.07346977127892,
+            "obj_color": 49.391331713603236,
+            "obj_pattern_marking": 57.45582331363547,
+            "obj_material": 51.51204778844059,
+            "obj_transparency": 61.567756902483076,
+            "part_color": 56.68453643739905,
+            "part_pattern_marking": 59.06878999777423,
+            "part_material": 54.254496434696,
+            "part_transparency": 62.286056215246425
+          },
+          "G1U_r2": {
+            "obj": 54.65861289638468,
+            "part": 57.6939590141502,
+            "obj_color": 45.717595065119035,
+            "obj_pattern_marking": 58.488158955610835,
+            "obj_material": 52.697499673525265,
+            "obj_transparency": 61.731197891283585,
+            "part_color": 55.22581645328615,
+            "part_pattern_marking": 56.82484743589532,
+            "part_material": 55.7580053805485,
+            "part_transparency": 62.967166786870855
+          },
+          "G1N_r2": {
+            "obj": 54.32859849063383,
+            "part": 57.786380109502936,
+            "obj_color": 47.86256965865606,
+            "obj_pattern_marking": 59.268704040704264,
+            "obj_material": 50.38432763861191,
+            "obj_transparency": 59.798792624563106,
+            "part_color": 55.755032192767736,
+            "part_pattern_marking": 57.59735555076448,
+            "part_material": 55.92682116990184,
+            "part_transparency": 61.86631152457769
+          },
+          "Hybrid_r2": {
+            "obj": 55.483144468515206,
+            "part": 57.92757622445752,
+            "obj_color": 49.48429804437648,
+            "obj_pattern_marking": 56.93168543321955,
+            "obj_material": 52.336447639857234,
+            "obj_transparency": 63.18014675660758,
+            "part_color": 55.87608087524371,
+            "part_pattern_marking": 57.222644015169394,
+            "part_material": 55.05357222637451,
+            "part_transparency": 63.558007781042456
+          },
+          "C0_r2": {
+            "obj": 55.69895268500918,
+            "part": 57.0912363216355,
+            "obj_color": 48.14762122979513,
+            "obj_pattern_marking": 61.97797720451972,
+            "obj_material": 51.797228321113195,
+            "obj_transparency": 60.87298398460868,
+            "part_color": 55.067589952454064,
+            "part_pattern_marking": 61.07221420518249,
+            "part_material": 54.029310320912224,
+            "part_transparency": 58.19583080799321
+          }
+        },
+        "test": {
+          "Cosine_r2": {
+            "obj": 41.705308988654686,
+            "part": 41.51518919486291,
+            "obj_color": 33.53546164997298,
+            "obj_pattern_marking": 47.61397741592184,
+            "obj_material": 33.97657158321212,
+            "obj_transparency": 51.6952253055118,
+            "part_color": 37.62663142814172,
+            "part_pattern_marking": 43.30418918602747,
+            "part_material": 37.14087100558915,
+            "part_transparency": 47.9890651596933
+          },
+          "G1U_r2": {
+            "obj": 42.40765503821807,
+            "part": 41.60507718805932,
+            "obj_color": 32.977968625529975,
+            "obj_pattern_marking": 49.70324799406245,
+            "obj_material": 35.59102833724106,
+            "obj_transparency": 51.3583751960388,
+            "part_color": 37.311282838754714,
+            "part_pattern_marking": 44.44344707212017,
+            "part_material": 37.251867120603634,
+            "part_transparency": 47.41371172075875
+          },
+          "G1N_r2": {
+            "obj": 42.44046159297116,
+            "part": 41.249491629056116,
+            "obj_color": 32.871834363902785,
+            "obj_pattern_marking": 49.89963233274917,
+            "obj_material": 35.186493926171906,
+            "obj_transparency": 51.803885749060775,
+            "part_color": 37.43428046529653,
+            "part_pattern_marking": 44.47932056673814,
+            "part_material": 37.17399075982489,
+            "part_transparency": 45.91037472436489
+          },
+          "Hybrid_r2": {
+            "obj": 42.321974876098665,
+            "part": 41.818202235259285,
+            "obj_color": 34.4179433600012,
+            "obj_pattern_marking": 48.37335061117595,
+            "obj_material": 35.04832857511036,
+            "obj_transparency": 51.44827695810713,
+            "part_color": 38.93157438555672,
+            "part_pattern_marking": 43.48544542818106,
+            "part_material": 37.198925546904334,
+            "part_transparency": 47.656863580395026
+          },
+          "C0_r2": {
+            "obj": 47.37610083559183,
+            "part": 42.44386536865758,
+            "obj_color": 34.944345346158514,
+            "obj_pattern_marking": 55.431015625149634,
+            "obj_material": 40.97961787246233,
+            "obj_transparency": 58.14942449859682,
+            "part_color": 40.38058294787843,
+            "part_pattern_marking": 49.26123288441067,
+            "part_material": 34.47108621878511,
+            "part_transparency": 45.66255942355613
+          }
+        }
+      },
+      "finding": "TestOverall G1N41.84/G1U42.01/P38441.61/Hybrid42.07/C044.91. G1N−G1U−.16point,−Cosine+.23. G0FrozenValNative76856.40 vsUp76857.00 vsFull38454.21; 실제새픽셀이단순확대보다좋다고단정못함.",
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_native768_s0/G1N/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_native768_s0/g0/compare.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_native768_s0/eval/results/fast_ap.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_native768_s0/eval/results/fast_tables.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/g1_native768_s0/ddp_decision.json"
+      ],
+      "question": "G1U의 단순upsample teacher와 실제original→768 teacher 차이를분리",
+      "control": "G1U frozen teacher sees upsampled Full384; swap only teacher RGB to native768",
+      "architecture_change": "Student/ROI/loss/초기화는G1U와같음. FrozenOriginal teacher만originalRGB→768(기존384layout×2정렬)로변경. Student input384유지.",
+      "training_change": "12k×16,world1. L=crop+.61grid+.5global,validcelluniform. lambda는G1U값재사용.2GPU효율실험은요청변경으로안함.",
+      "findings": [
+        "TestOverall G1N41.84/G1U42.01/P38441.61/Hybrid42.07/C044.91. G1N−G1U−.16point,−Cosine+.23. G0FrozenValNative76856.40 vsUp76857.00 vsFull38454.21; 실제새픽셀이단순확대보다좋다고단정못함."
+      ],
+      "limitations": [],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "coarse_fine_ablation_s0",
+      "title": "A0/A1/A2: Coarse–Fine 상호작용이 꼭 필요한가?",
+      "status": "complete_val_and_test",
+      "purpose": "Fine→Coarse 피드백,Coarse→Fine context전달,interaction없는fine독립경로의효과를구분",
+      "variants": {
+        "A0": "기존P384양방향4stage/r384_cosine재사용",
+        "A1": "Coarse→Fine만4stage;Fine→Coarse없음",
+        "A2": "중간interaction모두제거;마지막ROIfusion만유지"
+      },
+      "initialization": "공식 pretrained DINOv3 → G1-pool crop distillation 12k → 새 Fine 경로+scale calibration의 공통 P 초기화(ce57bb33). 순정 pretrained baseline과 다름.공유217tensor동일,coarse순정과일치0/162. 학습된bidirectionalfine를시작점으로안씀.",
+      "training": "Same12k×16/L=crop+.5global/seed0/schedule/EMA. 각encoder고정뒤Coarse-only와Coarse+Fine R2를별도학습.",
+      "protocol": "OfficialValepochselection→Testonce,paired1000imageboot.",
+      "results": {
+        "test": [
+          {
+            "Model": "A0 Bidirectional (Coarse+Fine)",
+            "epoch": "7",
+            "Overall": "41.6102490917588",
+            "Object": "41.705308988654686",
+            "Part": "41.51518919486291",
+            "Obj Color": "33.53546164997298",
+            "Obj Pattern": "47.61397741592184",
+            "Obj Material": "33.97657158321212",
+            "Obj Transparency": "51.6952253055118",
+            "Part Color": "37.62663142814172",
+            "Part Pattern": "43.30418918602747",
+            "Part Material": "37.14087100558915",
+            "Part Transparency": "47.9890651596933"
+          },
+          {
+            "Model": "A1 Coarse->Fine (Coarse+Fine)",
+            "epoch": "6",
+            "Overall": "41.996366374281436",
+            "Object": "42.812367366338975",
+            "Part": "41.18036538222389",
+            "Obj Color": "34.42391950114918",
+            "Obj Pattern": "48.060019342838984",
+            "Obj Material": "35.60577854321983",
+            "Obj Transparency": "53.159752078147896",
+            "Part Color": "38.67788209388035",
+            "Part Pattern": "42.01018533131616",
+            "Part Material": "36.4091617962889",
+            "Part Transparency": "47.62423230741016"
+          },
+          {
+            "Model": "A2 No Interaction (Coarse+Fine)",
+            "epoch": "5",
+            "Overall": "41.333234999088546",
+            "Object": "41.78492296672814",
+            "Part": "40.88154703144896",
+            "Obj Color": "33.60868495913262",
+            "Obj Pattern": "46.763086074684765",
+            "Obj Material": "36.09309167642652",
+            "Obj Transparency": "50.674829156668665",
+            "Part Color": "37.78389484934141",
+            "Part Pattern": "42.19022320888506",
+            "Part Material": "36.19566613822607",
+            "Part Transparency": "47.35640392934331"
+          },
+          {
+            "Model": "A0 Coarse-only",
+            "epoch": "7",
+            "Overall": "41.22083923397764",
+            "Object": "41.74492101988759",
+            "Part": "40.6967574480677",
+            "Obj Color": "31.444396771386273",
+            "Obj Pattern": "50.0054327471466",
+            "Obj Material": "34.095156996315104",
+            "Obj Transparency": "51.43469756470239",
+            "Part Color": "34.89762839040356",
+            "Part Pattern": "44.00073734091584",
+            "Part Material": "36.278178600817554",
+            "Part Transparency": "47.610485460133845"
+          },
+          {
+            "Model": "A1 Coarse-only",
+            "epoch": "5",
+            "Overall": "40.645014101388874",
+            "Object": "41.02157885333079",
+            "Part": "40.26844934944696",
+            "Obj Color": "31.316595840280403",
+            "Obj Pattern": "46.39016666139491",
+            "Obj Material": "34.98985167072854",
+            "Obj Transparency": "51.389701240919294",
+            "Part Color": "34.43172647693714",
+            "Part Pattern": "43.29806071075764",
+            "Part Material": "36.23016044041694",
+            "Part Transparency": "47.11384976967613"
+          },
+          {
+            "Model": "A2 Coarse-only",
+            "epoch": "7",
+            "Overall": "41.27218515506295",
+            "Object": "41.69366117041861",
+            "Part": "40.85070913970729",
+            "Obj Color": "31.395013694392954",
+            "Obj Pattern": "47.25817240637559",
+            "Obj Material": "36.40825684090853",
+            "Obj Transparency": "51.71320173999735",
+            "Part Color": "35.43078024465583",
+            "Part Pattern": "42.87691726574783",
+            "Part Material": "36.65233803921837",
+            "Part Transparency": "48.44280100920713"
+          }
+        ],
+        "val": [
+          {
+            "Model": "A0 Bidirectional (Coarse+Fine)",
+            "epoch": "7",
+            "Overall": "56.52760485040976",
+            "Object": "54.98173992954059",
+            "Part": "58.07346977127892",
+            "Obj Color": "49.391331713603236",
+            "Obj Pattern": "57.45582331363547",
+            "Obj Material": "51.51204778844059",
+            "Obj Transparency": "61.567756902483076",
+            "Part Color": "56.68453643739905",
+            "Part Pattern": "59.06878999777423",
+            "Part Material": "54.254496434696",
+            "Part Transparency": "62.286056215246425"
+          },
+          {
+            "Model": "A1 Coarse->Fine (Coarse+Fine)",
+            "epoch": "6",
+            "Overall": "56.42041454318806",
+            "Object": "54.858506051867344",
+            "Part": "57.982323034508774",
+            "Obj Color": "47.71220301880958",
+            "Obj Pattern": "57.660671151090675",
+            "Obj Material": "54.524742227525785",
+            "Obj Transparency": "59.53640781004333",
+            "Part Color": "55.356777018243996",
+            "Part Pattern": "55.916835262836216",
+            "Part Material": "57.79663522491976",
+            "Part Transparency": "62.85904463203514"
+          },
+          {
+            "Model": "A2 No Interaction (Coarse+Fine)",
+            "epoch": "5",
+            "Overall": "55.89600637864706",
+            "Object": "53.75699376825169",
+            "Part": "58.03501898904242",
+            "Obj Color": "47.762455907925634",
+            "Obj Pattern": "53.6721155116251",
+            "Obj Material": "51.2061055088388",
+            "Obj Transparency": "62.38729814461721",
+            "Part Color": "54.37955760422732",
+            "Part Pattern": "55.51754977887008",
+            "Part Material": "57.78645808486581",
+            "Part Transparency": "64.45651048820648"
+          },
+          {
+            "Model": "A0 Coarse-only",
+            "epoch": "7",
+            "Overall": "55.83635707047948",
+            "Object": "54.115443422556595",
+            "Part": "57.55727071840236",
+            "Obj Color": "46.80980157843329",
+            "Obj Pattern": "56.73687524055033",
+            "Obj Material": "51.079665245351265",
+            "Obj Transparency": "61.83543162589148",
+            "Part Color": "53.86250449269033",
+            "Part Pattern": "58.53637151146203",
+            "Part Material": "55.03300750293391",
+            "Part Transparency": "62.79719936652316"
+          },
+          {
+            "Model": "A1 Coarse-only",
+            "epoch": "5",
+            "Overall": "55.929576600357194",
+            "Object": "54.62621306713015",
+            "Part": "57.23294013358423",
+            "Obj Color": "45.92288419572537",
+            "Obj Pattern": "56.26757147561443",
+            "Obj Material": "53.43163105371529",
+            "Obj Transparency": "62.88276554346549",
+            "Part Color": "52.11657391188069",
+            "Part Pattern": "54.2955409951339",
+            "Part Material": "57.602351050809695",
+            "Part Transparency": "64.91729457651263"
+          },
+          {
+            "Model": "A2 Coarse-only",
+            "epoch": "7",
+            "Overall": "55.53204504961953",
+            "Object": "54.34428309107441",
+            "Part": "56.71980700816466",
+            "Obj Color": "46.08390283345348",
+            "Obj Pattern": "57.03427308174922",
+            "Obj Material": "51.756269717647555",
+            "Obj Transparency": "62.502686731447376",
+            "Part Color": "52.51519782463285",
+            "Part Pattern": "57.0000504108177",
+            "Part Material": "55.43600728812606",
+            "Part Transparency": "61.92797250908203"
+          }
+        ]
+      },
+      "finding": "Test fused A041.61/A142.00/A241.33. A1−A0+.39[-.49,1.08],A2−A0−.28[-.89,.60],Overall구분안됨. Fineaddition−CoarseOnly A0+.39[-.22,1.22],A1+1.35[.54,2.04],A2+.06[-.58,.92]. Fine→Coarse제거가fused판별력을악화시켰다는근거없지만A1coarsepattern은A0보다낮음.",
+      "caveats": [
+        "4stage반복횟수최적성은실험하지않음",
+        "A1에서Color개선은보이나다중비교/단일seed주의"
+      ],
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/README.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/init_check.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/A1/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/A2/config.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/coarse_fine_ablation_s0/eval/results/tables.md"
+      ],
+      "question": "Fine→Coarse 피드백,Coarse→Fine context전달,interaction없는fine독립경로의효과를구분",
+      "control": "A0 r384_cosine bidirectional4stage reused",
+      "architecture_change": {
+        "A0": "기존P384양방향4stage/r384_cosine재사용",
+        "A1": "Coarse→Fine만4stage;Fine→Coarse없음",
+        "A2": "중간interaction모두제거;마지막ROIfusion만유지"
+      },
+      "training_change": "Same12k×16/L=crop+.5global/seed0/schedule/EMA. 각encoder고정뒤Coarse-only와Coarse+Fine R2를별도학습.",
+      "findings": [
+        "Test fused A041.61/A142.00/A241.33. A1−A0+.39[-.49,1.08],A2−A0−.28[-.89,.60],Overall구분안됨. Fineaddition−CoarseOnly A0+.39[-.22,1.22],A1+1.35[.54,2.04],A2+.06[-.58,.92]. Fine→Coarse제거가fused판별력을악화시켰다는근거없지만A1coarsepattern은A0보다낮음."
+      ],
+      "limitations": [
+        "4stage반복횟수최적성은실험하지않음",
+        "A1에서Color개선은보이나다중비교/단일seed주의"
+      ],
+      "budget": "12,000 COCO steps ×16 images, seed0"
+    },
+    {
+      "id": "fine_bottleneck_diag_s0",
+      "title": "D1/D2: 픽셀 해상도 vs Fine 표현 병목 분리",
+      "status": "partial; D1 RGB complete/officialVal processing; D2 ValTest point estimates done/CI processing",
+      "purpose": "D1:이미Full384에서세부pixel을잃는가? D2:학습된Fine경로자체의속성판별력이약한가?",
+      "variants": {
+        "D1": "C0(original crop재인코딩) vs C1(original→Full384 RGB에서GTboxcrop→crop384재인코딩) vs B0(Full384featureROI). C0/C1동일FrozenOriginalDINOv3,reader훈련만다름;semantic새encoder학습없음. 원본수준차이를고정cropencode구조에서분리",
+        "D2": "frozen A1encoder에서Fine-only=s_d*Wd(Fine)을읽어기존Coarse-only/Coarse+Fine과비교. Fine-only에는새fusionmodule없음;R2만학습"
+      },
+      "training": "Encoder고정. 새R2probes10epochs,officialVal선택→Test. 현재완료되지않은CI는표시하지않음.",
+      "results": {
+        "D1_rgb": [
+          {
+            "split": "test",
+            "level": "object",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "29370",
+            "mse_mean": "0.003898889324043862",
+            "psnr_of_mean_mse": "24.09059092752316",
+            "psnr_mean": "26.46457968288533",
+            "psnr_median": "25.910744027683414",
+            "full384_w_mean": "16.046287825959794",
+            "full384_h_mean": "18.16449102211731",
+            "lt1px": "3",
+            "lt2px": "472",
+            "round_collapse": "1",
+            "mse_zero": "0"
+          },
+          {
+            "split": "test",
+            "level": "object",
+            "size_bin": "small_4to16_tokens",
+            "rois": "8655",
+            "mse_mean": "0.0016368982606895682",
+            "psnr_of_mean_mse": "27.859783127653404",
+            "psnr_mean": "30.202189141037945",
+            "psnr_median": "29.504790019444247",
+            "full384_w_mean": "49.47292702379912",
+            "full384_h_mean": "49.46205151003396",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "test",
+            "level": "object",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "5138",
+            "mse_mean": "0.0012633064154856809",
+            "psnr_of_mean_mse": "28.984912983641845",
+            "psnr_mean": "31.5459850901972",
+            "psnr_median": "31.00414314254418",
+            "full384_w_mean": "96.73232520211143",
+            "full384_h_mean": "91.90142456603019",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "test",
+            "level": "object",
+            "size_bin": "large_ge64_tokens",
+            "rois": "2698",
+            "mse_mean": "0.0007147312608306932",
+            "psnr_of_mean_mse": "31.45857222363134",
+            "psnr_mean": "34.572002894570225",
+            "psnr_median": "34.27038975394714",
+            "full384_w_mean": "233.1948534745161",
+            "full384_h_mean": "185.6710660382605",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "100"
+          },
+          {
+            "split": "test",
+            "level": "object",
+            "size_bin": "all",
+            "rois": "45861",
+            "mse_mean": "0.002989401609165153",
+            "psnr_of_mean_mse": "25.24415736038726",
+            "psnr_mean": "28.202311733038",
+            "psnr_median": "27.5685375474333",
+            "full384_w_mean": "44.169077394782356",
+            "full384_h_mean": "42.18650297050695",
+            "lt1px": "3",
+            "lt2px": "472",
+            "round_collapse": "1",
+            "mse_zero": "100"
+          },
+          {
+            "split": "test",
+            "level": "part",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "65674",
+            "mse_mean": "0.004351569818518821",
+            "psnr_of_mean_mse": "23.613540440722055",
+            "psnr_mean": "26.562326104181828",
+            "psnr_median": "26.01113842649641",
+            "full384_w_mean": "15.745788042648543",
+            "full384_h_mean": "12.07295753964461",
+            "lt1px": "637",
+            "lt2px": "6239",
+            "round_collapse": "236",
+            "mse_zero": "2"
+          },
+          {
+            "split": "test",
+            "level": "part",
+            "size_bin": "small_4to16_tokens",
+            "rois": "12048",
+            "mse_mean": "0.0016115058195762672",
+            "psnr_of_mean_mse": "27.927681217958934",
+            "psnr_mean": "30.64176791998936",
+            "psnr_median": "30.011638717857583",
+            "full384_w_mean": "57.39126918366078",
+            "full384_h_mean": "41.395789387289426",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "test",
+            "level": "part",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "5801",
+            "mse_mean": "0.0011924684379387904",
+            "psnr_of_mean_mse": "29.235531069716384",
+            "psnr_mean": "31.95336376290469",
+            "psnr_median": "31.44015719915657",
+            "full384_w_mean": "114.00843069355905",
+            "full384_h_mean": "78.10254736213834",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "test",
+            "level": "part",
+            "size_bin": "large_ge64_tokens",
+            "rois": "2515",
+            "mse_mean": "0.000663263982201894",
+            "psnr_of_mean_mse": "31.783135859304483",
+            "psnr_mean": "35.0670799026642",
+            "psnr_median": "34.817692333621075",
+            "full384_w_mean": "246.4896394974368",
+            "full384_h_mean": "167.43381450521616",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "4"
+          },
+          {
+            "split": "test",
+            "level": "part",
+            "size_bin": "all",
+            "rois": "86038",
+            "mse_mean": "0.0036470633522325095",
+            "psnr_of_mean_mse": "24.38056692599016",
+            "psnr_mean": "27.745350574647343",
+            "psnr_median": "27.151644744678094",
+            "full384_w_mean": "34.94761901516812",
+            "full384_h_mean": "25.172421543098",
+            "lt1px": "637",
+            "lt2px": "6239",
+            "round_collapse": "236",
+            "mse_zero": "6"
+          },
+          {
+            "split": "val",
+            "level": "object",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "6748",
+            "mse_mean": "0.0040944310531577256",
+            "psnr_of_mean_mse": "23.87806437649762",
+            "psnr_mean": "26.2506334475035",
+            "psnr_median": "25.663125197632162",
+            "full384_w_mean": "16.382434739842253",
+            "full384_h_mean": "16.78986241572248",
+            "lt1px": "4",
+            "lt2px": "194",
+            "round_collapse": "2",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "object",
+            "size_bin": "small_4to16_tokens",
+            "rois": "2231",
+            "mse_mean": "0.001732803983502982",
+            "psnr_of_mean_mse": "27.612505623280722",
+            "psnr_mean": "30.006635406311318",
+            "psnr_median": "29.43844459558349",
+            "full384_w_mean": "49.36750096492476",
+            "full384_h_mean": "50.02081596903421",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "object",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "1264",
+            "mse_mean": "0.0012456939631495462",
+            "psnr_of_mean_mse": "29.045886402133444",
+            "psnr_mean": "31.609882087147685",
+            "psnr_median": "31.058309295091977",
+            "full384_w_mean": "100.26921689345033",
+            "full384_h_mean": "92.07516677620713",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "object",
+            "size_bin": "large_ge64_tokens",
+            "rois": "731",
+            "mse_mean": "0.000646413379602053",
+            "psnr_of_mean_mse": "31.8948966302059",
+            "psnr_mean": "34.976415302913495",
+            "psnr_median": "34.33767096252354",
+            "full384_w_mean": "235.92122752359805",
+            "full384_h_mean": "189.58611461772006",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "19"
+          },
+          {
+            "split": "val",
+            "level": "object",
+            "size_bin": "all",
+            "rois": "10974",
+            "mse_mean": "0.00305651465134077",
+            "psnr_of_mean_mse": "25.14773518087452",
+            "psnr_mean": "28.201020241813172",
+            "psnr_median": "27.489664654070232",
+            "full384_w_mean": "47.374364110650085",
+            "full384_h_mean": "43.72743690531163",
+            "lt1px": "4",
+            "lt2px": "194",
+            "round_collapse": "2",
+            "mse_zero": "19"
+          },
+          {
+            "split": "val",
+            "level": "part",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "15596",
+            "mse_mean": "0.004325778574217639",
+            "psnr_of_mean_mse": "23.639357147759345",
+            "psnr_mean": "26.542032189750053",
+            "psnr_median": "25.893715193633994",
+            "full384_w_mean": "16.399689934396264",
+            "full384_h_mean": "11.55234491623551",
+            "lt1px": "147",
+            "lt2px": "1446",
+            "round_collapse": "56",
+            "mse_zero": "1"
+          },
+          {
+            "split": "val",
+            "level": "part",
+            "size_bin": "small_4to16_tokens",
+            "rois": "3094",
+            "mse_mean": "0.0015866613940220293",
+            "psnr_of_mean_mse": "27.995157452035446",
+            "psnr_mean": "30.53993349075938",
+            "psnr_median": "29.816606465827952",
+            "full384_w_mean": "58.684928256940765",
+            "full384_h_mean": "41.1314107444825",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "part",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "1532",
+            "mse_mean": "0.0011616364392353356",
+            "psnr_of_mean_mse": "29.349297730983402",
+            "psnr_mean": "31.964258103135972",
+            "psnr_median": "31.59124854077534",
+            "full384_w_mean": "115.89982864174236",
+            "full384_h_mean": "78.74826750215766",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "part",
+            "size_bin": "large_ge64_tokens",
+            "rois": "723",
+            "mse_mean": "0.0005256882391950732",
+            "psnr_of_mean_mse": "32.79271738997966",
+            "psnr_mean": "35.58958634227033",
+            "psnr_median": "35.31815413825961",
+            "full384_w_mean": "254.0564960226212",
+            "full384_h_mean": "170.38289465868692",
+            "lt1px": "0",
+            "lt2px": "0",
+            "round_collapse": "0",
+            "mse_zero": "0"
+          },
+          {
+            "split": "val",
+            "level": "part",
+            "size_bin": "all",
+            "rois": "20945",
+            "mse_mean": "0.0035585424978968267",
+            "psnr_of_mean_mse": "24.487278432438636",
+            "psnr_mean": "27.841580431580756",
+            "psnr_median": "27.208518821849736",
+            "full384_w_mean": "38.12757776783592",
+            "full384_h_mean": "26.319414409576222",
+            "lt1px": "147",
+            "lt2px": "1446",
+            "round_collapse": "56",
+            "mse_zero": "1"
+          }
+        ],
+        "D2_fast": {
+          "selection": {
+            "A1_coarse": {
+              "epoch": 5,
+              "val_obj": 54.62621306713015,
+              "val_part": 57.23294013358423,
+              "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+            },
+            "A1_fine": {
+              "epoch": 7,
+              "val_obj": 50.66319069146436,
+              "val_part": 54.031417632535,
+              "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+            },
+            "A1_r2": {
+              "epoch": 6,
+              "val_obj": 54.858506051867344,
+              "val_part": 57.982323034508774,
+              "rule": "max (official VAL object AP + part AP)/2; earlier epoch on ties"
+            }
+          },
+          "val": {
+            "A1_coarse": {
+              "obj": 54.62621306713015,
+              "part": 57.23294013358423,
+              "obj_color": 45.92288419572537,
+              "obj_pattern_marking": 56.26757147561443,
+              "obj_material": 53.43163105371529,
+              "obj_transparency": 62.88276554346549,
+              "part_color": 52.11657391188069,
+              "part_pattern_marking": 54.2955409951339,
+              "part_material": 57.602351050809695,
+              "part_transparency": 64.91729457651263
+            },
+            "A1_fine": {
+              "obj": 50.66319069146436,
+              "part": 54.031417632535,
+              "obj_color": 47.53475781662914,
+              "obj_pattern_marking": 54.317337835713296,
+              "obj_material": 46.73452874680173,
+              "obj_transparency": 54.066138366713254,
+              "part_color": 55.82065281453009,
+              "part_pattern_marking": 54.76013193075897,
+              "part_material": 50.605028827913834,
+              "part_transparency": 54.93985695693711
+            },
+            "A1_r2": {
+              "obj": 54.858506051867344,
+              "part": 57.982323034508774,
+              "obj_color": 47.71220301880958,
+              "obj_pattern_marking": 57.660671151090675,
+              "obj_material": 54.524742227525785,
+              "obj_transparency": 59.53640781004333,
+              "part_color": 55.356777018243996,
+              "part_pattern_marking": 55.916835262836216,
+              "part_material": 57.79663522491976,
+              "part_transparency": 62.85904463203514
+            }
+          },
+          "test": {
+            "A1_coarse": {
+              "obj": 41.02157885333079,
+              "part": 40.26844934944696,
+              "obj_color": 31.316595840280403,
+              "obj_pattern_marking": 46.39016666139491,
+              "obj_material": 34.98985167072854,
+              "obj_transparency": 51.389701240919294,
+              "part_color": 34.43172647693714,
+              "part_pattern_marking": 43.29806071075764,
+              "part_material": 36.23016044041694,
+              "part_transparency": 47.11384976967613
+            },
+            "A1_fine": {
+              "obj": 38.12453669075824,
+              "part": 37.722988885145575,
+              "obj_color": 33.59057083554072,
+              "obj_pattern_marking": 39.56963047467126,
+              "obj_material": 29.994981203755852,
+              "obj_transparency": 49.342964249065126,
+              "part_color": 38.475124155137614,
+              "part_pattern_marking": 37.43134509264125,
+              "part_material": 30.77460739393073,
+              "part_transparency": 44.21087889887273
+            },
+            "A1_r2": {
+              "obj": 42.812367366338975,
+              "part": 41.18036538222389,
+              "obj_color": 34.42391950114918,
+              "obj_pattern_marking": 48.060019342838984,
+              "obj_material": 35.60577854321983,
+              "obj_transparency": 53.159752078147896,
+              "part_color": 38.67788209388035,
+              "part_pattern_marking": 42.01018533131616,
+              "part_material": 36.4091617962889,
+              "part_transparency": 47.62423230741016
+            }
+          }
+        },
+        "D2_fine_size": [
+          {
+            "level": "object",
+            "size_bin": "large_ge64_tokens",
+            "rois": "731",
+            "norm_coarse": "9.429913",
+            "norm_fine": "4.3057194",
+            "norm_fused": "11.7471895",
+            "fine_over_coarse": "0.45660225",
+            "fine_over_fused": "0.36653188",
+            "cos_coarse_fine": "0.3683144"
+          },
+          {
+            "level": "object",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "1264",
+            "norm_coarse": "8.895691",
+            "norm_fine": "4.32024",
+            "norm_fused": "11.485769",
+            "fine_over_coarse": "0.48565537",
+            "fine_over_fused": "0.3761385",
+            "cos_coarse_fine": "0.4379619"
+          },
+          {
+            "level": "object",
+            "size_bin": "small_4to16_tokens",
+            "rois": "2231",
+            "norm_coarse": "8.578257",
+            "norm_fine": "4.2162647",
+            "norm_fused": "11.232339",
+            "fine_over_coarse": "0.491506",
+            "fine_over_fused": "0.37536836",
+            "cos_coarse_fine": "0.47745842"
+          },
+          {
+            "level": "object",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "6748",
+            "norm_coarse": "8.074591",
+            "norm_fine": "3.919044",
+            "norm_fused": "10.626662",
+            "fine_over_coarse": "0.48535514",
+            "fine_over_fused": "0.36879352",
+            "cos_coarse_fine": "0.5088625"
+          },
+          {
+            "level": "object",
+            "size_bin": "all",
+            "rois": "10974",
+            "norm_coarse": "8.361842",
+            "norm_fine": "4.0514364",
+            "norm_fused": "10.923389",
+            "fine_over_coarse": "0.4845148",
+            "fine_over_fused": "0.37089553",
+            "cos_coarse_fine": "0.4849495"
+          },
+          {
+            "level": "part",
+            "size_bin": "large_ge64_tokens",
+            "rois": "723",
+            "norm_coarse": "9.58483",
+            "norm_fine": "4.268273",
+            "norm_fused": "11.859414",
+            "fine_over_coarse": "0.44531545",
+            "fine_over_fused": "0.35990587",
+            "cos_coarse_fine": "0.36563757"
+          },
+          {
+            "level": "part",
+            "size_bin": "medium_16to64_tokens",
+            "rois": "1532",
+            "norm_coarse": "9.25718",
+            "norm_fine": "4.3386846",
+            "norm_fused": "11.802116",
+            "fine_over_coarse": "0.46868318",
+            "fine_over_fused": "0.3676192",
+            "cos_coarse_fine": "0.4269202"
+          },
+          {
+            "level": "part",
+            "size_bin": "small_4to16_tokens",
+            "rois": "3094",
+            "norm_coarse": "8.937896",
+            "norm_fine": "4.3094945",
+            "norm_fused": "11.601267",
+            "fine_over_coarse": "0.48215985",
+            "fine_over_fused": "0.3714676",
+            "cos_coarse_fine": "0.46558028"
+          },
+          {
+            "level": "part",
+            "size_bin": "tiny_lt4_tokens",
+            "rois": "15596",
+            "norm_coarse": "8.403659",
+            "norm_fine": "3.8964028",
+            "norm_fused": "10.913645",
+            "fine_over_coarse": "0.46365553",
+            "fine_over_fused": "0.3570212",
+            "cos_coarse_fine": "0.5070517"
+          },
+          {
+            "level": "part",
+            "size_bin": "all",
+            "rois": "20945",
+            "norm_coarse": "8.58578",
+            "norm_fine": "4.0026116",
+            "norm_fused": "11.112854",
+            "fine_over_coarse": "0.4661908",
+            "fine_over_fused": "0.36017856",
+            "cos_coarse_fine": "0.490183"
+          }
+        ]
+      },
+      "finding": "D2 Testpoint A1coarse40.65/Fine-only37.92/fused42.00. Fine-only는coarse보다−2.72이고fused보다−4.07. Fine기여norm/coarse는object~.485,part~.466으로0이아님:크기가작아서만설명불가. D1 RGB tiny object meanMSE.00390,aggregatePSNR24.09dB vslarge31.46dB;시각적정보손실진단이지AP/인과결론아님.",
+      "sources": [
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/status.json",
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/source_snapshot/src/diag384/bbdata.py",
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/source_snapshot/src/diag384/model.py",
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/d1/checks/rgb_table.csv",
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/d2/eval/results/fast_tables.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/fine_bottleneck_diag_s0/d2/checks/fine_size.csv"
+      ],
+      "question": "D1:이미Full384에서세부pixel을잃는가? D2:학습된Fine경로자체의속성판별력이약한가?",
+      "control": "D1 B0full384/C0originalcrop; D2 A1coarseonly/fused",
+      "architecture_change": {
+        "D1": "C0(original crop재인코딩) vs C1(original→Full384 RGB에서GTboxcrop→crop384재인코딩) vs B0(Full384featureROI). C0/C1동일FrozenOriginalDINOv3,reader훈련만다름;semantic새encoder학습없음. 원본수준차이를고정cropencode구조에서분리",
+        "D2": "frozen A1encoder에서Fine-only=s_d*Wd(Fine)을읽어기존Coarse-only/Coarse+Fine과비교. Fine-only에는새fusionmodule없음;R2만학습"
+      },
+      "training_change": "Encoder고정. 새R2probes10epochs,officialVal선택→Test. 현재완료되지않은CI는표시하지않음.",
+      "findings": [
+        "D2 Testpoint A1coarse40.65/Fine-only37.92/fused42.00. Fine-only는coarse보다−2.72이고fused보다−4.07. Fine기여norm/coarse는object~.485,part~.466으로0이아님:크기가작아서만설명불가. D1 RGB tiny object meanMSE.00390,aggregatePSNR24.09dB vslarge31.46dB;시각적정보손실진단이지AP/인과결론아님."
+      ],
+      "limitations": [],
+      "budget": "No encoder training; existing or new diagnostic reader evaluation as specified"
+    },
+    {
+      "id": "dinov3_crop_aware_pretrain",
+      "title": "Crop-aware 장기학습: 구조 추가 없이 encoder 후반을 ROI에 적응",
+      "status": "running",
+      "purpose": "공유DINOv3fullfeature를crop-like로만드는학습을길게돌리면단기12k보다개선되는지;학습재시작/가변GPU재현성도검증",
+      "architecture": "순정officialDINOv3에서시작,decoder/finebranch없음. 마지막4block+finalnorm만학습. teacher는FrozenOriginalcrop384/full384,studentfullimage384한번.",
+      "training": "100k목표,globalbatch16,micro8,COCOobjectROI4/image,작은ROI샘플비중60%(면적<32²),25%(32²–96²),15%(그이상);Lcrop=Lpool+.5Lspatial(3×3),Lpreserve=mean(CLS,meanpatch,outsideROI token);L=Lcrop+.5Lpreserve. EMA .999→1. PACO Val/Test유사·중복및COCOdev이미지제외.",
+      "protocol": "Periodic frozen R2 10epoch;train-internaldevM0select;PACO Val projectM2/M0,NOT officialAP. 일부officialval별도평가파일있으므로projectsummary와합치지않음.",
+      "results": {
+        "live_status": {
+          "time": "2026-11-09 15:36:20",
+          "paused": false,
+          "shutdown": false,
+          "done": false,
+          "halted": false,
+          "failures": {
+            "count": 0,
+            "last_step": -1
+          },
+          "step": 92620,
+          "reservations": [],
+          "pending_evals": [
+            90000
+          ],
+          "train": {
+            "gpus": [
+              0
+            ],
+            "launch_id": "L20261109_145836_393542",
+            "pids": [
+              393889
+            ],
+            "stopping": null
+          },
+          "eval": {
+            "gpus": [
+              0
+            ],
+            "step": 80000,
+            "stopping": null
+          },
+          "gpus": {
+            "0": {
+              "index": 0,
+              "busy": false,
+              "why": null,
+              "mem_used": 15749,
+              "mem_external": 39,
+              "mem_total": 143771,
+              "util": 23,
+              "own_pids": [
+                393889,
+                432812
+              ],
+              "ext_pids": [],
+              "mem_own": 15710
+            }
+          },
+          "idle_seconds": {
+            "0": 165.00603461265564
+          }
+        },
+        "completed_M2_eval_through_step": 70000,
+        "M2_summary": "/home/irteam/Crop_representation/output/2026-11-09/dinov3_crop_aware_pretrain/evals/summary.md"
+      },
+      "finding": "완료평가현재step70k까지. step0 M2overall44.43,5k46.70,10k46.12,20k45.58,40k46.68,60k46.71,70k46.37;기존FrozenFull45.59,C047.86. 100k최종결과아님. step0R2재학습변동(기존FrozenFull와1.17차이)때문에새학습효과는step0대비와기존baseline둘다보아야함.",
+      "verification_runs": {
+        "smoke": "별도30step stop_after_steps;AP실험으로세지않음",
+        "verify": "A/B 등120step stop_after_steps,DDP·resume동등성검증용 별도폴더;최종성능실험으로세지않음"
+      },
+      "sources": [
+        "/home/irteam/Crop_representation/src/crop_aware_pretrain/model.py",
+        "/home/irteam/Crop_representation/src/crop_aware_pretrain/losses.py",
+        "/home/irteam/Crop_representation/src/crop_aware_pretrain/data.py",
+        "/home/irteam/Crop_representation/output/2026-11-09/dinov3_crop_aware_pretrain/config_effective.yaml",
+        "/home/irteam/Crop_representation/output/2026-11-09/dinov3_crop_aware_pretrain/evals/summary.md",
+        "/home/irteam/Crop_representation/output/2026-11-09/dinov3_crop_aware_pretrain/control/status.json"
+      ],
+      "question": "공유DINOv3fullfeature를crop-like로만드는학습을길게돌리면단기12k보다개선되는지;학습재시작/가변GPU재현성도검증",
+      "control": "New step0 frozenOriginalencoder with same R2 training; existing FrozenFull reference also reported",
+      "architecture_change": "순정officialDINOv3에서시작,decoder/finebranch없음. 마지막4block+finalnorm만학습. teacher는FrozenOriginalcrop384/full384,studentfullimage384한번.",
+      "training_change": "100k목표,globalbatch16,micro8,COCOobjectROI4/image,작은ROI샘플비중60%(면적<32²),25%(32²–96²),15%(그이상);Lcrop=Lpool+.5Lspatial(3×3),Lpreserve=mean(CLS,meanpatch,outsideROI token);L=Lcrop+.5Lpreserve. EMA .999→1. PACO Val/Test유사·중복및COCOdev이미지제외.",
+      "findings": [
+        "완료평가현재step70k까지. step0 M2overall44.43,5k46.70,10k46.12,20k45.58,40k46.68,60k46.71,70k46.37;기존FrozenFull45.59,C047.86. 100k최종결과아님. step0R2재학습변동(기존FrozenFull와1.17차이)때문에새학습효과는step0대비와기존baseline둘다보아야함."
+      ],
+      "limitations": [],
+      "budget": "100k target; current stage ongoing; periodic frozenR2 eval"
+    }
+  ]
+}
